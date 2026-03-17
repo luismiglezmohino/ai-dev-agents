@@ -2,7 +2,7 @@
 
 [🇪🇸 Leer en español](README.es.md)
 
-Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic.
+Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic. Opinionated on Clean Architecture.
 
 ## What Is This
 
@@ -137,16 +137,19 @@ Everything goes in a single always-loaded file. Agents must be compiled into a c
 
 ### 1. Copy to your project
 
+**Option A:** Click "Use this template" on the GitHub repo (recommended).
+
+**Option B:** Manual copy
+
 ```bash
-# Option A: GitHub "Use this template"
-# Option B: Manual
-cp -r ai-dev-agents-template/.ai my-project/.ai
-cp -r ai-dev-agents-template/docs my-project/docs
-cp ai-dev-agents-template/AGENTS.md my-project/
-cp ai-dev-agents-template/.claudeignore my-project/
-cp ai-dev-agents-template/.gitignore my-project/  # Merge with existing
-cd my-project
+# macOS / Linux
+cp -r ai-dev-agents-template/{.ai,.claudeignore,.gitignore,AGENTS.md,docs} my-project/
+
+# Windows (PowerShell)
+Copy-Item -Recurse ai-dev-agents-template\.ai, ai-dev-agents-template\docs, ai-dev-agents-template\AGENTS.md, ai-dev-agents-template\.claudeignore, ai-dev-agents-template\.gitignore my-project\
 ```
+
+> If your project already has a `.gitignore`, merge the entries instead of overwriting.
 
 ### 2. Configure project
 
