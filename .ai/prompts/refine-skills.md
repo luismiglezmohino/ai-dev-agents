@@ -1,146 +1,149 @@
-# Refinar Skills: Actualizar skills con patrones reales del proyecto
+# Refine Skills: Update skills with real project patterns
 
-Eres el @technical-writer. Tu trabajo es analizar el código ya implementado en este proyecto y refinar los skills en `.ai/skills/` para que reflejen los patrones REALES, no best practices genéricas.
+[🇪🇸 Leer en español](es/refine-skills.md)
 
-## Cuando usar este prompt
+You are the @technical-writer. Your job is to analyze the already-implemented code in this project and refine the skills in `.ai/skills/` to reflect REAL patterns, not generic best practices.
 
-Después de implementar 2-3 features. En ese punto ya hay suficiente código para extraer patrones reales.
+## When to use this prompt
 
-## Paso 1: Analisis del código existente
+After implementing 2-3 features. At that point there's enough code to extract real patterns.
 
-Para CADA skill en `.ai/skills/`:
+## Step 1: Analyze existing code
 
-1. Identifica la tecnologia del skill (ej: `vue`, `symfony`, `postgresql`).
-2. Busca archivos del proyecto que usen esa tecnologia:
-   - Código fuente (componentes, controladores, entidades, migraciones, tests, etc.)
-   - Configuracion (configs, env, docker, CI/CD)
-3. Extrae los patrones que se REPITEN en el código:
-   - Estructura de archivos (donde se pone cada cosa)
-   - Naming real (como se nombran clases, metodos, variables, archivos)
-   - Patrones de código (como se hacen los tests, como se estructuran los componentes, como se manejan errores)
-   - Dependencias internas (que librerias/helpers usa el proyecto)
-   - Configuracion especifica (que plugins, que reglas de lint, que opciones de compilación)
-4. Analiza `git log --oneline -30` para detectar:
-   - Patrones que evolucionaron (refactors, renombrados)
-   - Errores recurrentes (commits de fix consecutivos)
-   - Convenciones de commits que se usan
+For EACH skill in `.ai/skills/`:
 
-**IMPORTANTE:** No inventes patrones. Si solo hay 1 ejemplo de algo, no es un patrón. Necesitas al menos 2-3 repeticiones.
+1. Identify the skill's technology (e.g.: `vue`, `symfony`, `postgresql`).
+2. Search for project files that use that technology:
+   - Source code (components, controllers, entities, migrations, tests, etc.)
+   - Configuration (configs, env, docker, CI/CD)
+3. Extract patterns that REPEAT in the code:
+   - File structure (where each thing goes)
+   - Real naming (how classes, methods, variables, files are named)
+   - Code patterns (how tests are done, how components are structured, how errors are handled)
+   - Internal dependencies (what libraries/helpers the project uses)
+   - Specific configuration (what plugins, what lint rules, what build options)
+4. Analyze `git log --oneline -30` to detect:
+   - Patterns that evolved (refactors, renames)
+   - Recurring errors (consecutive fix commits)
+   - Commit conventions used
 
-## Paso 2: Comparacion con skill actual
+**IMPORTANT:** Don't invent patterns. If there's only 1 example of something, it's not a pattern. You need at least 2-3 repetitions.
 
-Para cada skill, compara:
+## Step 2: Compare with current skill
 
-| Aspecto | Skill actual (genérico) | Código real |
+For each skill, compare:
+
+| Aspect | Current skill (generic) | Real code |
 |---------|------------------------|-------------|
-| Patrones | [lo que dice el skill] | [lo que hace el código] |
-| Convenciones | [lo que dice el skill] | [lo que hace el código] |
-| Testing | [lo que dice el skill] | [lo que hace el código] |
-| Errores comunes | [lo que dice el skill] | [errores encontrados en el código o git log] |
+| Patterns | [what the skill says] | [what the code does] |
+| Conventions | [what the skill says] | [what the code does] |
+| Testing | [what the skill says] | [what the code does] |
+| Common errors | [what the skill says] | [errors found in code or git log] |
 
-Si el skill actual dice algo que el proyecto NO hace, **elimina o adapta** esa sección.
-Si el proyecto hace algo que el skill NO menciona, **anade** esa sección.
+If the current skill says something the project does NOT do, **remove or adapt** that section.
+If the project does something the skill does NOT mention, **add** that section.
 
-## Paso 3: Reescribir el skill
+## Step 3: Rewrite the skill
 
-Reescribe el skill con el formato actualizado:
+Rewrite the skill with the updated format:
 
 ```markdown
-# Skill: [Nombre]
+# Skill: [Name]
 
 ## Version
 
-[Version REAL usada en el proyecto, extraida de package.json/composer.json]
+[REAL version used in the project, extracted from package.json/composer.json]
 
-## Patrones del Proyecto
+## Project Patterns
 
-[Patrones extraidos del código REAL. Cada patrón con:]
-[1. Nombre del patrón]
-[2. Ejemplo REAL del proyecto (no inventado)]
-[3. Por que se usa asi]
+[Patterns extracted from REAL code. Each pattern with:]
+[1. Pattern name]
+[2. REAL project example (not invented)]
+[3. Why it's used this way]
 
-## Convenciones
+## Conventions
 
-[Convenciones REALES extraidas del código:]
-[- Naming de archivos, clases, metodos]
-[- Estructura de carpetas]
+[REAL conventions extracted from code:]
+[- File, class, method naming]
+[- Folder structure]
 [- Imports/exports]
 
 ## Testing
 
-[Como se testea REALMENTE en el proyecto:]
-[- Framework y configuración real]
-[- Patrón de test usado (ejemplo real)]
-[- Mocks/fixtures que se usan]
+[How the project REALLY tests:]
+[- Real framework and configuration]
+[- Test pattern used (real example)]
+[- Mocks/fixtures used]
 
-## Ejemplo de output esperado
+## Expected Output Example
 
-[Muestra un ejemplo REAL del proyecto de cómo debe quedar el código generado por este skill. Un fragmento que sirva de referencia para la IA:]
+[Show a REAL project example of how code generated by this skill should look. A snippet that serves as reference for the AI:]
 
 ```
-// Ejemplo real del proyecto — la IA debe generar código que siga este estilo
-[código real extraído del proyecto]
+// Real project example — the AI should generate code following this style
+[real code extracted from the project]
 ```
 
-> Un ejemplo vale más que tres párrafos de explicación.
+> One example is worth more than three paragraphs of explanation.
 
-## Errores Conocidos
+## Known Errors
 
-[Errores que ya ocurrieron en el proyecto o que son específicos de esta configuración]
+[Errors that already occurred in the project or are specific to this configuration]
 
 ## Checklist
 
-- [ ] [Verificaciones especificas del proyecto]
+- [ ] [Project-specific verifications]
 
-## Referencias
+## References
 
-- [Documentación oficial](url)
-- [Archivos de referencia en el proyecto](ruta relativa)
+- [Official documentation](url)
+- [Reference files in the project](relative path)
 ```
 
-**Reglas de reescritura:**
-- ELIMINA el aviso `> REVISAR: Este skill fue generado automáticamente...` — ya no es genérico.
-- Los ejemplos deben ser del PROYECTO, no de la documentación oficial.
-- Anade una sección `## Archivos de referencia` con rutas a archivos del proyecto que sirvan de ejemplo.
-- Si un patrón del skill genérico no se usa en el proyecto, eliminalo.
-- Si descubres un patrón que no estaba en el skill, anadelo.
+**Rewriting rules:**
+- REMOVE the `> REVIEW: This skill was auto-generated...` notice — it's no longer generic.
+- Examples must be from the PROJECT, not from official documentation.
+- Add a `## Reference Files` section with paths to project files that serve as examples.
+- If a generic skill pattern is not used in the project, remove it.
+- If you discover a pattern not in the skill, add it.
 
-## Paso 4: Nuevos skills
+## Step 4: New skills
 
-Si durante el analisis detectas tecnologias/patrones que NO tienen skill:
+If during analysis you detect technologies/patterns that DON'T have a skill:
 
-1. Lista las tecnologias sin skill.
-2. Genera un skill nuevo para cada una siguiendo el mismo formato.
-3. Estos SI llevan el aviso `> REVISAR` porque aun no estan validados con uso real.
+1. List the technologies without a skill.
+2. Generate a new skill for each one following the same format.
+3. These DO carry the `> REVIEW` notice because they haven't been validated with real usage yet.
 
-## Paso 5: Actualizar CLAUDE.md
+## Step 5: Update CLAUDE.md
 
-Si se crearon skills nuevos en el Paso 4, actualiza la sección `## Skills` de `CLAUDE.md` para que liste los nuevos skills.
+If new skills were created in Step 4, update the `## Skills` section of `CLAUDE.md` to list the new skills.
 
-## Paso 6: Resumen
+## Step 6: Summary
 
-Al terminar, muestra:
+When finished, show:
 
 ```
-Skills refinados:
-- {nombre}: [que cambio respecto al genérico]
+Skills refined:
+- {name}: [what changed from the generic version]
 - ...
 
-Skills nuevos creados:
-- {nombre}: [que cubre]
+New skills created:
+- {name}: [what it covers]
 - ...
 
-Skills sin cambios (el genérico era correcto):
-- {nombre}
+Skills unchanged (generic was correct):
+- {name}
 - ...
 
-Proxima revisión recomendada: después de [X] features mas.
+Next review recommended: after [X] more features.
 ```
 
-## Notas para el LLM
+## Notes for the LLM
 
-- Este prompt asume que hay código implementado. Si no hay suficiente código, indicalo y sugiere volver después de más features.
-- No fuerces patrones. Si el proyecto es inconsistente en algo, senalalo como "Inconsistencia detectada" en vez de inventar un patrón.
-- Los skills refinados reemplazan a los genéricos — sobreescribe el archivo.
-- Maximo ~60-80 líneas por skill. Lo justo para ser útil sin ser un manual.
-- Incluye rutas relativas a archivos del proyecto como ejemplos vivos (ej: `ver backend/src/Domain/User/User.php`).
+- This prompt assumes there is implemented code. If there isn't enough code, indicate it and suggest coming back after more features.
+- Don't force patterns. If the project is inconsistent about something, flag it as "Inconsistency detected" instead of inventing a pattern.
+- Refined skills replace the generic ones — overwrite the file.
+- Maximum ~60-80 lines per skill. Just enough to be useful without being a manual.
+- Include relative paths to project files as living examples (e.g.: `see backend/src/Domain/User/User.php`).
+- **Skills are always generated in English** (consumed by the AI directly).

@@ -1,189 +1,195 @@
-# Inicio rápido (5 minutos)
+# Quick Start (5 minutes)
 
-Esta guía te lleva de cero a tener el sistema de agentes funcionando en tu proyecto.
+[🇪🇸 Leer en español](es/getting-started.md)
 
-## Requisitos
+This guide takes you from zero to having the agent system working in your project.
 
-- Un proyecto con Git inicializado
-- Una herramienta de IA instalada (Claude Code, OpenCode, Cursor, o cualquier otra)
-- 5 minutos
+## Requirements
 
-## Paso 1: Copiar el template
+- A project with Git initialized
+- An AI tool installed (Claude Code, OpenCode, Cursor, or any other)
+- 5 minutes
+
+## Step 1: Copy the template
+
+**Option A:** Click "Use this template" on the GitHub repo (recommended).
+
+**Option B:** Manual copy
 
 ```bash
-# Opción A: Desde GitHub (recomendado)
-# Usa "Use this template" en el repo
+# macOS / Linux
+cp -r ai-dev-agents-template/{.ai,.claudeignore,.gitignore,AGENTS.md,docs} your-project/
 
-# Opción B: Manual
-cp -r ai-dev-agents-template/.ai tu-proyecto/.ai
-cp -r ai-dev-agents-template/docs tu-proyecto/docs
-cp ai-dev-agents-template/AGENTS.md tu-proyecto/
+# Windows (PowerShell)
+Copy-Item -Recurse ai-dev-agents-template\.ai, ai-dev-agents-template\docs, ai-dev-agents-template\AGENTS.md, ai-dev-agents-template\.claudeignore, ai-dev-agents-template\.gitignore your-project\
 ```
 
-## Paso 2: Bootstrap automático
+> If your project already has a `.gitignore`, merge the entries instead of overwriting.
 
-Abre tu herramienta de IA en el proyecto y pega el contenido de `.ai/prompts/bootstrap.md`.
+## Step 2: Automatic bootstrap
 
-La IA analizará tu proyecto y generará:
-- `project-context.md` — contexto del proyecto
-- `CLAUDE.md` — configuración principal
-- `decisions.md` — decisiones del stack
-- Skills básicos para tu stack
+Open your AI tool in the project and paste the content of `.ai/prompts/bootstrap.md`.
 
-Si tu proyecto está vacío, te preguntará qué quieres construir.
+The AI will analyze your project and generate:
+- `project-context.md` — project context
+- `CLAUDE.md` — main configuration
+- `decisions.md` — stack decisions
+- Basic skills for your stack
 
-## Paso 3: Sincronizar
+If your project is empty, it will ask you what you want to build.
+
+## Step 3: Sync
 
 ```bash
 .ai/sync.sh
 ```
 
-Esto genera las configuraciones para tu herramienta (Claude Code, OpenCode, Cursor, etc.).
+This generates configurations for your tool (Claude Code, OpenCode, Cursor, etc.).
 
-## Paso 4: Validar
+## Step 4: Validate
 
 ```bash
 .ai/test.sh
 ```
 
-Si todo está verde, ya tienes el sistema de agentes funcionando.
+If everything is green, you have the agent system working.
 
-## Paso 5: Elegir modo de trabajo
+## Step 5: Choose your working mode
 
-El template soporta tres modos de trabajo. Elige el que mejor se adapte a tu situación:
+The template supports three working modes. Choose the one that best fits your situation:
 
-### Modo A: Agentes directos (el más simple)
+### Mode A: Direct agents (the simplest)
 
-Invocas cada agente manualmente cuando lo necesitas:
+You invoke each agent manually when you need it:
 
 ```
-@tdd implement el endpoint GET /api/users
-@architect review la estructura de capas
+@tdd implement the GET /api/users endpoint
+@architect review the layer structure
 @security audit-all
 ```
 
-**Mejor para:** tareas puntuales, fixes rápidos, trabajo en una sola capa.
-**Tú decides:** qué agente llamar y cuándo. La verificación cruzada la haces tú invocando los agentes de revisión manualmente.
+**Best for:** one-off tasks, quick fixes, single-layer work.
+**You decide:** which agent to call and when. Cross-verification is done by you manually invoking review agents.
 
-### Modo B: Orchestrator (coordinación automática)
+### Mode B: Orchestrator (automatic coordination)
 
-El orchestrator enruta automáticamente al agente correcto y coordina la verificación cruzada entre agentes:
-
-```
-"Necesito un nuevo endpoint para gestiónar usuarios"
-→ El orchestrator enruta a @tdd-developer
-→ Después lanza @architect y @security-auditor automáticamente
-```
-
-**Mejor para:** features completas que tocan múltiples capas, proyectos donde quieres que la verificación cruzada sea automática.
-**Disponible en:** OpenCode (agente primary). En Claude Code, el routing es automático pero sin orchestrator explícito.
-
-### Modo C: Spec Driven Development (SDD) — el más completo
-
-Defines una especificación técnica ANTES de implementar. Los agentes trabajan contra esa especificación:
+The orchestrator automatically routes to the correct agent and coordinates cross-verification between agents:
 
 ```
-1. Generas un Feature Spec (.ai/prompts/feature-spec.md)
-2. Cada agente extrae lo que necesita del spec
-3. Implementación guiada por la especificación
-4. Verificación contra los criterios del spec
+"I need a new endpoint to manage users"
+→ The orchestrator routes to @tdd-developer
+→ Then launches @architect and @security-auditor automatically
 ```
 
-**Mejor para:** features complejas (5+ endpoints), equipos con varios desarrolladores, proyectos donde la calidad es crítica.
-**Guía:** ver `docs/specs/FEAT-TEMPLATE.md` y el prompt `.ai/prompts/feature-spec.md`.
+**Best for:** complete features that touch multiple layers, projects where you want automatic cross-verification.
+**Available in:** OpenCode (primary agent). In Claude Code, routing is automatic but without an explicit orchestrator.
 
-### ¿Cuál elegir?
+### Mode C: Spec Driven Development (SDD) — the most complete
 
-| Situación | Modo recomendado |
+You define a technical specification BEFORE implementing. Agents work against that specification:
+
+```
+1. Generate a Feature Spec (.ai/prompts/feature-spec.md)
+2. Each agent extracts what it needs from the spec
+3. Implementation guided by the specification
+4. Verification against spec criteria
+```
+
+**Best for:** complex features (5+ endpoints), teams with multiple developers, projects where quality is critical.
+**Guide:** see `docs/specs/FEAT-TEMPLATE.md` and the prompt `.ai/prompts/feature-spec.md`.
+
+### Which one to choose?
+
+| Situation | Recommended mode |
 |---|---|
-| Fix rápido, tarea puntual | A (agentes directos) |
-| Feature nueva estándar | B (orchestrator) |
-| Feature compleja o crítica | C (SDD) |
-| Proyecto nuevo (día 0) | C (SDD) para la primera feature, luego B |
-| Hotfix en producción | A (agentes directos, flujo reducido) |
-| Código legacy / modernización | C (SDD) — especificar antes de tocar |
+| Quick fix, one-off task | A (direct agents) |
+| Standard new feature | B (orchestrator) |
+| Complex or critical feature | C (SDD) |
+| New project (day 0) | C (SDD) for the first feature, then B |
+| Production hotfix | A (direct agents, reduced flow) |
+| Legacy code / modernization | C (SDD) — specify before touching |
 
-Los tres modos son compatibles. Puedes usar A para fixes rápidos y C para features grandes en el mismo proyecto.
+All three modes are compatible. You can use A for quick fixes and C for large features in the same project.
 
-### Cómo trabajar con cada modo
+### How to work with each mode
 
-**Modo A — Agentes directos:**
+**Mode A — Direct agents:**
 
-1. Abre tu herramienta de IA (Claude Code, OpenCode, Cursor...)
-2. Escribe el comando del agente que necesitas: `@tdd implement <feature>`
-3. El agente trabaja, tú revisas lo que genera
-4. Si necesitas verificación, invoca manualmente: `@security audit-all`
-5. Cuando estés satisfecho, commit y PR
+1. Open your AI tool (Claude Code, OpenCode, Cursor...)
+2. Type the command for the agent you need: `@tdd implement <feature>`
+3. The agent works, you review what it generates
+4. If you need verification, invoke manually: `@security audit-all`
+5. When satisfied, commit and PR
 
-**Modo B — Orchestrator:**
+**Mode B — Orchestrator:**
 
-1. Abre OpenCode (el orchestrator funciona como agente primary)
-2. Describe lo que necesitas en lenguaje natural: "Necesito un endpoint para crear usuarios"
-3. El orchestrator decide qué agente usa y lo lanza
-4. Cuando termina, el orchestrator lanza la verificación cruzada automáticamente
-5. Tú revisas el resultado final. Si hay problemas, el orchestrator itera
-6. Cuando estés satisfecho, commit y PR
+1. Open OpenCode (the orchestrator works as a primary agent)
+2. Describe what you need in natural language: "I need an endpoint to create users"
+3. The orchestrator decides which agent to use and launches it
+4. When finished, the orchestrator launches cross-verification automatically
+5. You review the final result. If there are issues, the orchestrator iterates
+6. When satisfied, commit and PR
 
-> En Claude Code: no hay orchestrator explícito. Claude Code hace routing automático basado en el CLAUDE.md. La verificación cruzada la haces tú invocando agentes de revisión o se aplica via los Quality Gates de cada agente.
+> In Claude Code: there is no explicit orchestrator. Claude Code does automatic routing based on CLAUDE.md. Cross-verification is done by you invoking review agents or applied via each agent's Quality Gates.
 
-**Modo C — SDD (Spec Driven Development):**
+**Mode C — SDD (Spec Driven Development):**
 
-1. Antes de escribir código, genera la especificación: pega `.ai/prompts/feature-spec.md` en tu herramienta de IA
-2. La IA genera un fichero en `docs/specs/FEAT-XXX-nombre.md` con requisitos, contratos, errores esperados
-3. Revisa y ajusta el spec — este es el momento de pensar, no cuando estés programando
-4. Implementa: `@tdd implement según spec docs/specs/FEAT-XXX-nombre.md`
-5. Cada agente extrae del spec lo que necesita (tests, seguridad, arquitectura)
-6. Verificación cruzada contra los criterios del spec
-7. Commit y PR
+1. Before writing code, generate the specification: paste `.ai/prompts/feature-spec.md` in your AI tool
+2. The AI generates a file at `docs/specs/FEAT-XXX-name.md` with requirements, contracts, expected errors
+3. Review and adjust the spec — this is the time to think, not when you're coding
+4. Implement: `@tdd implement according to spec docs/specs/FEAT-XXX-name.md`
+5. Each agent extracts what it needs from the spec (tests, security, architecture)
+6. Cross-verification against spec criteria
+7. Commit and PR
 
-## Prompts disponibles
+## Available Prompts
 
-El template incluye prompts reutilizables en `.ai/prompts/`. Pega su contenido en tu herramienta de IA cuando los necesites:
+The template includes reusable prompts in `.ai/prompts/` (English) and `.ai/prompts/es/` (Spanish). Paste their content in your AI tool when you need them:
 
-| Prompt | Para qué | Cuándo usarlo |
+| Prompt | Purpose | When to use |
 |---|---|---|
-| `bootstrap.md` | Configura el template en tu proyecto (genera context, skills, configs) | Día 0 — obligatorio |
-| `feature-spec.md` | Genera especificación técnica antes de implementar (SDD) | Antes de features complejas |
-| `refine-skills.md` | Mejora los skills con patrones reales de tu código | Después de 2-3 features implementadas |
-| `legacy-audit.md` | Analiza código legacy y propone plan de modernización | Antes de refactorizar código antiguo |
+| `bootstrap.md` | Configures the template in your project (generates context, skills, configs) | Day 0 — required |
+| `feature-spec.md` | Generates technical specification before implementing (SDD) | Before complex features |
+| `refine-skills.md` | Improves skills with real patterns from your code | After 2-3 implemented features |
+| `legacy-audit.md` | Analyzes legacy code and proposes modernization plan | Before refactoring old code |
 
-## ¿Qué sigue?
+## What's Next?
 
-| Siguiente paso | Cuándo | Guía |
+| Next step | When | Guide |
 |---|---|---|
-| Configurar MCPs | Si necesitas conectar BD, Sentry, GitHub... | [MCPs recomendados](recommended-mcps.md) |
-| Configurar Git hooks | Antes del primer PR | [Git hooks recomendados](recommended-hooks.md) |
-| Configurar CI/CD | Antes de producción | [GitHub Actions workflows](recommended-workflows.md) |
-| Elegir modelos | Si quieres optimizar coste/calidad | [Modelos recomendados](recommended-models.md) |
-| Crear Feature Spec | Antes de una feature compleja | Ver `docs/specs/FEAT-TEMPLATE.md` |
-| Refinar skills | Después de 2-3 features implementadas | Usar `.ai/prompts/refine-skills.md` |
-| Auditar código legacy | Antes de modernizar | Usar `.ai/prompts/legacy-audit.md` |
+| Configure MCPs | If you need to connect DB, Sentry, GitHub... | [Recommended MCPs](recommended-mcps.md) |
+| Configure Git hooks | Before the first PR | [Recommended Git hooks](recommended-hooks.md) |
+| Configure CI/CD | Before production | [GitHub Actions workflows](recommended-workflows.md) |
+| Choose models | If you want to optimize cost/quality | [Recommended models](recommended-models.md) |
+| Create Feature Spec | Before a complex feature | See `docs/specs/FEAT-TEMPLATE.md` |
+| Refine skills | After 2-3 implemented features | Use `.ai/prompts/refine-skills.md` |
+| Audit legacy code | Before modernizing | Use `.ai/prompts/legacy-audit.md` |
 
-## Estructura mínima después del setup
+## Minimum Structure After Setup
 
 ```
-tu-proyecto/
+your-project/
 ├── .ai/
-│   ├── agents/          # 11 agentes + orchestrator + context
-│   ├── skills/          # Skills de tu stack (generados por bootstrap)
-│   ├── hooks/           # Memoria automática (Claude Code)
-│   ├── prompts/         # Prompts reutilizables
-│   ├── sync.sh          # Genera configs para todas las herramientas
-│   └── test.sh          # Valida la estructura
+│   ├── agents/          # 11 agents + orchestrator + context
+│   ├── skills/          # Stack skills (generated by bootstrap)
+│   ├── hooks/           # Automatic memory (Claude Code)
+│   ├── prompts/         # Reusable prompts
+│   ├── sync.sh          # Generates configs for all tools
+│   └── test.sh          # Validates structure
 ├── docs/
-│   ├── specs/           # Feature Specs (opcional)
+│   ├── specs/           # Feature Specs (optional)
 │   ├── adrs/            # Architecture Decision Records
-│   └── guides/          # Guías adicionales
-├── CLAUDE.md            # Config principal (generado)
-└── AGENTS.md            # Config OpenCode (generado)
+│   └── guides/          # Additional guides
+├── CLAUDE.md            # Main config (generated)
+└── AGENTS.md            # OpenCode config (generated)
 ```
 
-## Problemas comunes
+## Common Issues
 
-| Problema | Solución |
+| Problem | Solution |
 |---|---|
-| `sync.sh` no genera nada | Verifica que `.ai/agents/` tiene los ficheros .md |
-| La IA no usa los agentes | Verifica que `CLAUDE.md` o `AGENTS.md` existe en la raíz |
-| El contexto se llena rápido | Mantén `CLAUDE.md` < 120 líneas. Usa `/compact` |
-| Los skills no se cargan | Verifica la ruta en el agente y que el skill tiene `SKILL.md` |
-| `test.sh` falla | Lee el error — suele ser un frontmatter incompleto o sección faltante |
+| `sync.sh` generates nothing | Verify `.ai/agents/` has the .md files |
+| AI doesn't use agents | Verify `CLAUDE.md` or `AGENTS.md` exists at the root |
+| Context fills up quickly | Keep `CLAUDE.md` < 120 lines. Use `/compact` |
+| Skills don't load | Verify the path in the agent and that the skill has `SKILL.md` |
+| `test.sh` fails | Read the error — usually an incomplete frontmatter or missing section |

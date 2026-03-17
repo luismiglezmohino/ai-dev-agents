@@ -1,26 +1,26 @@
 # Windsurf
 
-## Como funciona
+## How It Works
 
-Windsurf lee reglas desde `.windsurfrules` en la raíz del proyecto.
+Windsurf reads rules from `.windsurfrules` at the project root.
 
-`sync.sh` genera automáticamente una versión compacta de todos los agentes en `.windsurfrules`.
+`sync.sh` automatically generates a compact version of all agents in `.windsurfrules`.
 
-## Ficheros generados
+## Generated Files
 
-| Fichero | Proposito |
+| File | Purpose |
 |---|---|
-| `.windsurfrules` | Reglas compactas (auto-generado) |
+| `.windsurfrules` | Compact rules (auto-generated) |
 
-## Limitaciones
+## Limitations
 
-- No soporta agentes individuales invocables
-- No soporta sub-agentes ni routing
-- Las reglas son un único fichero plano
-- No soporta skills como ficheros separados
+- Does not support individually invocable agents
+- Does not support sub-agents or routing
+- Rules are a single flat file
+- Does not support skills as separate files
 
 ## Setup
 
-1. Ejecutar `./sync.sh`
-2. `.windsurfrules` se genera automáticamente
-3. Windsurf lo lee en cada sesión
+1. Run `./sync.sh`
+2. `.windsurfrules` is automatically generated
+3. Windsurf reads it in every session

@@ -1,96 +1,96 @@
-# FEAT-XXX: [Nombre de la feature]
+# FEAT-XXX: [Feature Name]
 
-**Estado:** Propuesto | En Desarrollo | Completado
-**Prioridad:** Alta | Media | Baja
-**ADRs relacionados:**
+**Status:** Proposed | In Development | Completed
+**Priority:** High | Medium | Low
+**Related ADRs:**
 
-## Contexto
+## Context
 
-Qué problema resuelve esta feature y por qué es necesaria.
+What problem this feature solves and why it's needed.
 
-## Criterios de Aceptación
+## Acceptance Criteria
 
-- [ ] CA1:
-- [ ] CA2:
-- [ ] CA3:
+- [ ] AC1:
+- [ ] AC2:
+- [ ] AC3:
 
-## Diseño Técnico
+## Technical Design
 
-### Endpoint / Componente
+### Endpoint / Component
 
-Método HTTP + ruta, o nombre del componente.
+HTTP method + path, or component name.
 
 ### Request / Input
 
-Payload con tipos y validaciones. Límites (mínimo, máximo, formato).
+Payload with types and validations. Limits (min, max, format).
 
 ### Response / Output
 
-Respuesta esperada para cada caso: OK, cached, error.
+Expected response for each case: OK, cached, error.
 
-### Errores
+### Errors
 
-Cada código de error con su causa.
+Each error code with its cause.
 
-### Cache / Estado
+### Cache / State
 
-Estrategia de cache (clave, TTL, invalidación) o gestión de estado.
+Cache strategy (key, TTL, invalidation) or state management.
 
-### Seguridad
+### Security
 
-Validaciones de input, sanitización, permisos, rate limiting, datos sensibles.
+Input validations, sanitization, permissions, rate limiting, sensitive data.
 
-### Schema / Base de Datos
+### Schema / Database
 
-Tablas nuevas o modificadas, índices necesarios, migración reversible (up/down), impacto en datos existentes.
+New or modified tables, required indexes, reversible migration (up/down), impact on existing data.
 
-## Agentes y Skills involucrados
+## Agents and Skills Involved
 
-### Agentes
+### Agents
 
-| Agente | Responsabilidad en esta feature |
+| Agent | Responsibility in this feature |
 |---|---|
-| @tdd-developer | Implementación con TDD |
-| @database-engineer | Migración (si aplica) |
-| @security-auditor | Revisión OWASP |
-| @qa-engineer | Verificar coverage |
-| @architect | Verificar contratos entre capas (si aplica) |
+| @tdd-developer | TDD implementation |
+| @database-engineer | Migration (if applicable) |
+| @security-auditor | OWASP review |
+| @qa-engineer | Verify coverage |
+| @architect | Verify contracts between layers (if applicable) |
 
-> Elimina los agentes que no apliquen a esta feature. Añade los que falten.
+> Remove agents that don't apply to this feature. Add missing ones.
 
-### Skills necesarios
+### Required Skills
 
-| Skill | Para qué se necesita |
+| Skill | Why it's needed |
 |---|---|
-| `{stack-backend}` | Patrones de implementación del backend |
-| `{stack-testing}` | Patrones de testing |
-| `{otro-skill}` | ... |
+| `{stack-backend}` | Backend implementation patterns |
+| `{stack-testing}` | Testing patterns |
+| `{other-skill}` | ... |
 
-> Consulta `.ai/skills/` para ver los skills disponibles en tu proyecto.
+> Check `.ai/skills/` to see available skills in your project.
 
-## Plan de Implementación
+## Implementation Plan
 
-Pasos ordenados con el agente responsable de cada uno. Selecciona el flujo del orchestrator que mejor aplique (ver `.ai/agents/orchestrator.md`).
+Ordered steps with the responsible agent. Select the orchestrator flow that best applies (see `.ai/agents/orchestrator.md`).
 
-1. [ ] @database-engineer — Migración (si aplica)
-2. [ ] @tdd-developer — Tests + implementación (RED-GREEN-REFACTOR)
-3. [ ] @security-auditor — Revisión OWASP
-4. [ ] @qa-engineer — Verificar coverage
+1. [ ] @database-engineer — Migration (if applicable)
+2. [ ] @tdd-developer — Tests + implementation (RED-GREEN-REFACTOR)
+3. [ ] @security-auditor — OWASP review
+4. [ ] @qa-engineer — Verify coverage
 
 ## Testing
 
-### Tests unitarios
+### Unit Tests
 
-Casos de test esperados para la lógica de negocio.
+Expected test cases for business logic.
 
-### Tests de integración
+### Integration Tests
 
-Flujos e2e que deben verificarse.
+E2E flows to verify.
 
 ## Definition of Done
 
-- [ ] Criterios de aceptación cumplidos
-- [ ] Tests pasando (100% core, 80% features)
+- [ ] Acceptance criteria met
+- [ ] Tests passing (100% core, 80% features)
 - [ ] Security audit (OWASP)
-- [ ] Documentación actualizada
-- [ ] Performance aceptable (si aplica)
+- [ ] Documentation updated
+- [ ] Performance acceptable (if applicable)

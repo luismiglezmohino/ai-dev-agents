@@ -7,64 +7,64 @@ mode: base
 
 Sections inherited by all subagents. Do not invoke this file directly.
 
-## Consultar Skills
+## Consult Skills
 
-Para patrones específicos del framework, consultar el skill correspondiente
-en `.ai/skills/{nombre}/SKILL.md` antes de implementar.
+For framework-specific patterns, consult the corresponding skill
+in `.ai/skills/{name}/SKILL.md` before implementing.
 
-## Where You Operate (Permisos)
+## Where You Operate (Permissions)
 
-Cada agente define donde puede actuar. Respetar siempre estos límites:
+Each agent defines where it can act. Always respect these limits:
 
-| Permiso | Significado |
+| Permission | Meaning |
 |---|---|
-| **Can write** | El agente puede crear y modificar ficheros en estas rutas |
-| **Read only** | El agente puede leer pero NO modificar |
-| **Cannot touch** | El agente NO debe leer ni modificar estas rutas |
+| **Can write** | The agent can create and modify files in these paths |
+| **Read only** | The agent can read but NOT modify |
+| **Cannot touch** | The agent must NOT read or modify these paths |
 
-> Si un agente no define su sección "Where You Operate", hereda los permisos de sus `tools` en el frontmatter.
+> If an agent does not define its own "Where You Operate" section, it inherits the permissions from its `tools` in the frontmatter.
 
 ## Branch Strategy
 
-Los agentes respetan la estrategia de ramas del proyecto:
+Agents respect the project's branch strategy:
 
-| Branch | Agentes |
+| Branch | Agents |
 |---|---|
-| `main` | No pueden mergear ni commitear directamente |
-| `staging` | Pueden abrir PRs |
-| `feature/*` | Pueden commitear |
+| `main` | Cannot merge or commit directly |
+| `staging` | Can open PRs |
+| `feature/*` | Can commit |
 
-> Si un agente la lia, solo afecta a una feature branch, nunca a producción.
+> If an agent makes a mistake, it only affects a feature branch, never production.
 
-## Lección aprendida → Regla
+## Lesson Learned → Rule
 
-Cada Restricción Fatal y Quality Gate existe porque su ausencia causó un problema real. Cuando documentes una nueva restricción, usa este formato:
+Every Fatal Restriction and Quality Gate exists because its absence caused a real problem. When documenting a new restriction, use this format:
 
 ```
-**Restricción:** [qué no hacer]
-**Origen:** [qué pasó cuando se hizo]
-**Impacto:** [consecuencia real del error]
+**Restriction:** [what not to do]
+**Origin:** [what happened when it was done]
+**Impact:** [real consequence of the error]
 ```
 
-Las restricciones no son burocracia. Son lecciones aprendidas convertidas en reglas.
+Restrictions are not bureaucracy. They are lessons learned turned into rules.
 
-## Verificación Continua (opcional)
+## Continuous Verification (optional)
 
-Por defecto, la verificación se hace al final (checkpoint). Para features críticas, se puede activar verificación continua:
+By default, verification is done at the end (checkpoint). For critical features, continuous verification can be enabled:
 
-- **Checkpoint (por defecto):** verificar Quality Gates al terminar. Bajo consumo de tokens.
-- **Continua (opcional):** autoevaluar en cada paso intermedio. 3-5x más tokens pero detecta errores antes.
+- **Checkpoint (default):** verify Quality Gates when finished. Low token usage.
+- **Continuous (optional):** self-evaluate at each intermediate step. 3-5x more tokens but catches errors earlier.
 
-Usar verificación continua solo cuando:
-- La feature toca múltiples capas simultáneamente
-- Hay riesgo de seguridad alto
-- El contexto es muy grande y se puede perder información
+Use continuous verification only when:
+- The feature touches multiple layers simultaneously
+- There is high security risk
+- The context is very large and information could be lost
 
-Para activarla, indicar al agente: "Usa verificación continua para esta tarea."
+To enable it, tell the agent: "Use continuous verification for this task."
 
-## Verificación Final
+## Final Verification
 
-Antes de reportar como completado, verificar:
-- [ ] Todos los Quality Gates de este agente se cumplen
-- [ ] Ninguna Restricción Fatal se ha violado
-- [ ] Si hay skills relevantes, se han consultado
+Before reporting as complete, verify:
+- [ ] All Quality Gates for this agent are met
+- [ ] No Fatal Restriction has been violated
+- [ ] If there are relevant skills, they have been consulted

@@ -1,37 +1,39 @@
-# Git hooks recomendados
+# Recommended Git Hooks
 
-Los Git hooks automatizan validaciones antes de que el código llegue al repositorio. Son la primera línea de defensa: si algo no pasa el hook, no se commitea.
+[🇪🇸 Leer en español](es/recommended-hooks.md)
 
-## Herramientas recomendadas
+Git hooks automate validations before code reaches the repository. They are the first line of defense: if something doesn't pass the hook, it doesn't get committed.
 
-| Herramienta | Requisitos | Mejor para |
+## Recommended Tools
+
+| Tool | Requirements | Best for |
 |---|---|---|
-| **[Lefthook](https://github.com/evilmartians/lefthook)** | Binario standalone (Go). No necesita Node.js | Proyectos sin Node.js (PHP puro, Python, Go, Java) |
-| **[Husky](https://typicode.github.io/husky/)** | Necesita `package.json` (Node.js) | Proyectos con frontend Node.js o monorepos con Vue/React |
+| **[Lefthook](https://github.com/evilmartians/lefthook)** | Standalone binary (Go). No Node.js required | Projects without Node.js (pure PHP, Python, Go, Java) |
+| **[Husky](https://typicode.github.io/husky/)** | Requires `package.json` (Node.js) | Projects with Node.js frontend or monorepos with Vue/React |
 
-Si tu proyecto tiene `package.json` (frontend Vue, React, etc.), usa **Husky**. Si no, usa **Lefthook**.
+If your project has a `package.json` (Vue, React frontend, etc.), use **Husky**. If not, use **Lefthook**.
 
-## Hooks mínimos recomendados
+## Minimum Recommended Hooks
 
-### Pre-commit (antes de cada commit)
+### Pre-commit (before each commit)
 
-| Hook | Qué hace | Herramientas por stack |
+| Hook | What it does | Tools by stack |
 |---|---|---|
-| **Commitlint** | Valida formato conventional commits (`feat:`, `fix:`, `docs:`...) | commitlint + @commitlint/config-conventional |
-| **Linter** | Errores de código estático | ESLint (JS/TS), PHPStan (PHP), Pylint (Python), golangci-lint (Go) |
-| **Formatter** | Formato consistente | Prettier (JS/TS/CSS), PHP-CS-Fixer (PHP), Black (Python), gofmt (Go) |
-| **Type check** | Errores de tipos | TypeScript `tsc --noEmit`, PHPStan level 8, mypy (Python) |
-| **Secrets scan** | Detecta API keys, contraseñas en código | [gitleaks](https://github.com/gitleaks/gitleaks), [detect-secrets](https://github.com/Yelp/detect-secrets) |
-| **Branch name** | Valida formato de rama (`feature/`, `fix/`, `docs/`...) | Script custom o [validate-branch-name](https://www.npmjs.com/package/validate-branch-name) |
+| **Commitlint** | Validates conventional commits format (`feat:`, `fix:`, `docs:`...) | commitlint + @commitlint/config-conventional |
+| **Linter** | Static code errors | ESLint (JS/TS), PHPStan (PHP), Pylint (Python), golangci-lint (Go) |
+| **Formatter** | Consistent formatting | Prettier (JS/TS/CSS), PHP-CS-Fixer (PHP), Black (Python), gofmt (Go) |
+| **Type check** | Type errors | TypeScript `tsc --noEmit`, PHPStan level 8, mypy (Python) |
+| **Secrets scan** | Detects API keys, passwords in code | [gitleaks](https://github.com/gitleaks/gitleaks), [detect-secrets](https://github.com/Yelp/detect-secrets) |
+| **Branch name** | Validates branch format (`feature/`, `fix/`, `docs/`...) | Custom script or [validate-branch-name](https://www.npmjs.com/package/validate-branch-name) |
 
-### Pre-push (antes de cada push)
+### Pre-push (before each push)
 
-| Hook | Qué hace | Herramientas por stack |
+| Hook | What it does | Tools by stack |
 |---|---|---|
-| **Tests unitarios** | Ejecuta tests rápidos | PestPHP (PHP), Vitest (JS/TS), pytest (Python), go test (Go) |
-| **Build check** | Verifica que el proyecto compila | `npm run build`, `php bin/console cache:clear` |
+| **Unit tests** | Runs fast tests | PestPHP (PHP), Vitest (JS/TS), pytest (Python), go test (Go) |
+| **Build check** | Verifies the project compiles | `npm run build`, `php bin/console cache:clear` |
 
-## Ejemplos de configuración
+## Configuration Examples
 
 ### Lefthook (`lefthook.yml`)
 
@@ -88,8 +90,8 @@ gitleaks protect --staged
 npm run test
 ```
 
-## Cuándo NO usar hooks
+## When NOT to Use Hooks
 
-- Para tests lentos (E2E, integración) → mejor en CI/CD
-- Para deploy → siempre en CI/CD, nunca en hooks locales
-- Si bloquean demasiado el flujo → mover de pre-commit a pre-push
+- For slow tests (E2E, integration) → better in CI/CD
+- For deploy → always in CI/CD, never in local hooks
+- If they block the workflow too much → move from pre-commit to pre-push

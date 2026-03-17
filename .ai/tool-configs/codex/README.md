@@ -1,35 +1,35 @@
 # Codex (OpenAI)
 
-## Cómo funciona
+## How It Works
 
-Codex lee instrucciones desde `AGENTS.md` en la raíz del proyecto (igual que OpenCode). También soporta un directorio `.codex/` para configuración adicional.
+Codex reads instructions from `AGENTS.md` in the project root (same as OpenCode). It also supports a `.codex/` directory for additional configuration.
 
-`sync.sh` ya genera `AGENTS.md` que Codex puede leer directamente.
+`sync.sh` already generates `AGENTS.md` that Codex can read directly.
 
-## Ficheros que usa
+## Files Used
 
-| Fichero | Propósito |
+| File | Purpose |
 |---|---|
-| `AGENTS.md` | Instrucciones principales (compartido con OpenCode) |
-| `.codex/` | Configuración adicional de Codex (opcional) |
+| `AGENTS.md` | Main instructions (shared with OpenCode) |
+| `.codex/` | Additional Codex configuration (optional) |
 
-## Limitaciones
+## Limitations
 
-- Soporta agentes como contexto pero no como entidades invocables por separado
-- No soporta sub-agentes nativos
-- No soporta model routing por agente
-- Skills se leen como ficheros de contexto, no como módulos invocables
+- Supports agents as context but not as separately invocable entities
+- No native sub-agent support
+- No per-agent model routing
+- Skills are read as context files, not invocable modules
 
 ## Setup
 
-1. Ejecutar `.ai/sync.sh`
-2. `AGENTS.md` se genera automáticamente en la raíz
-3. Codex lo lee al iniciar sesión
-4. Opcionalmente, crear `.codex/` con configuración específica
+1. Run `.ai/sync.sh`
+2. `AGENTS.md` is automatically generated in the root
+3. Codex reads it on session start
+4. Optionally, create `.codex/` with specific configuration
 
-## MCPs en Codex
+## MCPs in Codex
 
-Codex soporta MCPs. Configurar en `.codex/config.json`:
+Codex supports MCPs. Configure in `.codex/config.json`:
 
 ```json
 {
@@ -42,13 +42,13 @@ Codex soporta MCPs. Configurar en `.codex/config.json`:
 }
 ```
 
-## Compatibilidad con el template
+## Template Compatibility
 
-| Capacidad | Soportado |
+| Capability | Supported |
 |---|---|
-| Agentes como contexto | Sí (via AGENTS.md) |
-| Agentes invocables | No |
-| Skills como contexto | Sí (referenciados en AGENTS.md) |
-| Verificación cruzada | Manual (el usuario invoca los agentes de revisión) |
-| Hooks de memoria | No |
-| MCPs | Sí |
+| Agents as context | Yes (via AGENTS.md) |
+| Invocable agents | No |
+| Skills as context | Yes (referenced in AGENTS.md) |
+| Cross-verification | Manual (user invokes review agents) |
+| Memory hooks | No |
+| MCPs | Yes |

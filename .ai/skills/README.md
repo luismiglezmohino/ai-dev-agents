@@ -1,63 +1,63 @@
 # Skills
 
-Crea un directorio por cada skill de tu stack.
+Create a directory for each skill in your stack.
 
-## Estructura
+## Structure
 
 ```
 skills/
-  {nombre-skill}/
-    SKILL.md          # Documentación del skill
+  {skill-name}/
+    SKILL.md          # Skill documentation
 ```
 
-## Estructura obligatoria de un SKILL.md
+## Required SKILL.md Structure
 
 ```markdown
 ---
-name: nombre-skill
-description: Descripción breve
+name: skill-name
+description: Brief description
 license: MIT
 compatibility: opencode
 metadata:
   type: backend|frontend|testing|orm|infra
-  framework: nombre
-  language: lenguaje
+  framework: name
+  language: language
 ---
 
-# SKILL: Nombre
+# SKILL: Name
 
 ## Tech Stack
-Versiones y dependencias del framework/libreria.
+Framework/library versions and dependencies.
 
-## Patrones del Proyecto
-Snippets reales del proyecto: como se usa el framework, convenciones, estructura.
+## Project Patterns
+Real project snippets: how the framework is used, conventions, structure.
 
-## Errores Conocidos y Soluciones
-Problemas encontrados durante el desarrollo y como resolverlos.
-Esta sección es OBLIGATORIA. Si no hay errores conocidos todavía, dejar:
-- "Sin errores documentados todavía."
+## Known Errors and Solutions
+Problems found during development and how to solve them.
+This section is MANDATORY. If there are no known errors yet, leave:
+- "No documented errors yet."
 
-Formato por error:
-- **Problema:** Descripción del error
-- **Causa:** Por que ocurre
-- **Solucion:** Como resolverlo
+Format per error:
+- **Problem:** Error description
+- **Cause:** Why it happens
+- **Solution:** How to fix it
 
 ## Checklist
-Lista de verificación para nuevas implementaciones con este skill.
+Verification list for new implementations with this skill.
 ```
 
-## Principio
+## Principle
 
-Los skills contienen el conocimiento **específico del framework/lenguaje**.
-Los agentes contienen las reglas **agnosticas** (Quality Gates).
+Skills contain **framework/language-specific** knowledge.
+Agents contain the **agnostic** rules (Quality Gates).
 
-Los agentes dicen QUE verificar. Los skills dicen COMO hacerlo.
+Agents say WHAT to verify. Skills say HOW to do it.
 
-## Ejemplos por stack
+## Stack Examples
 
 ### Backend + Frontend
 
-| Stack | Skills sugeridos |
+| Stack | Suggested Skills |
 |---|---|
 | Django + React | `django`, `django-pytest`, `react`, `react-testing`, `postgresql` |
 | Spring + Angular | `spring-boot`, `spring-junit`, `angular`, `angular-jasmine`, `postgresql` |
@@ -65,13 +65,13 @@ Los agentes dicen QUE verificar. Los skills dicen COMO hacerlo.
 | Symfony + Vue | `symfony`, `symfony-pest`, `vue`, `vue-vitest`, `postgresql` |
 | Laravel + React | `laravel`, `laravel-pest`, `react`, `react-testing`, `postgresql` |
 
-### Transversales (recomendados en todo proyecto)
+### Cross-cutting (recommended for every project)
 
-| Skill | Proposito |
+| Skill | Purpose |
 |---|---|
-| `docker` | Multi-stage builds, docker-compose, seguridad |
+| `docker` | Multi-stage builds, docker-compose, security |
 | `ci-cd` | GitHub Actions, pipelines, deploy |
-| `accessibility` | WCAG 2.2 AA, navegación teclado, contraste |
-| `observability` | Logging JSON, métricas, health checks |
+| `accessibility` | WCAG 2.2 AA, keyboard navigation, contrast |
+| `observability` | JSON logging, metrics, health checks |
 | `typescript` | TypeScript strict, Zod, ESLint |
 | `git` | Conventional commits, branch naming, PRs, GitHub Flow |

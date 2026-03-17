@@ -11,22 +11,22 @@ metadata:
 
 # SKILL: Git
 
-> **REVISAR:** Este skill fue generado con best practices genéricas.
-> Adaptalo a las convenciones de tu proyecto antes de usarlo en producción.
-> Ultima revision: 2026-02-24
+> **REVIEW:** This skill was generated with generic best practices.
+> Adapt it to your project's conventions before using in production.
+> Last review: 2026-02-24
 
 ## Tech Stack
 
 - Git >= 2.40
 - Husky >= 9.0 (git hooks)
-- GitHub Flow (trunk-based simplificado)
+- GitHub Flow (simplified trunk-based)
 - Conventional Commits 1.0.0
 
-## Patrones del Proyecto
+## Project Patterns
 
 ### Branch Naming
 
-Formato: `<tipo>/<descripción-kebab-case>`
+Format: `<type>/<description-kebab-case>`
 
 ```
 feature/add-user-auth
@@ -37,15 +37,15 @@ chore/upgrade-dependencies
 hotfix/critical-null-pointer
 ```
 
-**Reglas:**
-- Siempre en ingles, kebab-case
-- Descripción corta pero descriptiva (3-5 palabras max)
-- Rama base: `main` (nunca `develop` en GitHub Flow)
-- Borrar rama después de merge
+**Rules:**
+- Always in English, kebab-case
+- Short but descriptive (3-5 words max)
+- Base branch: `main` (never `develop` in GitHub Flow)
+- Delete branch after merge
 
 ### Conventional Commits
 
-Formato: `<tipo>(<alcance>): <descripción>`
+Format: `<type>(<scope>): <description>`
 
 ```bash
 feat(auth): add JWT token refresh endpoint
@@ -57,25 +57,25 @@ perf(search): add index for pictogram full-text search
 chore(deps): upgrade symfony to 7.2
 ```
 
-**Tipos permitidos:**
+**Allowed types:**
 
-| Tipo | Cuando usar | Ejemplo |
+| Type | When to use | Example |
 |------|-------------|---------|
-| `feat` | Nueva funcionalidad | `feat(board): add drag-and-drop pictograms` |
-| `fix` | Corrección de bug | `fix(tts): handle empty text in speech synthesis` |
-| `docs` | Solo documentación | `docs(readme): add setup instructions` |
-| `test` | Añadir o corregir tests | `test(api): add e2e tests for auth flow` |
-| `refactor` | Sin cambio de comportamiento | `refactor(users): extract repository interface` |
-| `perf` | Mejora de rendimiento | `perf(api): cache pictogram responses` |
-| `chore` | Mantenimiento, deps, CI | `chore(docker): update PHP base image` |
-| `ci` | Cambios en CI/CD | `ci(github): add deploy workflow` |
+| `feat` | New feature | `feat(board): add drag-and-drop pictograms` |
+| `fix` | Bug fix | `fix(tts): handle empty text in speech synthesis` |
+| `docs` | Documentation only | `docs(readme): add setup instructions` |
+| `test` | Add or fix tests | `test(api): add e2e tests for auth flow` |
+| `refactor` | No behavior change | `refactor(users): extract repository interface` |
+| `perf` | Performance improvement | `perf(api): cache pictogram responses` |
+| `chore` | Maintenance, deps, CI | `chore(docker): update PHP base image` |
+| `ci` | CI/CD changes | `ci(github): add deploy workflow` |
 
-**Reglas del mensaje:**
-- Descripción en imperativo, minusculas, sin punto final
-- Alcance opcional pero recomendado (modulo o capa afectada)
-- Primera línea < 72 caracteres
-- Body opcional: separado por línea en blanco, explica el "por que"
-- Footer: `BREAKING CHANGE:` si rompe compatibilidad, `Closes #123` para issues
+**Message rules:**
+- Description in imperative, lowercase, no trailing period
+- Scope optional but recommended (affected module or layer)
+- First line < 72 characters
+- Optional body: separated by blank line, explains the "why"
+- Footer: `BREAKING CHANGE:` if it breaks compatibility, `Closes #123` for issues
 
 ```bash
 feat(auth): add password reset via email
@@ -89,64 +89,64 @@ Closes #45
 ### GitHub Flow
 
 ```
-main ─────●─────●─────●─────●─────── (siempre deployable)
+main ─────●─────●─────●─────●─────── (always deployable)
            \                 /
             feature/xyz ────● (PR + review + merge)
 ```
 
-1. **Crear rama** desde `main`
-2. **Desarrollar** con commits frecuentes y descriptivos
-3. **Push** y crear PR cuando este listo para review
-4. **Review** — mínimo 1 aprobación
-5. **Merge** a `main` (squash o merge commit segun preferencia)
-6. **Deploy** automático tras merge
-7. **Borrar** rama feature
+1. **Create branch** from `main`
+2. **Develop** with frequent, descriptive commits
+3. **Push** and create PR when ready for review
+4. **Review** — minimum 1 approval
+5. **Merge** to `main` (squash or merge commit per preference)
+6. **Deploy** automatically after merge
+7. **Delete** feature branch
 
 ### PR Template
 
 ```markdown
-## Que cambia
+## What changes
 
-[Descripción breve de los cambios]
+[Brief description of changes]
 
-## Por que
+## Why
 
-[Motivacion, issue que resuelve, contexto]
+[Motivation, issue it solves, context]
 
-## Como probarlo
+## How to test
 
-1. [Paso 1]
-2. [Paso 2]
+1. [Step 1]
+2. [Step 2]
 
 ## Checklist
 
-- [ ] Tests pasan
-- [ ] Lint limpio
-- [ ] Documentación actualizada (si aplica)
-- [ ] Sin secrets hardcodeados
+- [ ] Tests pass
+- [ ] Lint clean
+- [ ] Documentation updated (if applicable)
+- [ ] No hardcoded secrets
 ```
 
 ### Husky (Git Hooks)
 
-Husky ejecuta scripts automáticamente en eventos de git. Garantiza que ningun commit ni push rompa las reglas del proyecto.
+Husky runs scripts automatically on git events. Ensures no commit or push breaks the project rules.
 
-**Instalacion:**
+**Installation:**
 
 ```bash
 npm install --save-dev husky
 npx husky init
 ```
 
-Esto crea `.husky/` con un `pre-commit` de ejemplo. Estructura:
+This creates `.husky/` with a sample `pre-commit`. Structure:
 
 ```
 .husky/
-├── pre-commit       # Se ejecuta ANTES de cada commit
-├── pre-push         # Se ejecuta ANTES de cada push
-└── commit-msg       # Valida el mensaje de commit
+├── pre-commit       # Runs BEFORE each commit
+├── pre-push         # Runs BEFORE each push
+└── commit-msg       # Validates the commit message
 ```
 
-**pre-commit** — Lint y formato (solo archivos staged):
+**pre-commit** — Lint and format (staged files only):
 
 ```bash
 #!/bin/sh
@@ -159,7 +159,7 @@ cd backend && composer lint 2>/dev/null
 cd frontend && npx lint-staged
 ```
 
-**commit-msg** — Validar conventional commits:
+**commit-msg** — Validate conventional commits:
 
 ```bash
 #!/bin/sh
@@ -169,14 +169,14 @@ message=$(cat "$1")
 pattern="^(feat|fix|docs|test|refactor|perf|chore|ci)(\(.+\))?: .{1,68}$"
 
 if ! echo "$message" | head -1 | grep -qE "$pattern"; then
-  echo "ERROR: Commit message no sigue Conventional Commits"
-  echo "Formato: tipo(alcance): descripción"
-  echo "Ejemplo: feat(auth): add login endpoint"
+  echo "ERROR: Commit message does not follow Conventional Commits"
+  echo "Format: type(scope): description"
+  echo "Example: feat(auth): add login endpoint"
   exit 1
 fi
 ```
 
-**pre-push** — Tests antes de push:
+**pre-push** — Tests before push:
 
 ```bash
 #!/bin/sh
@@ -189,7 +189,7 @@ cd backend && ./vendor/bin/pest --bail 2>/dev/null || exit 1
 cd frontend && npm run test -- --bail 2>/dev/null || exit 1
 ```
 
-**lint-staged** (complemento de Husky para pre-commit eficiente):
+**lint-staged** (Husky complement for efficient pre-commit):
 
 ```json
 // package.json
@@ -201,15 +201,15 @@ cd frontend && npm run test -- --bail 2>/dev/null || exit 1
 }
 ```
 
-**Reglas:**
-- Los hooks `.husky/` se commitean al repo (todo el equipo los comparte)
-- Usar `lint-staged` en pre-commit para no relintear todo el proyecto
-- Pre-push ejecuta tests — es la ultima barrera antes del remoto
-- Nunca usar `--no-verify` salvo emergencia justificada
+**Rules:**
+- `.husky/` hooks are committed to the repo (shared by the whole team)
+- Use `lint-staged` in pre-commit to avoid relinting the entire project
+- Pre-push runs tests — the last barrier before remote
+- Never use `--no-verify` except in justified emergencies
 
 ### .gitignore Patterns
 
-Mantener organizado por secciones:
+Keep organized by sections:
 
 ```gitignore
 # OS
@@ -239,7 +239,7 @@ Thumbs.db
 .ai/.local/*
 !.ai/.local/.gitkeep
 
-# Generated (AI tools — regenerar con .ai/sync.sh)
+# Generated (AI tools — regenerate with .ai/sync.sh)
 .claude/agents/
 .claude/rules/
 .claude/skills
@@ -252,46 +252,46 @@ GEMINI.md
 .github/copilot-instructions.md
 ```
 
-## Errores Conocidos y Soluciones
+## Known Errors and Solutions
 
-- **Problema:** Commit con tipo incorrecto (ej: `fix` cuando es `refactor`)
-  **Causa:** No distinguir entre cambio de comportamiento y reestructuracion
-  **Solucion:** Si el usuario ve un cambio diferente, es `fix` o `feat`. Si no nota nada, es `refactor`
+- **Problem:** Commit with wrong type (e.g.: `fix` when it's `refactor`)
+  **Cause:** Not distinguishing between behavior change and restructuring
+  **Solution:** If the user sees a different behavior, it's `fix` or `feat`. If they notice nothing, it's `refactor`
 
-- **Problema:** Ramas huerfanas que no se borran después de merge
-  **Causa:** No configurar auto-delete en GitHub o no borrar manualmente
-  **Solucion:** Activar "Automatically delete head branches" en Settings > General del repo
+- **Problem:** Orphan branches not deleted after merge
+  **Cause:** Auto-delete not configured in GitHub or not deleted manually
+  **Solution:** Enable "Automatically delete head branches" in Settings > General of the repo
 
-- **Problema:** Merge conflicts frecuentes en ramas de larga vida
-  **Causa:** Rama feature abierta demasiado tiempo sin sincronizar con main
-  **Solucion:** Hacer `git rebase main` o merge de main frecuentemente. Ramas cortas (< 3 dias)
+- **Problem:** Frequent merge conflicts in long-lived branches
+  **Cause:** Feature branch open too long without syncing with main
+  **Solution:** Run `git rebase main` or merge main frequently. Keep branches short (< 3 days)
 
-- **Problema:** Commits con secrets (API keys, passwords)
-  **Causa:** Archivos .env o config no excluidos en .gitignore
-  **Solucion:** Pre-commit hook con detección de secrets. Si ya se commiteo, rotar el secret inmediatamente (el historial de git lo retiene)
+- **Problem:** Commits with secrets (API keys, passwords)
+  **Cause:** .env or config files not excluded in .gitignore
+  **Solution:** Pre-commit hook with secrets detection. If already committed, rotate the secret immediately (git history retains it)
 
-- **Problema:** Husky hooks no se ejecutan después de `git clone`
-  **Causa:** Husky 9+ requiere `npm install` para activar los hooks via el script `prepare`
-  **Solucion:** Verificar que `package.json` tiene `"prepare": "husky"` en scripts. Tras clone: `npm install`
+- **Problem:** Husky hooks not running after `git clone`
+  **Cause:** Husky 9+ requires `npm install` to activate hooks via the `prepare` script
+  **Solution:** Verify `package.json` has `"prepare": "husky"` in scripts. After clone: `npm install`
 
-- **Problema:** Hooks lentos bloquean el flujo de desarrollo
-  **Causa:** Pre-commit ejecuta lint/tests sobre todo el proyecto
-  **Solucion:** Usar `lint-staged` para pre-commit (solo archivos staged). Tests completos solo en pre-push
+- **Problem:** Slow hooks blocking development flow
+  **Cause:** Pre-commit runs lint/tests on the entire project
+  **Solution:** Use `lint-staged` for pre-commit (staged files only). Full tests only in pre-push
 
 ## Checklist
 
-- [ ] Rama creada desde `main` con naming correcto (`tipo/descripción`)
-- [ ] Commits siguen Conventional Commits (`tipo(alcance): descripción`)
-- [ ] Mensaje de commit < 72 caracteres en primera línea
-- [ ] No hay secrets en el commit (`grep -r "password\|secret\|api_key"`)
-- [ ] PR tiene descripción, motivacion y como probarlo
-- [ ] Rama borrada después de merge
-- [ ] Husky instalado (`npx husky init`) con `"prepare": "husky"` en package.json
-- [ ] Pre-commit: lint con `lint-staged` (solo archivos staged)
-- [ ] Commit-msg: valida formato Conventional Commits
-- [ ] Pre-push: ejecuta tests antes de enviar al remoto
+- [ ] Branch created from `main` with correct naming (`type/description`)
+- [ ] Commits follow Conventional Commits (`type(scope): description`)
+- [ ] Commit message < 72 characters on first line
+- [ ] No secrets in the commit (`grep -r "password\|secret\|api_key"`)
+- [ ] PR has description, motivation and how to test
+- [ ] Branch deleted after merge
+- [ ] Husky installed (`npx husky init`) with `"prepare": "husky"` in package.json
+- [ ] Pre-commit: lint with `lint-staged` (staged files only)
+- [ ] Commit-msg: validates Conventional Commits format
+- [ ] Pre-push: runs tests before pushing to remote
 
-## Referencias
+## References
 
 - [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 - [GitHub Flow](https://docs.github.com/en/get-started/using-git/github-flow)

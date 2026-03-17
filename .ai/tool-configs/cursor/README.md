@@ -1,26 +1,26 @@
 # Cursor
 
-## Como funciona
+## How It Works
 
-Cursor lee reglas desde `.cursorrules` en la raíz del proyecto.
+Cursor reads rules from `.cursorrules` at the project root.
 
-`sync.sh` genera automáticamente una versión compacta de todos los agentes en `.cursorrules`.
+`sync.sh` automatically generates a compact version of all agents in `.cursorrules`.
 
-## Ficheros generados
+## Generated Files
 
-| Fichero | Proposito |
+| File | Purpose |
 |---|---|
-| `.cursorrules` | Reglas compactas (auto-generado) |
+| `.cursorrules` | Compact rules (auto-generated) |
 
-## Limitaciones
+## Limitations
 
-- No soporta agentes individuales invocables
-- No soporta sub-agentes ni routing
-- Las reglas son un único fichero plano
-- No soporta skills como ficheros separados
+- Does not support individually invocable agents
+- Does not support sub-agents or routing
+- Rules are a single flat file
+- Does not support skills as separate files
 
 ## Setup
 
-1. Ejecutar `./sync.sh`
-2. `.cursorrules` se genera automáticamente
-3. Cursor lo lee en cada sesión
+1. Run `./sync.sh`
+2. `.cursorrules` is automatically generated
+3. Cursor reads it in every session

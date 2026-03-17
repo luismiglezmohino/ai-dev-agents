@@ -1,45 +1,45 @@
 # Claude Code
 
-## Como funciona
+## How It Works
 
-Claude Code lee agentes desde `.claude/agents/` (formato propio con frontmatter `name`, `description`, `tools`).
+Claude Code reads agents from `.claude/agents/` (proprietary format with `name`, `description`, `tools` frontmatter).
 
-`sync.sh` convierte automáticamente los agentes de `agents/` (formato OpenCode) al formato Claude Code.
+`sync.sh` automatically converts agents from `agents/` (OpenCode format) to Claude Code format.
 
-## Ficheros generados
+## Generated Files
 
-| Fichero | Proposito |
+| File | Purpose |
 |---|---|
-| `.claude/agents/*.md` | Agentes convertidos (1 por agente) |
-| `.claude/skills` | Enlace simbólico a `../.ai/skills` |
-| `.claude/rules/decisions.md` | Copia de `decisions.md` (auto-cargado) |
-| `.claude/rules/project-context.md` | Contexto del proyecto sin frontmatter (auto-cargado) |
+| `.claude/agents/*.md` | Converted agents (1 per agent) |
+| `.claude/skills` | Symlink to `../.ai/skills` |
+| `.claude/rules/decisions.md` | Copy of `decisions.md` (auto-loaded) |
+| `.claude/rules/project-context.md` | Project context without frontmatter (auto-loaded) |
 
 ## Hooks
 
-Configurados en `.claude/settings.json`:
+Configured in `.claude/settings.json`:
 
-| Hook | Script | Cuando se ejecuta |
+| Hook | Script | When it runs |
 |---|---|---|
-| `SessionStart` | `.ai/hooks/session-start.sh` | Al iniciar, resumir o compactar sesión |
-| `PreCompact` | `.ai/hooks/pre-compact.sh` | Antes de comprimir contexto |
-| `SessionEnd` | `.ai/hooks/session-stop.sh` | Al terminar la sesión |
+| `SessionStart` | `.ai/hooks/session-start.sh` | On session start, resume or compact |
+| `PreCompact` | `.ai/hooks/pre-compact.sh` | Before compressing context |
+| `SessionEnd` | `.ai/hooks/session-stop.sh` | On session end |
 
-Los hooks reciben JSON en stdin (no texto plano). Usan `$CLAUDE_PROJECT_DIR` para rutas.
+Hooks receive JSON on stdin (not plain text). They use `$CLAUDE_PROJECT_DIR` for paths.
 
 ## Setup
 
-1. Ejecutar `.ai/sync.sh`
-2. Los agentes aparecen automáticamente en Claude Code
+1. Run `.ai/sync.sh`
+2. Agents appear automatically in Claude Code
 
 ## CLAUDE.md
 
-Claude Code lee `CLAUDE.md` en la raíz del proyecto y en subdirectorios (jerarquico). Usa `CLAUDE.md.template` como punto de partida. Soporta imports con `@path/to/file`.
+Claude Code reads `CLAUDE.md` at the project root and in subdirectories (hierarchical). Use `CLAUDE.md.template` as a starting point. Supports imports with `@path/to/file`.
 
 ## .claude/rules/
 
-Archivos `.md` en `.claude/rules/` se auto-cargan en cada mensaje. Soportan frontmatter `paths` para carga condicional por glob pattern.
+`.md` files in `.claude/rules/` are auto-loaded in every message. They support `paths` frontmatter for conditional loading by glob pattern.
 
 ## MCP
 
-Claude Code soporta MCP servers para extender funcionalidad (Engram, Context7, Sentry, etc). Configurar en `.claude/settings.json`.
+Claude Code supports MCP servers to extend functionality (Engram, Context7, Sentry, etc). Configure in `.claude/settings.json`.

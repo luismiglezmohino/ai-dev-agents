@@ -1,27 +1,29 @@
 # AI Dev Agents Template
 
-Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al lenguaje, framework y herramienta de IA.
+[🇪🇸 Leer en español](README.es.md)
 
-## Que es esto
+Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic.
 
-11 agentes especializados + 1 orchestrator que guian a los asistentes de IA durante el desarrollo de software. Incluye patrón de verificación cruzada entre agentes para prevenir errores que un solo agente no detecta.
+## What Is This
 
-**Principio clave:** Los agentes definen QUE verificar (Quality Gates agnósticos). Los skills definen COMO hacerlo (framework-específico).
+11 specialized agents + 1 orchestrator that guide AI assistants during software development. Includes a cross-verification pattern between agents to prevent errors that a single agent cannot detect.
 
-> **Nuevo aquí?** Empieza por la [guia de inicio rápido (5 minutos)](docs/guides/getting-started.md).
+**Key principle:** Agents define WHAT to verify (agnostic Quality Gates). Skills define HOW to do it (framework-specific).
 
-## Estructura (después del setup)
+> **New here?** Start with the [quick start guide (5 minutes)](docs/guides/getting-started.md).
+
+## Structure (after setup)
 
 ```
-.ai/                                   # Todo el template aquí
+.ai/                                   # The entire template lives here
 ├── agents/                            # 11 roles + orchestrator + context + base
-│   ├── _base.md                       # Boilerplate compartido (no invocable)
-│   ├── orchestrator.md                # Routing + verificación cruzada
-│   ├── project-context.md             # Restricciones del proyecto (rellenar)
+│   ├── _base.md                       # Shared boilerplate (not invocable)
+│   ├── orchestrator.md                # Routing + cross-verification
+│   ├── project-context.md             # Project constraints (fill in)
 │   ├── product-owner.md               # User Stories, ROI
-│   ├── architect.md                   # Clean Architecture, contratos
-│   ├── tdd-developer.md               # RED-GREEN-REFACTOR + verificación
-│   ├── database-engineer.md           # Schema, migraciones, ORM mapping
+│   ├── architect.md                   # Clean Architecture, contracts
+│   ├── tdd-developer.md               # RED-GREEN-REFACTOR + verification
+│   ├── database-engineer.md           # Schema, migrations, ORM mapping
 │   ├── security-auditor.md            # OWASP Top 10:2025 (read-only)
 │   ├── qa-engineer.md                 # Coverage 100/80/0 (read-only)
 │   ├── performance-engineer.md        # Core Web Vitals, p95
@@ -29,699 +31,737 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 │   ├── observability-engineer.md      # Metrics, logs, tracing
 │   ├── technical-writer.md            # Docs, ADRs
 │   └── ux-designer.md                 # WCAG 2.2 AA
-├── skills/                            # Skills específicos del stack
-│   ├── git/SKILL.md                   # Ejemplo: conventional commits, husky, PRs
-│   └── README.md                      # Guia para crear skills
-├── hooks/                             # Scripts de memoria automatica (Claude Code)
-│   ├── session-start.sh               # Inyecta contexto al iniciar sesión
-│   ├── pre-compact.sh                 # Guarda estado antes de compactar
-│   └── session-stop.sh                # Guarda resumen al terminar sesión
-├── prompts/                           # Prompts reutilizables
-│   ├── bootstrap.md                   # Onboarding: genera configs + skills
-│   ├── feature-spec.md               # Genera spec técnico antes de implementar (opcional)
-│   ├── refine-skills.md              # Refina skills con patrones reales
-│   └── legacy-audit.md              # Analiza código legacy y propone plan de modernización
-├── templates/                         # Skeletons para CLAUDE.md / AGENTS.md
+├── skills/                            # Stack-specific skills
+│   ├── git/SKILL.md                   # Example: conventional commits, husky, PRs
+│   └── README.md                      # Guide to create skills
+├── hooks/                             # Automatic memory scripts (Claude Code)
+│   ├── session-start.sh               # Injects context on session start
+│   ├── pre-compact.sh                 # Saves state before compacting
+│   ├── session-stop.sh                # Saves summary on session end
+│   └── suggest-patterns.sh            # Suggests patterns for skills (requires approval)
+├── prompts/                           # Reusable prompts (English)
+│   ├── bootstrap.md                   # Onboarding: generates configs + skills
+│   ├── feature-spec.md               # Generates tech spec before implementing (optional)
+│   ├── refine-skills.md              # Refines skills with real patterns
+│   ├── legacy-audit.md              # Analyzes legacy code and proposes modernization plan
+│   └── es/                            # Spanish versions
+├── templates/                         # Skeletons for CLAUDE.md / AGENTS.md
 │   ├── CLAUDE.md.template
 │   └── AGENTS.md.template
-├── tool-configs/                      # Guias por herramienta
+├── tool-configs/                      # Per-tool guides
 │   ├── claude-code/README.md
 │   ├── opencode/README.md
+│   ├── codex/README.md
 │   ├── cursor/README.md
 │   ├── windsurf/README.md
 │   └── copilot/README.md
-├── decisions.md                       # Decisiones técnicas rápidas (cross-tool)
-├── sync.sh                            # Genera configs para TODAS las herramientas
-└── test.sh                            # Valida estructura del template
+├── decisions.md                       # Quick technical decisions (cross-tool)
+├── sync.sh                            # Generates configs for ALL tools
+└── test.sh                            # Validates template structure
 
-docs/                                  # Documentación del proyecto (no del template)
+docs/                                  # Project documentation (not template docs)
 ├── specs/                             # Feature Specs (SDD)
 │   └── FEAT-TEMPLATE.md
 ├── adrs/                              # Architecture Decision Records
 ├── stories/                           # User Stories
-└── guides/                            # Guias de uso, onboarding
+└── guides/                            # Usage guides, onboarding
 
-.claude/                               # Generado por .ai/sync.sh (gitignored)
-├── agents/                            # Agentes convertidos (formato Claude Code)
-├── rules/                             # Auto-cargado (decisions.md, project-context.md)
-├── settings.json                      # Hooks + Engram MCP config (commitable)
+.claude/                               # Generated by .ai/sync.sh (gitignored)
+├── agents/                            # Converted agents (Claude Code format)
+├── rules/                             # Auto-loaded (decisions.md, project-context.md)
+├── settings.json                      # Hooks + Engram MCP config (committable)
 └── skills -> ../.ai/skills
 
-.opencode/                             # Generado por .ai/sync.sh (gitignored)
+.opencode/                             # Generated by .ai/sync.sh (gitignored)
 ├── agents -> ../.ai/agents
 ├── skills -> ../.ai/skills
 └── decisions.md
 
-CLAUDE.md                              # Generado por bootstrap o copiado del template
-AGENTS.md                              # Generado por bootstrap o copiado del template
-.cursorrules                           # Generado (compacto, gitignored)
-.windsurfrules                         # Generado (compacto, gitignored)
-GEMINI.md                              # Generado (compacto, gitignored)
-.github/copilot-instructions.md        # Generado (compacto, gitignored)
+CLAUDE.md                              # Generated by bootstrap or copied from template
+AGENTS.md                              # Generated by bootstrap or copied from template
+.cursorrules                           # Generated (compact, gitignored)
+.windsurfrules                         # Generated (compact, gitignored)
+GEMINI.md                              # Generated (compact, gitignored)
+.github/copilot-instructions.md        # Generated (compact, gitignored)
 ```
 
-## Compatibilidad por herramienta
+## Tool Compatibility
 
-| Herramienta | Fichero siempre cargado | Agentes bajo demanda | Ahorro tokens |
+| Tool | Always-loaded file | On-demand agents | Token savings |
 |---|---|---|---|
-| Claude Code | `CLAUDE.md` | `.claude/agents/` (sí) | Alto |
-| OpenCode | `AGENTS.md` | `.opencode/agents/` (sí) | Alto |
-| Codex (OpenAI) | `AGENTS.md` | No (contexto compartido) | Medio |
-| Cursor | `.cursorrules` | No (todo inline) | Bajo |
-| Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
-| Gemini | `GEMINI.md` | No (todo inline) | Bajo |
-| GitHub Copilot | `.github/copilot-instructions.md` | No (todo inline) | Bajo |
+| Claude Code | `CLAUDE.md` | `.claude/agents/` (yes) | High |
+| OpenCode | `AGENTS.md` | `.opencode/agents/` (yes) | High |
+| Codex (OpenAI) | `AGENTS.md` | No (shared context) | Medium |
+| Cursor | `.cursorrules` | No (all inline) | Low |
+| Windsurf | `.windsurfrules` | No (all inline) | Low |
+| Gemini | `GEMINI.md` | No (all inline) | Low |
+| GitHub Copilot | `.github/copilot-instructions.md` | No (all inline) | Low |
 
-### Herramientas con agentes bajo demanda (Claude Code, OpenCode)
+### Tools with on-demand agents (Claude Code, OpenCode)
 
-Los agentes se cargan SOLO cuando se invoca el rol. El fichero principal (`CLAUDE.md` o `AGENTS.md`) debe ser compacto (~100 líneas) porque se carga en CADA mensaje.
-
-```
-CLAUDE.md (siempre)     → ~100 líneas (contexto + roles como lista)
-.ai/agents/*.md (demanda) → sin limite (solo se carga el agente invocado)
-.ai/skills/*.md (demanda) → sin limite (solo se carga el skill consultado)
-```
-
-### Herramientas sin agentes bajo demanda (Cursor, Windsurf, Gemini, Copilot)
-
-Todo va en un solo fichero que se carga siempre. Hay que compilar los agentes en una versión compacta.
+Agents are loaded ONLY when the role is invoked. The main file (`CLAUDE.md` or `AGENTS.md`) must be compact (~100 lines) because it's loaded in EVERY message.
 
 ```
-.cursorrules (siempre)  → roles como lista compacta + gates resumidos
-                          NO incluir snippets, workflows, checklists
+CLAUDE.md (always)       → ~100 lines (context + roles as list)
+.ai/agents/*.md (demand) → no limit (only the invoked agent is loaded)
+.ai/skills/*.md (demand) → no limit (only the consulted skill is loaded)
 ```
 
-`.ai/sync.sh` genera automáticamente versiones compactas para estas herramientas con un roster de agentes, gates resumidos, workflow y decisions.
+### Tools without on-demand agents (Cursor, Windsurf, Gemini, Copilot)
 
-### Soporte real por herramienta
+Everything goes in a single always-loaded file. Agents must be compiled into a compact version.
 
-| Capacidad | Claude Code | OpenCode | Codex | Cursor | Windsurf | Gemini | Copilot |
+```
+.cursorrules (always)    → roles as compact list + summarized gates
+                           DO NOT include snippets, workflows, checklists
+```
+
+`.ai/sync.sh` automatically generates compact versions for these tools with an agent roster, summarized gates, workflow and decisions.
+
+### Real support per tool
+
+| Capability | Claude Code | OpenCode | Codex | Cursor | Windsurf | Gemini | Copilot |
 |---|---|---|---|---|---|---|---|
-| Sub-agentes | Sí (Task tool) | Sí (spawn) | No | No | No | No | No |
-| Orquestador | No (routing auto) | Sí (orchestrator.md) | No | No | No | No | No |
-| Model routing | No (1 modelo/sesión) | Sí (por agente) | No | Sí (por regla) | No | No | No |
-| Agentes bajo demanda | Sí (.claude/agents/) | Sí (.opencode/agents/) | No | No | No | No | No |
+| Sub-agents | Yes (Task tool) | Yes (spawn) | No | No | No | No | No |
+| Orchestrator | No (auto routing) | Yes (orchestrator.md) | No | No | No | No | No |
+| Model routing | No (1 model/session) | Yes (per agent) | No | Yes (per rule) | No | No | No |
+| On-demand agents | Yes (.claude/agents/) | Yes (.opencode/agents/) | No | No | No | No | No |
 | Agent teams | Experimental | No | No | No | No | No | No |
-| MCPs | Sí | Sí | Sí | Sí | Parcial | Parcial | Parcial |
+| MCPs | Yes | Yes | Yes | Yes | Partial | Partial | Partial |
 
-**Limitacion importante:** En Cursor, Windsurf, Gemini y Copilot los agentes son reglas contextuales que se cargan siempre. No hay routing: el modelo lee todas las reglas y decide que aplicar. Por eso `sync.sh` genera versiones compactas — meter 11 agentes completos en un solo fichero agotaria la ventana de contexto.
+**Important limitation:** In Cursor, Windsurf, Gemini and Copilot, agents are contextual rules that are always loaded. There is no routing: the model reads all rules and decides what to apply. That's why `sync.sh` generates compact versions — putting 11 complete agents in a single file would exhaust the context window.
 
-**Futuro:** El estándar [AGENTS.md](https://github.com/anthropics/agents-md) (Linux Foundation + Anthropic + OpenAI) apunta hacia un formato universal para agentes multi-herramienta. Cuando las herramientas lo adopten, los agentes de este template seran compatibles sin cambios.
+**Future:** The [AGENTS.md](https://github.com/anthropics/agents-md) standard (Linux Foundation + Anthropic + OpenAI) points toward a universal format for multi-tool agents. When tools adopt it, the agents in this template will be compatible without changes.
 
-## Uso rápido
+## Quick Start
 
-### 1. Copiar al proyecto
+### 1. Copy to your project
 
 ```bash
-# Opción A: GitHub "Use this template"
-# Opción B: Manual
-cp -r ai-dev-agents-template/.ai mi-proyecto/.ai
-cp -r ai-dev-agents-template/docs mi-proyecto/docs
-cp ai-dev-agents-template/AGENTS.md mi-proyecto/
-cp ai-dev-agents-template/.claudeignore mi-proyecto/
-cp ai-dev-agents-template/.gitignore mi-proyecto/  # Merge con el existente
-cd mi-proyecto
+# Option A: GitHub "Use this template"
+# Option B: Manual
+cp -r ai-dev-agents-template/.ai my-project/.ai
+cp -r ai-dev-agents-template/docs my-project/docs
+cp ai-dev-agents-template/AGENTS.md my-project/
+cp ai-dev-agents-template/.claudeignore my-project/
+cp ai-dev-agents-template/.gitignore my-project/  # Merge with existing
+cd my-project
 ```
 
-### 2. Configurar proyecto
+### 2. Configure project
 
-**Opción A: Bootstrap automático (recomendado)**
+**Option A: Automatic bootstrap (recommended)**
 
-Abre tu herramienta de IA y pega el contenido de `.ai/prompts/bootstrap.md`.
-El LLM analiza tu proyecto (si ya tiene código) o te pregunta (si es nuevo) y genera automáticamente:
-- `.ai/agents/project-context.md` — contexto del proyecto relleno
-- `CLAUDE.md` — configuración principal rellena
-- `AGENTS.md` — configuración OpenCode rellena (si aplica)
-- `.ai/decisions.md` — decisiones iniciales del stack
-- `.ai/skills/` — skills básicos del stack (marcados `> REVISAR`)
+Open your AI tool and paste the content of `.ai/prompts/bootstrap.md`.
+The LLM analyzes your project (if it has code) or asks you (if new) and automatically generates:
+- `.ai/agents/project-context.md` — filled project context
+- `CLAUDE.md` — filled main configuration
+- `AGENTS.md` — filled OpenCode configuration (if applicable)
+- `.ai/decisions.md` — initial stack decisions
+- `.ai/skills/` — basic stack skills (marked `> REVIEW`)
 
-Funciona con cualquier herramienta (Claude Code, OpenCode, Cursor, ChatGPT, etc.).
+Works with any tool (Claude Code, OpenCode, Cursor, ChatGPT, etc.).
 
-**Opción B: Manual**
+**Option B: Manual**
 
 ```bash
-# Copiar templates a raíz
+# Copy templates to root
 cp .ai/templates/CLAUDE.md.template CLAUDE.md
-cp .ai/templates/AGENTS.md.template AGENTS.md   # Si usas OpenCode
+cp .ai/templates/AGENTS.md.template AGENTS.md   # If using OpenCode
 
-# Editar con tu stack, dominio y restricciones
+# Edit with your stack, domain and constraints
 vim CLAUDE.md
 vim .ai/agents/project-context.md
 ```
 
-### 3. Crear skills para tu stack (solo Opción B)
+### 3. Create skills for your stack (Option B only)
 
-Si usaste bootstrap, los skills básicos ya se crearon. Si elegiste la opción manual:
+If you used bootstrap, basic skills are already created. If you chose the manual option:
 
 ```bash
-# Ejemplo: proyecto Django + React
+# Example: Django + React project
 mkdir -p .ai/skills/{django,django-pytest,react,react-testing,postgresql}
 
-# Escribir SKILL.md en cada uno con:
-# - Patrones del proyecto
-# - Errores comunes y soluciones
+# Write SKILL.md in each one with:
+# - Project patterns
+# - Common errors and solutions
 # - Checklists
 ```
 
-Ver `.ai/skills/README.md` para el formato obligatorio y ejemplos por stack.
+See `.ai/skills/README.md` for the required format and stack examples.
 
-### 4. Sincronizar
+### 4. Sync
 
 ```bash
 .ai/sync.sh
-# Genera:
-#   .claude/agents/            (formato Claude Code, tools granulares)
-#   .claude/rules/             (decisions.md + project-context.md auto-cargados)
-#   .opencode/agents/          (enlaces simbólicos)
-#   .cursorrules               (compacto)
-#   .windsurfrules             (compacto)
-#   GEMINI.md                  (compacto)
-#   .github/copilot-instructions.md (compacto)
+# Generates:
+#   .claude/agents/            (Claude Code format, granular tools)
+#   .claude/rules/             (decisions.md + project-context.md auto-loaded)
+#   .opencode/agents/          (symlinks)
+#   .cursorrules               (compact)
+#   .windsurfrules             (compact)
+#   GEMINI.md                  (compact)
+#   .github/copilot-instructions.md (compact)
 ```
 
-### 5. Validar
+### 5. Validate
 
 ```bash
 .ai/test.sh
-# Valida:
-#   Directorios y archivos obligatorios
-#   Frontmatter de agentes (description, mode, temperature)
-#   Secciones obligatorias (Quality Gates, Restricciones Fatales)
-#   Hooks ejecutables
-#   Tools granulares en agentes generados
-#   Expansión de _base.md en generados
+# Validates:
+#   Required directories and files
+#   Agent frontmatter (description, mode, temperature)
+#   Required sections (Quality Gates, Fatal Restrictions)
+#   Executable hooks
+#   Granular tools in generated agents
+#   _base.md expansion in generated files
 ```
 
-## Prompts reutilizables
+### What to commit vs gitignore
 
-| Prompt | Cuando usarlo | Obligatorio | Que genera |
-|---|---|---|---|
-| `prompts/bootstrap.md` | Al adoptar el template (día 0) | Si | project-context.md, CLAUDE.md, AGENTS.md, decisions.md, skills |
-| `prompts/feature-spec.md` | Antes de implementar una feature compleja | No | docs/specs/FEAT-XXX-nombre.md |
-| `prompts/refine-skills.md` | Después de 2-3 features implementadas | No | Skills refinados con patrones reales del proyecto |
-| `prompts/legacy-audit.md` | Antes de modernizar código legacy | No | docs/legacy-audit.md con inventario, riesgos y plan |
+When you adopt this template in your project, some files are **source** (commit them) and others are **generated** by `sync.sh` (gitignore them). The `.gitignore` included in the template already handles this, but here's the full picture:
 
-**Bootstrap** es el único obligatorio. **Feature Spec** es opcional (ver sección "Memoria persistente > Feature Specs"). **Refine Skills** mejora los skills genéricos del bootstrap con patrones reales de tu código. **Legacy Audit** analiza código existente y propone un plan de modernización incremental (Flujo 5 del orchestrator).
-
-## Agentes incluidos
-
-11 agentes especializados (subagent) + orchestrator (routing, solo OpenCode) + project-context (contexto compartido) + _base (boilerplate).
-
-| Agente | Misión | Gates clave |
+| File/Directory | Commit? | Why |
 |---|---|---|
-| product-owner | User Stories con ROI | Formato US, criterios medibles, valor claro |
-| architect | Integridad arquitectonica, dependency rule | Domain puro, flujo e2e, contratos completos |
-| tdd-developer | RED-GREEN-REFACTOR | Test falla primero, ambas suites, DI compila |
-| database-engineer | Schema + migraciones | Reversibles, índices, mapeo ORM verificado |
-| security-auditor | OWASP Top 10:2025 | Inputs validados, sin secrets, supply chain, excepciones |
-| qa-engineer | Coverage 100/80/0 | Piramide testing, sin tests ignorados |
+| `.ai/` (entire directory) | **Yes** | Source of truth: agents, skills, hooks, prompts, templates |
+| `CLAUDE.md` | **Yes** | Main config, filled by bootstrap |
+| `AGENTS.md` | **Yes** | OpenCode config, filled by bootstrap |
+| `.claude/settings.json` | **Yes** | Hooks + MCP config (shared with team) |
+| `.claudeignore` | **Yes** | Tells Claude Code what to skip |
+| `docs/` | **Yes** | Specs, ADRs, guides |
+| `.claude/agents/` | **No** | Generated by `sync.sh` from `.ai/agents/` |
+| `.claude/rules/` | **No** | Generated copies of decisions.md + project-context.md |
+| `.claude/skills` | **No** | Symlink to `.ai/skills` |
+| `.opencode/` | **No** | Symlinks + copies, generated by `sync.sh` |
+| `.cursorrules` | **No** | Generated compact rules |
+| `.windsurfrules` | **No** | Generated compact rules |
+| `GEMINI.md` | **No** | Generated compact rules |
+| `.github/copilot-instructions.md` | **No** | Generated compact rules |
+| `.ai/.local/` | **No** | Session state, local per developer |
+
+> **Rule:** if `sync.sh` generates it, gitignore it. If you edit it by hand, commit it.
+
+The included `.gitignore` already has these entries. If your project has an existing `.gitignore`, merge the entries from the template's `.gitignore` into yours.
+
+## Reusable Prompts
+
+| Prompt | When to use | Required | What it generates |
+|---|---|---|---|
+| `prompts/bootstrap.md` | When adopting the template (day 0) | Yes | project-context.md, CLAUDE.md, AGENTS.md, decisions.md, skills |
+| `prompts/feature-spec.md` | Before implementing a complex feature | No | docs/specs/FEAT-XXX-name.md |
+| `prompts/refine-skills.md` | After 2-3 implemented features | No | Refined skills with real project patterns |
+| `prompts/legacy-audit.md` | Before modernizing legacy code | No | docs/legacy-audit.md with inventory, risks and plan |
+
+**Bootstrap** is the only required one. **Feature Spec** is optional (see "Persistent Memory > Feature Specs" section). **Refine Skills** improves the generic bootstrap skills with real patterns from your code. **Legacy Audit** analyzes existing code and proposes an incremental modernization plan (Orchestrator Flow 5).
+
+## Included Agents
+
+11 specialized agents (subagent) + orchestrator (routing, OpenCode only) + project-context (shared context) + _base (boilerplate).
+
+| Agent | Mission | Key Gates |
+|---|---|---|
+| product-owner | User Stories with ROI | US format, measurable criteria, clear value |
+| architect | Architectural integrity, dependency rule | Pure Domain, e2e flow, complete contracts |
+| tdd-developer | RED-GREEN-REFACTOR | Test fails first, both suites, DI compiles |
+| database-engineer | Schema + migrations | Reversible, indexes, verified ORM mapping |
+| security-auditor | OWASP Top 10:2025 | Validated inputs, no secrets, supply chain, exceptions + conditional gates (auth, passwords, uploads, CSRF, cookies, SSRF) |
+| qa-engineer | Coverage 100/80/0 | Testing pyramid, no ignored tests |
 | performance-engineer | Core Web Vitals | p95 < 200ms, LCP/FID/CLS, bundle < 100KB |
-| devops | CI/CD + Git workflow | Pipeline verde, infra declarativa, deployment readiness, PR docs |
-| observability-engineer | Metrics + logs | Metricas negocio, logs JSON, health checks |
-| technical-writer | Docs vivas | Ejemplos funcionales, ADRs completos, setup < 15min |
-| ux-designer | WCAG 2.2 AA | Contraste 4.5:1, targets 44x44px, teclado |
+| devops | CI/CD + Git workflow | Green pipeline, declarative infra, deployment readiness, PR docs |
+| observability-engineer | Metrics + logs | Business metrics, JSON logs, health checks |
+| technical-writer | Living docs | Functional examples, complete ADRs, setup < 15min |
+| ux-designer | WCAG 2.2 AA | Contrast 4.5:1, targets 44x44px, keyboard |
 
-## Postura arquitectonica: Clean Architecture (opinionated)
+## Architectural Stance: Clean Architecture (opinionated)
 
-Este template asume **Clean Architecture** (dependency rule, domain puro). Los Quality Gates del `@architect` validan:
+This template assumes **Clean Architecture** (dependency rule, pure domain). The `@architect` Quality Gates validate:
 
-- El Dominio no importa clases de Infraestructura
-- La lógica de negocio vive en Domain, no en Controllers ni Models del framework
-- Los contratos (interfaces) entre capas transportan todos los datos necesarios
+- The Domain does not import Infrastructure classes
+- Business logic lives in Domain, not in Controllers or framework Models
+- Contracts (interfaces) between layers carry all necessary data
 
-Estos principios son compartidos por Clean Architecture, Hexagonal (Ports & Adapters) y Onion Architecture — los tres son compatibles con el template.
+These principles are shared by Clean Architecture, Hexagonal (Ports & Adapters) and Onion Architecture — all three are compatible with the template.
 
-### Compatibilidad por patrón arquitectonico
+### Compatibility by architectural pattern
 
-| Patron | Compatible | Motivo |
+| Pattern | Compatible | Reason |
 |---|---|---|
-| Clean Architecture | Si | Los gates estan disenados para este patrón |
-| Hexagonal (Ports & Adapters) | Si | Mismo principio: dependency rule, domain al centro |
-| Onion Architecture | Si | Predecesor de Clean Architecture, mismos principios |
-| MVC puro (Laravel, Django, Rails) | **No** | El Model hereda del ORM, Domain y Infrastructure acoplados. Los gates del architect estarian en conflicto permanente |
-| MVC + Clean Architecture (Laravel Beyond CRUD) | Si | Si separas Domain del ORM, los gates aplican |
+| Clean Architecture | Yes | Gates are designed for this pattern |
+| Hexagonal (Ports & Adapters) | Yes | Same principle: dependency rule, domain at the center |
+| Onion Architecture | Yes | Predecessor of Clean Architecture, same principles |
+| Pure MVC (Laravel, Django, Rails) | **No** | Model inherits from ORM, Domain and Infrastructure coupled. Architect gates would be in permanent conflict |
+| MVC + Clean Architecture (Laravel Beyond CRUD) | Yes | If you separate Domain from ORM, gates apply |
 
-### Por que no soportar MVC
+### Why not support MVC
 
-En MVC puro, `User extends Model` — la entidad **es** el ORM. La lógica de negocio vive en Controllers o Models. No hay capas separadas. Esto contradice los gates fundamentales del template:
+In pure MVC, `User extends Model` — the entity **is** the ORM. Business logic lives in Controllers or Models. There are no separate layers. This contradicts the template's fundamental gates:
 
-- **Architect Gate 1** (entidades sin dependencias externas) → en MVC, la entidad hereda del framework
-- **Architect Gate 2** (lógica en Domain) → en MVC, vive en Controllers
-- **TDD Gate 4** (DI compila) → MVC usa facades y auto-wiring implícito
+- **Architect Gate 1** (entities without external dependencies) → in MVC, the entity inherits from the framework
+- **Architect Gate 2** (logic in Domain) → in MVC, it lives in Controllers
+- **TDD Gate 4** (DI compiles) → MVC uses facades and implicit auto-wiring
 
-**Conclusion:** Si tu proyecto usa MVC puro, este template no es para ti. Si usas cualquier variante con dependency rule y domain puro, funciona independientemente del framework.
+**Conclusion:** If your project uses pure MVC, this template is not for you. If you use any variant with dependency rule and pure domain, it works regardless of the framework.
 
-## Por que existen estos gates
+## Why These Gates Exist
 
-Los Quality Gates no son teoria. Nacieron de cadenas reales de PRs correctivos donde un error no detectado provoco múltiples fixes consecutivos:
+Quality Gates are not theory. They were born from real chains of corrective PRs where an undetected error caused multiple consecutive fixes:
 
-| Cadena de error | PRs correctivos | Causa raíz | Gate que lo previene |
+| Error chain | Corrective PRs | Root cause | Gate that prevents it |
 |---|---|---|---|
-| Integracion ORM rota | 3 consecutivos | DI no verificado tras GREEN | tdd-developer Gate 4: verificar DI compila |
-| Cascade de deployment | 9 consecutivos | Sin health check ni env vars | devops Gates 3-4: readiness check |
-| Security/CSP headers | 5 consecutivos | Security y observability no coordinados | Verificación cruzada entre agentes |
-| Auditoria reactiva | 6 consecutivos | Gates sin paso de verificación final | Verificación Final en cada agente |
+| Broken ORM integration | 3 consecutive | DI not verified after GREEN | tdd-developer Gate 4: verify DI compiles |
+| Deployment cascade | 9 consecutive | No health check or env vars | devops Gates 3-4: readiness check |
+| Security/CSP headers | 5 consecutive | Security and observability not coordinated | Cross-verification between agents |
+| Reactive auditing | 6 consecutive | Gates without final verification step | Final Verification in each agent |
 
-Cada gate existe porque su ausencia causo trabajo repetido y evitable.
+Each gate exists because its absence caused repeated and avoidable work.
 
-## Ahorro de tokens
+## Token Savings
 
-Cada decisión de diseño del template reduce el consumo de tokens:
+### Language strategy
 
-| Mejora | Por que ahorra tokens |
+All files consumed by the AI (agents, skills, decisions, templates, hooks) are written in **English** to minimize token usage. English is more token-efficient than most languages, which means lower cost and more room in the context window.
+
+User-facing files (README, guides) are bilingual: English primary (`README.md`, `docs/guides/`) + Spanish (`README.es.md`, `docs/guides/es/`). Project output (specs, ADRs, docs) can be in whatever language the user prefers.
+
+### Design decisions
+
+Every design decision in the template reduces token consumption:
+
+| Improvement | Why it saves tokens |
 |---|---|
-| `project-context.md` | Restricciones del proyecto en 1 fichero. Sin el, cada agente las repite en su prompt |
-| `decisions.md` | Decisiones rápidas (~30 líneas). Evita re-descubrir o preguntar lo ya decidido |
-| Feature Specs | Un spec compartido reemplaza N explicaciones parciales a N agentes |
-| Reglas compactas | `sync.sh` genera 1 fichero para Cursor/Windsurf/Gemini/Copilot vs 11 agentes completos |
-| Agentes bajo demanda | Solo se carga el agente invocado, no los 11 |
-| Sub-CLAUDE.md por módulo | `backend/CLAUDE.md` no se carga al trabajar en frontend |
-| `_base.md` + expansión | Boilerplate compartido en fuente, expandido en generados |
+| English for AI files | ~20-30% fewer tokens than Spanish/other languages for the same content |
+| `project-context.md` | Project constraints in 1 file. Without it, each agent repeats them in its prompt |
+| `decisions.md` | Quick decisions (~30 lines). Avoids re-discovering or asking about what's already decided |
+| Feature Specs | A shared spec replaces N partial explanations to N agents |
+| Compact rules | `sync.sh` generates 1 file for Cursor/Windsurf/Gemini/Copilot vs 11 complete agents |
+| On-demand agents | Only the invoked agent is loaded, not all 11 |
+| Sub-CLAUDE.md per module | `backend/CLAUDE.md` is not loaded when working on frontend |
+| `_base.md` + expansion | Shared boilerplate in source, expanded in generated files |
 
-## Optimización de tokens
+## Token Optimization
 
-### Jerarquía de carga
-
-```
-Siempre cargado (cada mensaje):
-  └── CLAUDE.md / AGENTS.md         → MANTENER < 120 líneas
-
-Bajo demanda (solo cuando se invoca):
-  ├── .ai/agents/*.md               → Sin limite
-  └── .ai/skills/*.md               → Sin limite
-
-Por directorio (solo en ese contexto):
-  ├── backend/CLAUDE.md             → Stack backend
-  └── frontend/CLAUDE.md            → Stack frontend
-```
-
-### Recomendaciones
-- El fichero principal NO debe incluir: templates, snippets, checklists, workflows detallados
-- Los roles en el fichero principal son una lista compacta (1 línea por rol)
-- Los detalles de cada rol van en `.ai/agents/{rol}.md`
-- Los detalles del framework van en `.ai/skills/{skill}/SKILL.md`
-- Crear sub-CLAUDE.md por módulo para contexto específico del stack
-
-## Orchestrator y verificación cruzada
-
-El `orchestrator.md` es el agente principal (mode: `primary`) que:
-1. **Routing**: analiza la intención del usuario y enruta al agente correcto
-2. **Verificación cruzada**: después de implementar, coordina rondas de revisión entre agentes
-
-### El problema que resuelve
-
-Sin verificación cruzada, cada agente trabaja aislado. El @tdd-developer puede escribir tests que pasan pero el @architect no verifica que los datos fluyen correctamente entre capas. El resultado: bugs que ningun agente individual detecta.
-
-### Patron de verificación cruzada
+### Loading Hierarchy
 
 ```
-@tdd-developer (implementa)
+Always loaded (every message):
+  └── CLAUDE.md / AGENTS.md         → KEEP < 120 lines
+
+On demand (only when invoked):
+  ├── .ai/agents/*.md               → No limit
+  └── .ai/skills/*.md               → No limit
+
+Per directory (only in that context):
+  ├── backend/CLAUDE.md             → Backend stack
+  └── frontend/CLAUDE.md            → Frontend stack
+```
+
+### Recommendations
+- The main file should NOT include: templates, snippets, checklists, detailed workflows
+- Roles in the main file are a compact list (1 line per role)
+- Details of each role go in `.ai/agents/{role}.md`
+- Framework details go in `.ai/skills/{skill}/SKILL.md`
+- Create sub-CLAUDE.md per module for stack-specific context
+
+## Orchestrator and Cross-Verification
+
+The `orchestrator.md` is the main agent (mode: `primary`) that:
+1. **Routing**: analyzes the user's intent and routes to the correct agent
+2. **Cross-verification**: after implementation, coordinates review rounds between agents
+
+### The Problem It Solves
+
+Without cross-verification, each agent works in isolation. The @tdd-developer can write passing tests but the @architect doesn't verify that data flows correctly between layers. The result: bugs that no individual agent detects.
+
+### Cross-Verification Pattern
+
+```
+@tdd-developer (implements)
        |
        v
-@architect (verifica flujo de datos e2e entre capas)
+@architect (verifies e2e data flow between layers)
        |
-   Problemas? --Si--> @tdd-developer (corrige) --> volver a @architect
+   Issues? --Yes--> @tdd-developer (fixes) --> back to @architect
        |
        No
        v
-@security-auditor (revisa OWASP)
+@security-auditor (reviews OWASP)
        |
-   Problemas? --Si--> @tdd-developer (corrige) --> volver a @security-auditor
+   Issues? --Yes--> @tdd-developer (fixes) --> back to @security-auditor
        |
        No
        v
-Listo para commit
+Ready for commit
 ```
 
-### Cuando aplicar
-- Se modifican contratos (interfaces) entre capas
-- Se añade un nuevo endpoint o servicio
-- Se modifica la capa de Infrastructure (DI, persistencia)
+### When to Apply
+- Contracts (interfaces) between layers are modified
+- A new endpoint or service is added
+- The Infrastructure layer is modified (DI, persistence)
 
-### Cuando NO aplicar
-- Fixes puntuales dentro de una sola capa
-- Cambios de documentación
-- Refactors que no alteran contratos
+### When NOT to Apply
+- Isolated fixes within a single layer
+- Documentation changes
+- Refactors that don't alter contracts
 
-### Comportamiento segun herramienta
+### Behavior per Tool
 
-| Herramienta | Quien ejecuta el patrón |
+| Tool | Who executes the pattern |
 |---|---|
-| OpenCode | `orchestrator.md` (agente primary, lo ejecuta automáticamente) |
-| Claude Code | La sesión principal (lee el Workflow en CLAUDE.md) + gates de cada agente |
-| Agent Teams (experimental) | Los teammates se comunican directamente entre ellos |
+| OpenCode | `orchestrator.md` (primary agent, executes automatically) |
+| Claude Code | The main session (reads Workflow in CLAUDE.md) + each agent's gates |
+| Agent Teams (experimental) | Teammates communicate directly with each other |
 
-**Nota sobre Claude Code:** no usa `orchestrator.md` (hace routing automático). El patrón de verificación cruzada se implementa via los Quality Gates de cada agente (ej: Gate 4 del @tdd-developer dice "verificar que el DI compila y ambas suites pasan") y el Workflow en `CLAUDE.md`. El `sync.sh` excluye el orchestrator al generar `.claude/agents/`.
+**Note on Claude Code:** it doesn't use `orchestrator.md` (it does automatic routing). The cross-verification pattern is implemented via each agent's Quality Gates (e.g.: @tdd-developer Gate 4 says "verify DI compiles and both suites pass") and the Workflow in `CLAUDE.md`. `sync.sh` excludes the orchestrator when generating `.claude/agents/`.
 
-**Nota sobre Agent Teams:** Claude Code tiene una feature experimental ([agent teams](https://code.claude.com/docs/en/agent-teams)) donde múltiples instancias se comunican directamente entre si. Con agent teams, la verificación cruzada seria nativa: el @architect teammate enviaria un mensaje al @tdd-developer teammate sin intermediario. Los agentes de este template son compatibles con agent teams (cada teammate carga su `agents/*.md` automáticamente).
+**Note on Agent Teams:** Claude Code has an experimental feature ([agent teams](https://code.claude.com/docs/en/agent-teams)) where multiple instances communicate directly with each other. With agent teams, cross-verification would be native: the @architect teammate would send a message to the @tdd-developer teammate without an intermediary. The agents in this template are compatible with agent teams (each teammate loads its `agents/*.md` automatically).
 
-## Donde implementar la verificación cruzada
+## Where to Implement Cross-Verification
 
-La verificación cruzada se puede implementar de 3 formas. No son excluyentes, pero **no dupliques**:
+Cross-verification can be implemented in 3 ways. They are not mutually exclusive, but **don't duplicate**:
 
-### Opción 1: En los Quality Gates de cada agente (recomendado)
+### Option 1: In each agent's Quality Gates (recommended)
 
-Los gates de cada agente ya incluyen verificaciones que fuerzan la coordinación:
+Each agent's gates already include verifications that force coordination:
 
 ```markdown
 # tdd-developer.md - Gate 4
-Verificar integración después de GREEN:
-  - El contenedor de dependencias compila sin errores
-  - Ambas suites de tests pasan (Unit + Functional)
+Verify integration after GREEN:
+  - The dependency container compiles without errors
+  - Both test suites pass (Unit + Functional)
 
 # architect.md - Gate 3
-Verificar flujo de datos e2e entre capas:
-  - Los contratos definen TODOS los parámetros necesarios
-  - El dato fluye completo entre capas sin perdida
+Verify e2e data flow between layers:
+  - Contracts define ALL necessary parameters
+  - Data flows completely between layers without loss
 ```
 
-**Ventaja:** La verificación esta embebida en el agente. No necesita coordinación externa.
-**Coste tokens:** 0 extra (los gates ya se cargan con el agente).
-**Compatible con:** Todas las herramientas.
+**Advantage:** Verification is embedded in the agent. No external coordination needed.
+**Token cost:** 0 extra (gates are already loaded with the agent).
+**Compatible with:** All tools.
 
-### Opción 2: En el orchestrator (OpenCode)
+### Option 2: In the orchestrator (OpenCode)
 
-El `orchestrator.md` ejecuta el flujo secuencial automáticamente. Util cuando la herramienta tiene un agente primary que coordina a los demas.
+`orchestrator.md` executes the sequential flow automatically. Useful when the tool has a primary agent that coordinates others.
 
-**Ventaja:** Flujo explícito, el orchestrator decide cuando lanzar cada verificación.
-**Coste tokens:** Bajo (el orchestrator se carga una vez).
-**Compatible con:** OpenCode y herramientas con agente primary.
+**Advantage:** Explicit flow, the orchestrator decides when to launch each verification.
+**Token cost:** Low (orchestrator is loaded once).
+**Compatible with:** OpenCode and tools with a primary agent.
 
-### Opción 3: Agent Teams (Claude Code experimental)
+### Option 3: Agent Teams (Claude Code experimental)
 
-Los teammates se envian mensajes directamente. La verificación es nativa y paralela.
+Teammates send messages directly to each other. Verification is native and parallel.
 
 ```
-@architect → mensaje a @tdd-developer: "el DTO necesita el campo label"
-@tdd-developer → mensaje a @architect: "anadido, revisa el contrato"
-@security-auditor → mensaje a ambos: "sanitizad el label contra injection"
+@architect → message to @tdd-developer: "the DTO needs the label field"
+@tdd-developer → message to @architect: "added, review the contract"
+@security-auditor → message to both: "sanitize the label against injection"
 ```
 
-**Ventaja:** Debate real en paralelo, sin intermediario.
-**Coste tokens:** Alto (cada teammate es una instancia completa).
-**Compatible con:** Solo Claude Code (experimental, requiere `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`).
+**Advantage:** Real parallel debate, no intermediary.
+**Token cost:** High (each teammate is a full instance).
+**Compatible with:** Claude Code only (experimental, requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`).
 
-### Que NO hacer
+### What NOT to Do
 
-- **No duplicar** el patrón en CLAUDE.md si ya esta en los gates de los agentes. El CLAUDE.md se carga en cada mensaje y duplicar la verificación desperdicia tokens sin beneficio.
-- **No activar agent teams por defecto.** Usarlo puntualmente para features complejas que tocan múltiples capas simultaneamente (frontend + backend + tests).
-- **No añadir verificación cruzada a todo.** Solo aplica cuando se modifican contratos entre capas, se añaden endpoints, o se toca Infrastructure. Un fix puntual no lo necesita.
+- **Don't duplicate** the pattern in CLAUDE.md if it's already in the agents' gates. CLAUDE.md is loaded in every message and duplicating verification wastes tokens with no benefit.
+- **Don't enable agent teams by default.** Use it occasionally for complex features that touch multiple layers simultaneously (frontend + backend + tests).
+- **Don't add cross-verification to everything.** Only applies when modifying contracts between layers, adding endpoints, or touching Infrastructure. A simple fix doesn't need it.
 
-### Resumen
+### Summary
 
-| Estrategia | Tokens | Paralelismo | Complejidad | Cuando usar |
+| Strategy | Tokens | Parallelism | Complexity | When to use |
 |---|---|---|---|---|
-| Gates en agentes | 0 extra | No (secuencial) | Baja | Siempre (base) |
-| Orchestrator | Bajo | No (secuencial) | Media | OpenCode / herramientas con primary agent |
-| Agent Teams | Alto | Si (real) | Alta | Features complejas multi-capa, puntualmente |
+| Gates in agents | 0 extra | No (sequential) | Low | Always (base) |
+| Orchestrator | Low | No (sequential) | Medium | OpenCode / tools with primary agent |
+| Agent Teams | High | Yes (real) | High | Complex multi-layer features, occasionally |
 
-Empieza con los gates (opción 1). Si necesitas coordinación explícita en OpenCode, usa el orchestrator (opción 2). Si una feature toca muchas capas y necesitas debate real, prueba agent teams (opción 3).
+Start with gates (option 1). If you need explicit coordination in OpenCode, use the orchestrator (option 2). If a feature touches many layers and you need real debate, try agent teams (option 3).
 
-## Como funciona Claude Code (y por que importa para los agentes)
+## How Claude Code Works (and why it matters for agents)
 
-Claude Code es un agente que corre en tu terminal. Funciona en un bucle de 3 fases:
-
-```
-Tu prompt → Recopilar contexto → Actuar → Verificar → Repetir hasta completar
-                   ↑                                          |
-                   └──── Tu puedes interrumpir en cualquier punto
-```
-
-### Que puede acceder
-
-| Recurso | Descripción |
-|---------|-------------|
-| Tu proyecto | Ficheros, estructura, dependencias |
-| Terminal | Cualquier comando (git, npm, docker, etc.) |
-| CLAUDE.md | Instrucciones persistentes (se carga en CADA mensaje) |
-| .ai/agents/*.md | Agentes bajo demanda (se cargan solo cuando se invoca el rol) |
-| .ai/skills/*.md | Skills bajo demanda (se cargan solo cuando se consultan) |
-| MCP servers | Herramientas externas (BD, docs, error tracking, etc.) |
-
-### Gestión del contexto
-
-La ventana de contexto se llena con: historial de conversacion, ficheros leidos, outputs de comandos, CLAUDE.md, skills cargados y tool definitions de MCP.
+Claude Code is an agent that runs in your terminal. It works in a 3-phase loop:
 
 ```
-Siempre en contexto (cada mensaje):
-  ├── CLAUDE.md                    → MANTENER < 120 líneas
-  ├── Tool definitions de MCP      → Cada MCP añade sus tools
-  └── Historial de conversacion    → Se compacta automáticamente
-
-Bajo demanda (solo cuando se usa):
-  ├── .ai/agents/*.md              → Se carga al invocar el rol
-  ├── .ai/skills/*.md              → Se carga al consultar
-  └── Subagents                    → Contexto separado (no inflan el tuyo)
+Your prompt → Gather context → Act → Verify → Repeat until complete
+                   ↑                                     |
+                   └──── You can interrupt at any point
 ```
 
-**Comandos útiles:**
-- `/context` - Ver que esta usando espacio en la ventana de contexto
-- `/compact` - Compactar manualmente (ej: `/compact focus on the API changes`)
-- `/mcp` - Ver estado y coste en tokens de cada MCP server
+### What It Can Access
 
-**Implicacion para este template:** Por eso el CLAUDE.md debe ser compacto (~100 líneas). Los detalles van en `.ai/agents/` y `.ai/skills/` que solo se cargan cuando se necesitan. Si duplicas contenido de los agentes en el CLAUDE.md, desperdicias tokens en cada mensaje.
+| Resource | Description |
+|----------|-------------|
+| Your project | Files, structure, dependencies |
+| Terminal | Any command (git, npm, docker, etc.) |
+| CLAUDE.md | Persistent instructions (loaded in EVERY message) |
+| .ai/agents/*.md | On-demand agents (loaded only when role is invoked) |
+| .ai/skills/*.md | On-demand skills (loaded only when consulted) |
+| MCP servers | External tools (DB, docs, error tracking, etc.) |
 
-## MCP Servers recomendados
+### Context Management
 
-Los MCP (Model Context Protocol) servers extienden las capacidades de Claude Code conectandolo a herramientas externas. Se configuran una vez y estan disponibles en cada sesión.
+The context window fills with: conversation history, read files, command outputs, CLAUDE.md, loaded skills and MCP tool definitions.
 
-### Para cualquier proyecto de desarrollo
+```
+Always in context (every message):
+  ├── CLAUDE.md                    → KEEP < 120 lines
+  ├── MCP tool definitions         → Each MCP adds its tools
+  └── Conversation history         → Auto-compacted
 
-| MCP | Que aporta | Comando |
-|-----|-----------|---------|
-| **Context7** | Documentación actualizada de cualquier libreria en tiempo real. Evita que Claude use APIs obsoletas o patrones deprecated. | `claude mcp add context7 -- npx -y @upstash/context7-mcp@latest` |
+On demand (only when used):
+  ├── .ai/agents/*.md              → Loaded when role is invoked
+  ├── .ai/skills/*.md              → Loaded when consulted
+  └── Subagents                    → Separate context (don't inflate yours)
+```
 
-### Según tu stack (añadir si aplica)
+**Useful commands:**
+- `/context` - See what's using space in the context window
+- `/compact` - Manually compact (e.g.: `/compact focus on the API changes`)
+- `/mcp` - See status and token cost of each MCP server
 
-| MCP | Que aporta | Comando |
-|-----|-----------|---------|
-| **PostgreSQL** | Consultar schema, tablas e índices desde la sesión | `claude mcp add --transport stdio db -- npx -y @bytebase/dbhub --dsn "postgresql://user:pass@host:5432/db"` |
-| **Sentry** | Debuggear errores de producción directamente | `claude mcp add --transport http sentry https://mcp.sentry.dev/mcp` |
-| **GitHub** | PRs, issues, CI/CD sin salir de Claude | `claude mcp add --transport http github https://api.githubcopilot.com/mcp/` |
-| **Linear** | Gestión de issues y proyectos | `claude mcp add --transport http linear https://mcp.linear.app/mcp` |
+**Implication for this template:** That's why CLAUDE.md must be compact (~100 lines). Details go in `.ai/agents/` and `.ai/skills/` which are only loaded when needed. If you duplicate agent content in CLAUDE.md, you waste tokens on every message.
+
+## Recommended MCP Servers
+
+MCP (Model Context Protocol) servers extend Claude Code's capabilities by connecting it to external tools. Configured once and available in every session.
+
+### For any development project
+
+| MCP | What it provides | Command |
+|-----|-----------------|---------|
+| **Context7** | Up-to-date documentation for any library in real time. Prevents Claude from using obsolete APIs or deprecated patterns. | `claude mcp add context7 -- npx -y @upstash/context7-mcp@latest` |
+
+### Based on your stack (add if applicable)
+
+| MCP | What it provides | Command |
+|-----|-----------------|---------|
+| **PostgreSQL** | Query schema, tables and indexes from the session | `claude mcp add --transport stdio db -- npx -y @bytebase/dbhub --dsn "postgresql://user:pass@host:5432/db"` |
+| **Sentry** | Debug production errors directly | `claude mcp add --transport http sentry https://mcp.sentry.dev/mcp` |
+| **GitHub** | PRs, issues, CI/CD without leaving Claude | `claude mcp add --transport http github https://api.githubcopilot.com/mcp/` |
+| **Linear** | Issue and project management | `claude mcp add --transport http linear https://mcp.linear.app/mcp` |
 | **Atlassian** | Jira + Confluence | `claude mcp add --transport http atlassian https://mcp.atlassian.com/v1/mcp` |
 
-### MCPs que NO necesitas
+### MCPs You DON'T Need
 
-| MCP | Razon |
-|-----|-------|
-| Filesystem | Claude Code ya tiene Read/Write/Edit/Glob/Grep nativos |
-| Docker | Los comandos docker via Bash son suficientes |
-| Git | Claude Code ya tiene integración nativa con git |
+| MCP | Reason |
+|-----|--------|
+| Filesystem | Claude Code already has native Read/Write/Edit/Glob/Grep |
+| Docker | Docker commands via Bash are sufficient |
+| Git | Claude Code already has native git integration |
 
-### Gestión de MCPs
+### MCP Management
 
 ```bash
-# Instalar un MCP
-claude mcp add <nombre> -- <comando>
+# Install an MCP
+claude mcp add <name> -- <command>
 
-# Listar MCPs configurados
+# List configured MCPs
 claude mcp list
 
-# Ver detalles de un MCP
+# View MCP details
 claude mcp get context7
 
-# Eliminar un MCP
+# Remove an MCP
 claude mcp remove context7
 
-# Dentro de Claude Code: ver estado y coste
+# Inside Claude Code: view status and token cost
 /mcp
 
-# Autenticar MCPs remotos que usan OAuth
-/mcp → seleccionar servidor → Authenticate
+# Authenticate remote MCPs using OAuth
+/mcp → select server → Authenticate
 ```
 
-### Scopes (donde se guarda la configuración)
+### Scopes (where configuration is saved)
 
-| Scope | Flag | Donde se guarda | Para que |
-|-------|------|-----------------|----------|
-| `local` | (default) | `~/.claude.json` | Solo tu, solo este proyecto |
-| `project` | `--scope project` | `.mcp.json` (raíz del proyecto) | Compartido con el equipo (committear a git) |
-| `user` | `--scope user` | `~/.claude.json` | Tu, en todos tus proyectos |
+| Scope | Flag | Where it's saved | Purpose |
+|-------|------|------------------|---------|
+| `local` | (default) | `~/.claude.json` | Only you, only this project |
+| `project` | `--scope project` | `.mcp.json` (project root) | Shared with the team (commit to git) |
+| `user` | `--scope user` | `~/.claude.json` | You, across all your projects |
 
 ```bash
-# MCP disponible en todos tus proyectos
+# MCP available in all your projects
 claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp@latest
 
-# MCP compartido con el equipo (se guarda en .mcp.json)
+# MCP shared with the team (saved in .mcp.json)
 claude mcp add --scope project --transport http sentry https://mcp.sentry.dev/mcp
 ```
 
-### Coste en tokens de los MCPs
+### Token Cost of MCPs
 
-Cada MCP añade sus tool definitions al contexto de cada mensaje. Con 2-3 MCPs el impacto es bajo. Si tienes muchos, Claude Code activa **Tool Search** automáticamente: en vez de cargar todas las tools, las busca bajo demanda.
+Each MCP adds its tool definitions to every message's context. With 2-3 MCPs the impact is low. If you have many, Claude Code enables **Tool Search** automatically: instead of loading all tools, it searches them on demand.
 
 ```bash
-# Ver cuantos tokens consume cada MCP
+# See how many tokens each MCP consumes
 /mcp
 
-# Forzar Tool Search (si tienes muchos MCPs)
+# Force Tool Search (if you have many MCPs)
 ENABLE_TOOL_SEARCH=true claude
 
-# Desactivar Tool Search
+# Disable Tool Search
 ENABLE_TOOL_SEARCH=false claude
 ```
 
-**Recomendación:** Instala solo los MCPs que uses activamente. Context7 es el único universalmente útil para desarrollo. El resto depende de tu stack y fase del proyecto.
+**Recommendation:** Only install MCPs you actively use. Context7 is the only universally useful one for development. The rest depends on your stack and project phase.
 
-## Ciclo de vida de un agente
+## Agent Lifecycle
 
-Los agentes son **efímeros**: nacen limpios, ejecutan su tarea y mueren. No tienen memoria entre sesiones.
+Agents are **ephemeral**: they are born clean, execute their task and die. They have no memory between sessions.
 
 ```
-Orquestador invoca agente
+Orchestrator invokes agent
        |
        v
-  Nace limpio (carga solo su .md + skills relevantes)
+  Born clean (loads only its .md + relevant skills)
        |
        v
-  Ejecuta (trabaja con contexto mínimo)
+  Executes (works with minimal context)
        |
        v
-  Reporta (devuelve summary al orquestador)
+  Reports (returns summary to orchestrator)
        |
        v
-  Muere (contexto descartado)
+  Dies (context discarded)
 ```
 
-**Input:** El agente recibe del orquestador solo el contexto necesario para su tarea.
-**Ejecucion:** Carga sus Quality Gates y los skills relevantes. No hereda contexto de otros agentes.
-**Output:** Devuelve un resumen. El orquestador decide el siguiente paso.
+**Input:** The agent receives from the orchestrator only the context needed for its task.
+**Execution:** Loads its Quality Gates and relevant skills. Does not inherit context from other agents.
+**Output:** Returns a summary. The orchestrator decides the next step.
 
-## Anti-patrón: el agente que hace todo
+## Anti-pattern: The Agent That Does Everything
 
-Un error comun es usar un solo agente para analizar, diseñar, implementar, testear y documentar. Esto falla porque:
+A common mistake is using a single agent to analyze, design, implement, test and document. This fails because:
 
-- La ventana de contexto se llena al 80% antes de escribir la primera línea de código
-- Los Quality Gates de distintos roles pueden entrar en conflicto
-- El agente empieza a alucinar cuando el contexto se satura
+- The context window fills to 80% before writing the first line of code
+- Quality Gates from different roles can conflict
+- The agent starts hallucinating when the context is saturated
 
-**Regla:** Si la tarea requiere múltiples fases (diseño + implementación + testing), delegar a sub-agentes especializados. Cada uno trabaja con contexto limpio.
+**Rule:** If the task requires multiple phases (design + implementation + testing), delegate to specialized sub-agents. Each one works with clean context.
 
-## Model routing por agente
+## Model Routing per Agent
 
-Cada agente puede usar el modelo más adecuado para su tarea:
+Each agent can use the model best suited for its task:
 
-| Rol | Modelo sugerido | Razon |
+| Role | Suggested model | Reason |
 |---|---|---|
-| @architect, @product-owner | Razonamiento (Gemini, o1) | Analisis, diseño, decisiones |
-| @tdd-developer | Código (Opus, Claude) | Mejor en implementación |
-| @security-auditor | Código (Opus, Claude) | Analisis profundo de código |
-| @technical-writer | General (Sonnet, GPT-4o) | Documentación, suficiente calidad |
-| @devops | Rapido (Haiku, GPT-4o-mini) | Scripts, configs, tareas repetitivas |
+| @architect, @product-owner | Reasoning (Gemini, o1) | Analysis, design, decisions |
+| @tdd-developer | Code (Opus, Claude) | Best at implementation |
+| @security-auditor | Code (Opus, Claude) | Deep code analysis |
+| @technical-writer | General (Sonnet, GPT-4o) | Documentation, sufficient quality |
+| @devops | Fast (Haiku, GPT-4o-mini) | Scripts, configs, repetitive tasks |
 
-**Estado actual:** Claude Code usa un modelo por sesión. OpenCode soporta model routing. Documentado como patrón futuro para cuando las herramientas lo soporten nativamente.
+**Current state:** Claude Code uses one model per session. OpenCode supports model routing. Documented as a future pattern for when tools natively support it.
 
-## Memoria persistente entre sesiones
+## Persistent Memory Between Sessions
 
-Los agentes son efímeros, pero el conocimiento del proyecto debe persistir. Tres mecanismos complementarios:
+Agents are ephemeral, but project knowledge must persist. Three complementary mechanisms:
 
-### 1. `.claude/rules/` (siempre cargado, 0 esfuerzo)
+### 1. `.claude/rules/` (always loaded, 0 effort)
 
-`sync.sh` copia `decisions.md` y `project-context.md` a `.claude/rules/`. Claude Code los carga automáticamente en cada mensaje. Coste: ~50 líneas por mensaje. Beneficio: la IA siempre tiene contexto del proyecto sin que nadie se lo pida.
+`sync.sh` copies `decisions.md` and `project-context.md` to `.claude/rules/`. Claude Code loads them automatically in every message. Cost: ~50 lines per message. Benefit: the AI always has project context without anyone asking.
 
-### 2. Feature Specs (`docs/specs/FEAT-XXX.md`) — opcional
+### 2. Feature Specs (`docs/specs/FEAT-XXX.md`) — optional
 
-Especificaciones técnicas antes de implementar. El sistema de agentes funciona sin specs, pero un spec añade valor en situaciones concretas:
+Technical specifications before implementing. The agent system works without specs, but a spec adds value in specific situations:
 
-| Situación | Sin spec | Con spec | Recomendación |
+| Situation | Without spec | With spec | Recommendation |
 |---|---|---|---|
-| Claude Code/OpenCode + agentes | Funciona bien (agentes tienen gates) | Mejor organizado | Opciónal |
-| Feature compleja (5+ endpoints) | Contexto se puede perder en sesiones largas | El spec ancla decisiones | Recomendado |
-| Cursor/Windsurf/Gemini/Copilot | Cada prompt repite contexto parcialmente | El spec centraliza | Casi imprescindible |
-| Equipo (varios devs o sesiones) | Cada sesión interpreta distinto | El spec alinea a todos | Recomendado |
-| Feature con seguridad/privacidad | Se puede olvidar algun vector | Obliga a pensarlo antes | Recomendado |
+| Claude Code/OpenCode + agents | Works well (agents have gates) | Better organized | Optional |
+| Complex feature (5+ endpoints) | Context can be lost in long sessions | Spec anchors decisions | Recommended |
+| Cursor/Windsurf/Gemini/Copilot | Each prompt partially repeats context | Spec centralizes | Nearly essential |
+| Team (multiple devs or sessions) | Each session interprets differently | Spec aligns everyone | Recommended |
+| Feature with security/privacy | Could forget an attack vector | Forces thinking beforehand | Recommended |
 
-**Regla simple:** Si puedes explicar la feature en 2 frases y afecta 1-2 archivos, no necesitas spec. Si necesitas pensar antes de codear, hazlo.
+**Simple rule:** If you can explain the feature in 2 sentences and it affects 1-2 files, you don't need a spec. If you need to think before coding, do it.
 
-Para generar un spec, usar el prompt `.ai/prompts/feature-spec.md`. Cada agente extrae lo que necesita:
+To generate a spec, use the prompt `.ai/prompts/feature-spec.md`. Each agent extracts what it needs:
 
-| Agente | Que extrae del spec |
+| Agent | What it extracts from the spec |
 |---|---|
-| @tdd-developer | Endpoints, payloads, errores → tests |
-| @security-auditor | Inputs, rate limits → validaciones |
-| @architect | Capas, contratos → verificación |
-| @database-engineer | Schema, índices → migraciones |
+| @tdd-developer | Endpoints, payloads, errors → tests |
+| @security-auditor | Inputs, rate limits → validations |
+| @architect | Layers, contracts → verification |
+| @database-engineer | Schema, indexes → migrations |
 
-Template en `docs/specs/FEAT-TEMPLATE.md`.
+Template in `docs/specs/FEAT-TEMPLATE.md`.
 
-#### Documentación en cada PR
+#### Documentation in Each PR
 
-La documentación se incluye en la misma PR que el código, no en PRs separadas:
+Documentation is included in the same PR as the code, not in separate PRs:
 
-| Aspecto | Docs en misma PR | Docs en PR separada |
+| Aspect | Docs in same PR | Docs in separate PR |
 |---|---|---|
-| Contexto | El agente ya tiene el código cargado | Hay que re-cargar contexto |
-| Coherencia | Docs reflejan el código exacto | Riesgo de drift |
-| Review | Un solo review cubre código + docs | Dos reviews, doble coste |
-| Tokens | 0 extra (mismo contexto) | Sesión adicional completa |
+| Context | Agent already has code loaded | Must reload context |
+| Coherence | Docs reflect the exact code | Drift risk |
+| Review | One review covers code + docs | Two reviews, double cost |
+| Tokens | 0 extra (same context) | Additional full session |
 
-El `devops.md` Gate 5 incluye: "La PR incluye documentación actualizada (README, ADR si aplica, CHANGELOG)".
+The `devops.md` Gate 5 includes: "PR includes updated documentation (README, ADR if applicable, CHANGELOG)".
 
-### 3. Hooks + Engram MCP (memoria automatica, Claude Code)
+### 3. Hooks + Engram MCP (automatic memory, Claude Code)
 
-Para Claude Code, los hooks automatizan la gestión de memoria sin esfuerzo de la IA:
+For Claude Code, hooks automate memory management without AI effort:
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│ Capa 1: .claude/rules/ (AUTO-CARGADO, siempre)      │
+│ Layer 1: .claude/rules/ (AUTO-LOADED, always)        │
 │ → decisions.md, project-context.md                   │
-│ → 0 esfuerzo, 0 olvidos                             │
+│ → 0 effort, 0 forgotten                             │
 ├─────────────────────────────────────────────────────┤
-│ Capa 2: Hooks (AUTOMATICO, en eventos)               │
-│ → SessionStart: inyecta ultimo contexto              │
-│ → PreCompact: guarda estado antes de perder contexto │
-│ → SessionEnd: guarda resumen de sesión                │
+│ Layer 2: Hooks (AUTOMATIC, on events)                │
+│ → SessionStart: injects last context                 │
+│ → PreCompact: saves state before losing context      │
+│ → SessionEnd: saves session summary                  │
 ├─────────────────────────────────────────────────────┤
-│ Capa 3: Engram MCP (BAJO DEMANDA)                    │
+│ Layer 3: Engram MCP (ON DEMAND)                      │
 │ → mem_search, mem_save, mem_context                  │
-│ → Solo cuando la IA necesita más contexto            │
+│ → Only when AI needs more context                    │
 └─────────────────────────────────────────────────────┘
 ```
 
-[Engram](https://github.com/Gentleman-Programming/engram) es un binario Go con SQLite + FTS5 que ofrece memoria persistente via MCP. Cross-tool (Claude Code, OpenCode, Cursor, Windsurf, Gemini CLI). Local y privado.
+[Engram](https://github.com/Gentleman-Programming/engram) is a Go binary with SQLite + FTS5 that provides persistent memory via MCP. Cross-tool (Claude Code, OpenCode, Cursor, Windsurf, Gemini CLI). Local and private.
 
-**Sin Engram:** Los hooks guardan en archivos locales (`.ai/.local/`) como fallback.
-**Con Engram:** Busqueda full-text, deduplicacion, multi-proyecto.
+**Without Engram:** Hooks save to local files (`.ai/.local/`) as fallback.
+**With Engram:** Full-text search, deduplication, multi-project.
 
-### Memoria por herramienta
+### Memory per Tool
 
-| Herramienta | Memoria automatica | Memoria de proyecto | Nivel |
+| Tool | Automatic Memory | Project Memory | Level |
 |---|---|---|---|
-| Claude Code | `.claude/rules/` + Hooks + Engram MCP | Feature Specs + decisions.md | Idoneo |
-| OpenCode | `AGENTS.md` + Engram MCP | Feature Specs + decisions.md | Aceptable |
-| Cursor/Windsurf | compact rules + Engram MCP (si soporta) | Feature Specs + decisions.md | Limitado |
-| Gemini | `GEMINI.md` + Engram MCP (si soporta) | Feature Specs + decisions.md | Limitado |
-| Copilot | copilot-instructions.md | Feature Specs + decisions.md | Minimo |
+| Claude Code | `.claude/rules/` + Hooks + Engram MCP | Feature Specs + decisions.md | Ideal |
+| OpenCode | `AGENTS.md` + Engram MCP | Feature Specs + decisions.md | Acceptable |
+| Cursor/Windsurf | compact rules + Engram MCP (if supported) | Feature Specs + decisions.md | Limited |
+| Gemini | `GEMINI.md` + Engram MCP (if supported) | Feature Specs + decisions.md | Limited |
+| Copilot | copilot-instructions.md | Feature Specs + decisions.md | Minimal |
 
 ## project-context.md
 
-Fichero en `.ai/agents/` que contiene restricciones especificas del proyecto. Todos los agentes lo leen pero no es invocable (mode: context). Se copia automáticamente a `.claude/rules/` para ser auto-cargado.
+File in `.ai/agents/` containing project-specific constraints. All agents read it but it's not invocable (mode: context). Automatically copied to `.claude/rules/` to be auto-loaded.
 
-Incluye sección "Rutas de Artefactos" para que los agentes sepan donde crear sus documentos (docs, ADRs, specs, stories, etc.).
+Includes "Artifact Paths" section so agents know where to create their documents (docs, ADRs, specs, stories, etc.).
 
-Rellenar con: dominio, usuarios, restricciones no negociables, decisiones técnicas, límites de APIs, comandos de test.
+Fill with: domain, users, non-negotiable constraints, technical decisions, API limits, test commands.
 
-## Guias adicionales
+## Additional Guides
 
-| Guia | Descripción |
+| Guide | Description |
 |---|---|
-| **[MCPs recomendados](docs/guides/recommended-mcps.md)** | MCPs básicos y opcionales por stack, con configuración para cada herramienta (Claude Code, OpenCode, Cursor, Copilot) |
-| **[Git hooks recomendados](docs/guides/recommended-hooks.md)** | Hooks mínimos (commitlint, linter, formatter, secrets scan, tests), con ejemplos de Lefthook y Husky |
-| **[GitHub Actions workflows](docs/guides/recommended-workflows.md)** | CI/CD mínimo (CI backend/frontend, commitlint, security review con Claude Code action, deploy, Dependabot), con branch strategy para agentes |
-| **[Modelos recomendados](docs/guides/recommended-models.md)** | Que modelo usar para cada agente/tarea, estrategia de costes, modelos gratuitos y de pago |
-| **[Inicio rápido](docs/guides/getting-started.md)** | De cero a agentes funcionando en 5 minutos |
+| **[Recommended MCPs](docs/guides/recommended-mcps.md)** | Basic and optional MCPs by stack, with configuration for each tool (Claude Code, OpenCode, Cursor, Copilot) |
+| **[Recommended Git hooks](docs/guides/recommended-hooks.md)** | Minimum hooks (commitlint, linter, formatter, secrets scan, tests), with Lefthook and Husky examples |
+| **[GitHub Actions workflows](docs/guides/recommended-workflows.md)** | Minimum CI/CD (CI backend/frontend, commitlint, security review with Claude Code action, deploy, Dependabot), with branch strategy for agents |
+| **[Recommended models](docs/guides/recommended-models.md)** | Which model to use for each agent/task, cost strategy, free and paid models |
+| **[Quick start](docs/guides/getting-started.md)** | From zero to working agents in 5 minutes |
 
-## Inspiración y referencias
+## Inspiration and References
 
-- **[Engram](https://github.com/Gentleman-Programming/engram)** — Memoria persistente cross-tool via MCP (Gentleman Programming)
-- **[AGENTS.md](https://github.com/anthropics/agents-md)** — Estandar emergente para definición de agentes (Linux Foundation + Anthropic + OpenAI)
-- **[LIDR ai-specs](https://github.com/LIDR-ai/ai-specs)** — Single source of truth multi-copilot, patrón plan-then-execute
-- **[Anthropic Context Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)** — Principios de gestión de contexto para agentes
-- **[OWASP Top 10:2025](https://owasp.org/Top10/)** — Base del @security-auditor (A03 Supply Chain, A10 Exception Handling)
+- **[Engram](https://github.com/Gentleman-Programming/engram)** — Cross-tool persistent memory via MCP (Gentleman Programming)
+- **[AGENTS.md](https://github.com/anthropics/agents-md)** — Emerging standard for agent definitions (Linux Foundation + Anthropic + OpenAI)
+- **[LIDR ai-specs](https://github.com/LIDR-ai/ai-specs)** — Single source of truth multi-copilot, plan-then-execute pattern
+- **[Anthropic Context Engineering](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)** — Context management principles for agents
+- **[OWASP Top 10:2025](https://owasp.org/Top10/)** — Base for @security-auditor (A03 Supply Chain, A10 Exception Handling)
 
-## Licencia
+## License
 
-Apache License 2.0 — Uso libre (incluido comercial) con atribución obligatoria.
+Apache License 2.0 — Free use (including commercial) with required attribution.
 
-Si usas este template en tu proyecto, debes mantener el fichero `NOTICE` con la atribución al autor original. Ver [LICENSE](LICENSE) para los términos completos.
+If you use this template in your project, you must keep the `NOTICE` file with attribution to the original author. See [LICENSE](LICENSE) for full terms.

@@ -5,42 +5,42 @@ mode: context
 
 # PROJECT CONTEXT
 
-## Dominio
+## Domain
 
-Describe el dominio de negocio en 1-2 líneas.
+Describe the business domain in 1-2 lines.
 
-## Usuarios
+## Users
 
-Perfil del usuario final. Roles, necesidades especiales, contexto de uso.
+End-user profile. Roles, special needs, usage context.
 
-## Restricciones
+## Constraints
 
-Una restricción por línea. Solo las NO negociables.
+One constraint per line. Only the NON-negotiable ones.
 
-- **Licencia:**
-- **Privacidad:**
-- **Accesibilidad:**
+- **License:**
+- **Privacy:**
+- **Accessibility:**
 - **Performance:**
 
-## Decisiones Técnicas
+## Technical Decisions
 
-Decisiones ya tomadas que los agentes deben respetar. Formato: decisión — motivo.
+Decisions already made that agents must respect. Format: decision — reason.
 
-## Rutas de Artefactos
+## Artifact Paths
 
-Rutas donde cada agente debe crear/buscar sus artefactos.
+Paths where each agent should create/find its artifacts.
 
 - **Docs:**       `docs/`
-- **ADRs:**       `docs/adrs/ADR-XXX-titulo.md`
-- **Specs:**      `docs/specs/FEAT-XXX-titulo.md`
-- **Stories:**    `docs/stories/US-XXX-titulo.md`
+- **ADRs:**       `docs/adrs/ADR-XXX-title.md`
+- **Specs:**      `docs/specs/FEAT-XXX-title.md`
+- **Stories:**    `docs/stories/US-XXX-title.md`
 - **Guides:**     `docs/guides/`
 
-## Límites
+## Limits
 
-Rate limits de APIs, presupuesto, capacidad del servidor.
+API rate limits, budget, server capacity.
 
-## Comandos
+## Commands
 
 ```bash
 # Test:

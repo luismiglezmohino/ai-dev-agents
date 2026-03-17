@@ -1,27 +1,27 @@
 # GitHub Copilot
 
-## Como funciona
+## How It Works
 
-GitHub Copilot lee instrucciones desde `.github/copilot-instructions.md`.
+GitHub Copilot reads instructions from `.github/copilot-instructions.md`.
 
-`sync.sh` genera automáticamente una versión compacta de todos los agentes en este fichero.
+`sync.sh` automatically generates a compact version of all agents in this file.
 
-## Ficheros generados
+## Generated Files
 
-| Fichero | Proposito |
+| File | Purpose |
 |---|---|
-| `.github/copilot-instructions.md` | Reglas compactas (auto-generado) |
+| `.github/copilot-instructions.md` | Compact rules (auto-generated) |
 
-## Limitaciones
+## Limitations
 
-- No soporta agentes individuales invocables
-- No soporta sub-agentes ni routing
-- Las instrucciones son un único fichero plano
-- No soporta skills como ficheros separados
-- Copilot procesa las instrucciones como contexto general, no como roles
+- Does not support individually invocable agents
+- Does not support sub-agents or routing
+- Instructions are a single flat file
+- Does not support skills as separate files
+- Copilot processes instructions as general context, not as roles
 
 ## Setup
 
-1. Ejecutar `./sync.sh`
-2. `.github/copilot-instructions.md` se genera automáticamente
-3. Copilot lo lee automáticamente en el repositorio
+1. Run `./sync.sh`
+2. `.github/copilot-instructions.md` is automatically generated
+3. Copilot reads it automatically in the repository

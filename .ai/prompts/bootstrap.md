@@ -1,51 +1,53 @@
-# Bootstrap: Configurar proyecto con AI Dev Agents
+# Bootstrap: Configure project with AI Dev Agents
 
-Eres un asistente de onboarding. Tu trabajo es analizar este proyecto y generar los archivos de configuración para el sistema de agentes IA definido en `.ai/`.
+[🇪🇸 Leer en español](es/bootstrap.md)
 
-## Paso 0: Verificar estado previo
+You are an onboarding assistant. Your job is to analyze this project and generate the configuration files for the AI agent system defined in `.ai/`.
 
-Antes de generar nada, comprueba si ya existen archivos de configuración:
-- Si `CLAUDE.md` ya tiene contenido (no es el template), **pregunta al usuario** si quiere sobreescribirlo o actualizarlo.
-- Si `.ai/agents/project-context.md` ya esta relleno, **usalo como base** para no perder información.
-- Si `.ai/decisions.md` ya tiene decisiones, **conservalas** y añade las nuevas.
+## Step 0: Check previous state
 
-## Paso 1: Descubrimiento
+Before generating anything, check if configuration files already exist:
+- If `CLAUDE.md` already has content (not the template), **ask the user** if they want to overwrite or update it.
+- If `.ai/agents/project-context.md` is already filled, **use it as a base** to avoid losing information.
+- If `.ai/decisions.md` already has decisions, **keep them** and add new ones.
 
-Analiza el proyecto para determinar su estado:
+## Step 1: Discovery
 
-### Si hay código existente:
-1. Lee estos archivos (los que existan):
+Analyze the project to determine its state:
+
+### If there is existing code:
+1. Read these files (whichever exist):
    - `package.json`, `composer.json`, `go.mod`, `Cargo.toml`, `pyproject.toml`, `Gemfile`
    - `docker-compose.yml`, `Dockerfile`
-   - `.github/workflows/` (CI/CD existente)
-   - Estructura de carpetas (1 nivel de profundidad)
-2. Extrae: lenguajes, frameworks, dependencias principales, comandos de test/lint/build.
-3. Detecta patrón de arquitectura (Clean Architecture, MVC, Hexagonal, etc.) por la estructura de carpetas.
-4. Detecta tipo de proyecto por carpetas raíz:
-   - `src/` sin subcarpetas de módulo → monolito
-   - `backend/` + `frontend/` → multi-módulo
-   - `packages/` o `apps/` → monorepo
+   - `.github/workflows/` (existing CI/CD)
+   - Folder structure (1 level deep)
+2. Extract: languages, frameworks, main dependencies, test/lint/build commands.
+3. Detect architecture pattern (Clean Architecture, MVC, Hexagonal, etc.) from folder structure.
+4. Detect project type by root folders:
+   - `src/` without module subfolders → monolith
+   - `backend/` + `frontend/` → multi-module
+   - `packages/` or `apps/` → monorepo
 
-### Si es proyecto nuevo (sin código):
-Pregunta al usuario:
-1. Nombre del proyecto
-2. Que problema resuelve y para quien (dominio + usuarios)
-3. Stack elegido (backend, frontend, DB, infra)
-4. Arquitectura (Clean Architecture, Hexagonal, MVC, o sin preferencia)
-5. Restricciones no negociables (licencia, privacidad, accesibilidad, performance)
-6. Si es monolito, multi-módulo o monorepo
+### If it's a new project (no code):
+Ask the user:
+1. Project name
+2. What problem it solves and for whom (domain + users)
+3. Chosen stack (backend, frontend, DB, infra)
+4. Architecture (Clean Architecture, Hexagonal, MVC, or no preference)
+5. Non-negotiable constraints (license, privacy, accessibility, performance)
+6. Whether it's a monolith, multi-module or monorepo
 
-**IMPORTANTE:** Haz TODAS las preguntas juntas, no de una en una. El usuario responde una vez.
+**IMPORTANT:** Ask ALL questions together, not one by one. The user answers once.
 
-## Paso 2: Generacion
+## Step 2: Generation
 
-Con la información obtenida, genera EXACTAMENTE estos 4 archivos:
+With the information obtained, generate EXACTLY these 4 files:
 
 ---
 
-### Archivo 1: `.ai/agents/project-context.md`
+### File 1: `.ai/agents/project-context.md`
 
-Rellenar las secciones del template existente. Formato:
+Fill in the sections of the existing template. Format:
 
 ```markdown
 ---
@@ -55,190 +57,191 @@ mode: context
 
 # PROJECT CONTEXT
 
-## Dominio
+## Domain
 
-[1-2 líneas: que hace la aplicación]
+[1-2 lines: what the application does]
 
-## Usuarios
+## Users
 
-[Perfiles de usuario con contexto de uso]
+[User profiles with usage context]
 
-## Restricciones
+## Constraints
 
-[Solo las NO negociables, una por línea]
+[Only the NON-negotiable ones, one per line]
 
-- **Licencia:** [tipo]
-- **Privacidad:** [requisitos GDPR, datos sensibles, etc.]
-- **Accesibilidad:** [nivel WCAG si aplica]
-- **Performance:** [latencia maxima, SLA, etc.]
+- **License:** [type]
+- **Privacy:** [GDPR requirements, sensitive data, etc.]
+- **Accessibility:** [WCAG level if applicable]
+- **Performance:** [max latency, SLA, etc.]
 
-## Decisiones Técnicas
+## Technical Decisions
 
-[Decisiones ya tomadas. Formato: decisión — motivo]
+[Decisions already made. Format: decision — reason]
 
-- [Framework X] — [motivo]
-- [DB Y] — [motivo]
+- [Framework X] — [reason]
+- [DB Y] — [reason]
 
-## Rutas de Artefactos
+## Artifact Paths
 
-Rutas donde cada agente debe crear/buscar sus artefactos.
+Paths where each agent should create/find its artifacts.
 
 - **Docs:**       `docs/`
-- **ADRs:**       `docs/adrs/ADR-XXX-titulo.md`
-- **Specs:**      `docs/specs/FEAT-XXX-titulo.md`
-- **Stories:**    `docs/stories/US-XXX-titulo.md`
+- **ADRs:**       `docs/adrs/ADR-XXX-title.md`
+- **Specs:**      `docs/specs/FEAT-XXX-title.md`
+- **Stories:**    `docs/stories/US-XXX-title.md`
 - **Guides:**     `docs/guides/`
-- **Backend:**    `[ruta real del backend]/`
-- **Frontend:**   `[ruta real del frontend]/`
-- **Docker:**     `[ruta real de docker config]/`
-- **CI/CD:**      `[ruta real de workflows]/`
-- **Migrations:** `[ruta real de migraciones]/`
+- **Backend:**    `[real backend path]/`
+- **Frontend:**   `[real frontend path]/`
+- **Docker:**     `[real docker config path]/`
+- **CI/CD:**      `[real workflows path]/`
+- **Migrations:** `[real migrations path]/`
 
-## Limites
+## Limits
 
-[Rate limits, presupuesto, capacidad — o "Sin límites definidos"]
+[Rate limits, budget, capacity — or "No limits defined"]
 
-## Comandos
+## Commands
 
-# Test: [comando real detectado o preguntado]
-# Lint: [comando real]
-# Build: [comando real]
-# Dev: [comando para levantar entorno de desarrollo]
+# Test: [real detected or asked command]
+# Lint: [real command]
+# Build: [real command]
+# Dev: [command to start dev environment]
 ```
 
 ---
 
-### Archivo 2: `CLAUDE.md`
+### File 2: `CLAUDE.md`
 
-Usar como base `.ai/templates/CLAUDE.md.template`. Rellenar TODOS los placeholders `[...]`:
+Use `.ai/templates/CLAUDE.md.template` as base. Fill ALL placeholders `[...]`:
 
-- Nombre del proyecto, stack, arquitectura
-- Dominio, usuario final, objetivo
-- Lista de skills (deducir del stack: ej. si usa Vue -> skill `vue`, si usa PostgreSQL -> skill `postgresql`)
-- Estructura de carpetas real del proyecto
-- Standards de naming, quality, security (deducir del stack)
-- Comandos reales
+- Project name, stack, architecture
+- Domain, end user, objective
+- Skills list (deduce from stack: e.g. if using Vue -> skill `vue`, if using PostgreSQL -> skill `postgresql`)
+- Real project folder structure
+- Naming, quality, security standards (deduce from stack)
+- Real commands
 
-**Reglas:**
-- Maximo 80-150 líneas. Ser conciso pero completo.
-- No duplicar lo que ya esta en `project-context.md` (referenciar en su lugar).
-- La sección Roles y Workflow NO se modifica (ya esta completa en el template).
-
----
-
-### Archivo 3: `AGENTS.md`
-
-Usar como base `.ai/templates/AGENTS.md.template`. Rellenar:
-
-- Nombre del proyecto, stack
-- Skills por categoria (deducir del stack)
-
-**Reglas:**
-- Maximo 80-100 líneas.
-- La sección Agent Structure y Workflow NO se modifica (ya esta completa).
+**Rules:**
+- Maximum 80-150 lines. Be concise but complete.
+- Don't duplicate what's already in `project-context.md` (reference instead).
+- The Roles and Workflow sections are NOT modified (already complete in the template).
 
 ---
 
-### Archivo 4: `.ai/decisions.md`
+### File 3: `AGENTS.md`
 
-Actualizar el archivo existente `.ai/decisions.md` (NO sobreescribir si ya tiene contenido).
-Añadir decisiones iniciales del stack en las secciones correspondientes:
+Use `.ai/templates/AGENTS.md.template` as base. Fill:
 
-- **Convenciones:** naming del stack (ej: `PascalCase para clases, camelCase para metodos`)
-- **Dependencias:** DB, framework principal, con `NO REVISITAR`
-- **Patrones:** arquitectura elegida
-- **Infraestructura:** Docker, CI/CD si aplica
+- Project name, stack
+- Skills by category (deduce from stack)
 
-Usar formato: `YYYY-MM-DD: decisión — motivo`
+**Rules:**
+- Maximum 80-100 lines.
+- The Agent Structure and Workflow sections are NOT modified (already complete).
 
 ---
 
-## Paso 3: Generar skills básicos
+### File 4: `.ai/decisions.md`
 
-Para cada tecnologia del stack, genera un skill en `.ai/skills/{nombre}/SKILL.md`.
+Update the existing `.ai/decisions.md` file (DO NOT overwrite if it already has content).
+Add initial stack decisions in the corresponding sections:
 
-Cada skill DEBE:
-- Reflejar las **mejores practicas actuales** y versiones modernas del framework/herramienta.
-- Incluir un aviso de revisión al inicio.
-- Ser conciso (~40-80 líneas).
+- **Conventions:** stack naming (e.g.: `PascalCase for classes, camelCase for methods`)
+- **Dependencies:** DB, main framework, with `DO NOT REVISIT`
+- **Patterns:** chosen architecture
+- **Infrastructure:** Docker, CI/CD if applicable
 
-Formato de cada skill:
+Use format: `YYYY-MM-DD: decision — reason`
+
+---
+
+## Step 3: Generate basic skills
+
+For each stack technology, generate a skill in `.ai/skills/{name}/SKILL.md`.
+
+Each skill MUST:
+- Reflect **current best practices** and modern framework/tool versions.
+- Include a review notice at the top.
+- Be concise (~40-80 lines).
+
+Skill format:
 
 ```markdown
-# Skill: [Nombre]
+# Skill: [Name]
 
-> **REVISAR:** Este skill fue generado automáticamente con best practices genéricas.
-> Adaptalo a las convenciones de tu proyecto antes de usarlo en producción.
-> Última revisión: [fecha de generación]
+> **REVIEW:** This skill was auto-generated with generic best practices.
+> Adapt it to your project's conventions before using in production.
+> Last review: [generation date]
 
 ## Version
 
-[Version minima recomendada y por que]
+[Minimum recommended version and why]
 
-## Patrones
+## Patterns
 
-[3-5 patrones clave del framework/herramienta con ejemplo breve de cada uno]
-[Usar la API moderna, no la legacy]
+[3-5 key framework/tool patterns with brief example each]
+[Use the modern API, not legacy]
 
-## Convenciones
+## Conventions
 
-[Naming, estructura de archivos, organización de código]
+[Naming, file structure, code organization]
 
 ## Testing
 
-[Framework de test recomendado, patrón de test, ejemplo mínimo]
+[Recommended test framework, test pattern, minimal example]
 
-## Errores comunes
+## Common Errors
 
-[3-5 errores frecuentes con la solucion correcta]
+[3-5 frequent errors with the correct solution]
 
 ## Checklist
 
-- [ ] [Verificación 1]
-- [ ] [Verificación 2]
-- [ ] [Verificación 3]
+- [ ] [Verification 1]
+- [ ] [Verification 2]
+- [ ] [Verification 3]
 
-## Referencias
+## References
 
-- [Documentación oficial](url)
+- [Official documentation](url)
 ```
 
-**Naming de skills** (kebab-case, separar testing del framework):
+**Skill naming** (kebab-case, separate testing from framework):
 - Framework: `symfony`, `vue`, `django`, `react`, `nestjs`
 - Testing: `symfony-pest`, `vue-vitest`, `django-pytest`, `react-testing`
 - DB: `postgresql`, `mongodb`, `mysql`
 - Infra/CSS: `docker`, `tailwind`, `accessibility`
-- Integraciones: `openai-integration`, `stripe-integration`
+- Integrations: `openai-integration`, `stripe-integration`
 
-**Reglas para generar skills:**
-- Usa SIEMPRE la versión más reciente y estable del framework (ej: Vue 3 Composition API, no Options API).
-- Si hay una forma moderna y una legacy de hacer algo, documenta SOLO la moderna.
-- Los patrones deben ser concretos con snippets cortos, no teoria generica.
-- Incluir la URL de la documentación oficial como referencia.
-- Generar un skill por cada tecnologia principal del stack (backend framework, frontend framework, DB, testing backend, testing frontend, CSS framework si aplica, infra si aplica).
+**Rules for generating skills:**
+- ALWAYS use the most recent and stable framework version (e.g.: Vue 3 Composition API, not Options API).
+- If there's a modern and a legacy way to do something, document ONLY the modern one.
+- Patterns must be concrete with short snippets, not generic theory.
+- Include the official documentation URL as reference.
+- Generate one skill per main stack technology (backend framework, frontend framework, DB, backend testing, frontend testing, CSS framework if applicable, infra if applicable).
 
 ---
 
-## Paso 4: Post-generacion
+## Step 4: Post-generation
 
-Indica al usuario los siguientes pasos:
+Tell the user the next steps:
 
-1. Revisar y ajustar los archivos generados (especialmente `project-context.md` y `CLAUDE.md`)
-2. **Revisar cada skill** en `.ai/skills/` — adaptar patrones y convenciones al proyecto
-3. **Verificar `.gitignore`** — si el proyecto ya tiene uno, añadir las entradas de archivos generados:
+1. Review and adjust the generated files (especially `project-context.md` and `CLAUDE.md`)
+2. **Review each skill** in `.ai/skills/` — adapt patterns and conventions to the project
+3. **Check `.gitignore`** — if the project already has one, add entries for generated files:
    `.claude/`, `.opencode/`, `.cursorrules`, `.windsurfrules`, `.github/copilot-instructions.md`, `.ai/.local/*`
-4. Ejecutar `.ai/sync.sh` para distribuir a todas las herramientas
-5. Ejecutar `.ai/test.sh` para validar la estructura
-6. Si usa Claude Code: verificar que `.claude/settings.json` tiene los hooks configurados
+4. Run `.ai/sync.sh` to distribute to all tools
+5. Run `.ai/test.sh` to validate the structure
+6. If using Claude Code: verify `.claude/settings.json` has the hooks configured
 
 ---
 
-## Notas para el LLM
+## Notes for the LLM
 
-- Se CONCISO. project-context.md debe caber en ~50 líneas (se auto-carga en cada mensaje).
-- CLAUDE.md debe caber en ~100 líneas. Cada línea extra consume tokens en CADA interaccion.
-- Skills deben caber en ~40-80 líneas cada uno. Lo justo para ser útil sin ser un manual.
-- No inventes información. Si no detectas algo, pregunta o deja el placeholder.
-- Las rutas de artefactos deben reflejar la estructura REAL del proyecto, no la generica.
-- Usa la fecha actual para las decisiones.
-- Para los skills, busca en la documentación oficial las best practices actuales si tienes acceso a web.
+- Be CONCISE. project-context.md should fit in ~50 lines (auto-loaded in every message).
+- CLAUDE.md should fit in ~100 lines. Every extra line consumes tokens in EVERY interaction.
+- Skills should fit in ~40-80 lines each. Just enough to be useful without being a manual.
+- Don't invent information. If you don't detect something, ask or leave the placeholder.
+- Artifact paths must reflect the project's REAL structure, not the generic one.
+- Use today's date for decisions.
+- For skills, search official documentation for current best practices if you have web access.
+- **All generated output must be in English** (CLAUDE.md, AGENTS.md, project-context.md, decisions.md, skills — all consumed by the AI directly).

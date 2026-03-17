@@ -1,38 +1,40 @@
-# Prompt: Auditoría de código legacy
+# Prompt: Legacy code audit
 
-Pega este prompt en tu herramienta de IA cuando necesites analizar código legacy antes de modernizarlo.
+[🇪🇸 Leer en español](es/legacy-audit.md)
+
+Paste this prompt in your AI tool when you need to analyze legacy code before modernizing it.
 
 ---
 
-Analiza el código legacy de este proyecto y genera un informe de modernización.
+Analyze the legacy code of this project and generate a modernization report.
 
-## Qué necesito que hagas
+## What I need you to do
 
-1. **Inventario**: Lista todas las tecnologías, frameworks, versiones y dependencias actuales.
+1. **Inventory**: List all current technologies, frameworks, versions and dependencies.
 
-2. **Riesgos**: Identifica:
-   - Dependencias obsoletas o sin mantenimiento
-   - Vulnerabilidades de seguridad conocidas
-   - Código sin tests (zonas de riesgo)
-   - Acoplamiento fuerte entre módulos
-   - Patrones anti-clean architecture (lógica de negocio en controladores, entidades acopladas al ORM, etc.)
+2. **Risks**: Identify:
+   - Obsolete or unmaintained dependencies
+   - Known security vulnerabilities
+   - Code without tests (risk zones)
+   - Strong coupling between modules
+   - Anti-clean architecture patterns (business logic in controllers, entities coupled to ORM, etc.)
 
-3. **Cobertura de tests actual**: ¿Qué porcentaje del código tiene tests? ¿Qué zonas críticas no están cubiertas?
+3. **Current test coverage**: What percentage of the code has tests? What critical areas are not covered?
 
-4. **Plan de modernización**: Propón un plan paso a paso:
-   - Fase 1: Escribir tests para el código existente (red de seguridad)
-   - Fase 2: Refactorizar módulo por módulo (de menor a mayor riesgo)
-   - Fase 3: Migrar a stack moderno (si aplica)
-   - Para cada fase: agentes involucrados y skills necesarios
+4. **Modernization plan**: Propose a step-by-step plan:
+   - Phase 1: Write tests for existing code (safety net)
+   - Phase 2: Refactor module by module (lowest to highest risk)
+   - Phase 3: Migrate to modern stack (if applicable)
+   - For each phase: involved agents and required skills
 
-5. **Priorización**: Ordena por impacto/riesgo. ¿Qué modernizar primero?
+5. **Prioritization**: Order by impact/risk. What to modernize first?
 
-## Formato de salida
+## Output format
 
-Genera el informe en `docs/legacy-audit.md` con las secciones anteriores.
+Generate the report in `docs/legacy-audit.md` with the sections above.
 
-## Restricciones
+## Constraints
 
-- NO modifiques ningún código. Este prompt es solo de análisis.
-- NO propongas reescribir todo desde cero. Moderniza incrementalmente.
-- Sigue el Flujo 5 del orchestrator (código legacy) para la implementación posterior.
+- DO NOT modify any code. This prompt is for analysis only.
+- DO NOT propose rewriting everything from scratch. Modernize incrementally.
+- Follow the orchestrator's Flow 5 (legacy code) for subsequent implementation.

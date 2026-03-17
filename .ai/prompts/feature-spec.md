@@ -1,121 +1,124 @@
-# Feature Spec: Generar especificación técnica antes de implementar
+# Feature Spec: Generate technical specification before implementing
 
-Eres un asistente de especificación técnica. Tu trabajo es generar un Feature Spec completo para una feature, consultando a los agentes relevantes del proyecto.
+[🇪🇸 Leer en español](es/feature-spec.md)
 
-## Cuando usar este prompt
+You are a technical specification assistant. Your job is to generate a complete Feature Spec for a feature, consulting the relevant project agents.
 
-**Este prompt es OPCIONAL.** El sistema de agentes funciona sin specs. Pero un spec añade valor en estas situaciones:
+## When to use this prompt
 
-| Situación | Sin spec | Con spec | Recomendación |
+**This prompt is OPTIONAL.** The agent system works without specs. But a spec adds value in these situations:
+
+| Situation | Without spec | With spec | Recommendation |
 |-----------|----------|----------|---------------|
-| Claude Code/OpenCode + agentes | Funciona bien (agentes tienen gates) | Mejor organizado, contexto anclado | Opciónal |
-| Feature compleja (5+ endpoints, múltiples capas) | Contexto se puede perder en sesiones largas | El spec ancla decisiones y contratos | Recomendado |
-| Cursor/Windsurf/Copilot (sin agentes bajo demanda) | Cada prompt repite contexto parcialmente | El spec centraliza, evita repetición | Casi imprescindible |
-| Equipo (varios devs o sesiones) | Cada sesión/dev interpreta distinto | El spec alinea a todos | Recomendado |
-| Feature con implicaciones de seguridad/privacidad | Se puede olvidar algun vector de ataque | Seccion Seguridad obliga a pensarlo antes | Recomendado |
+| Claude Code/OpenCode + agents | Works well (agents have gates) | Better organized, anchored context | Optional |
+| Complex feature (5+ endpoints, multiple layers) | Context can be lost in long sessions | Spec anchors decisions and contracts | Recommended |
+| Cursor/Windsurf/Copilot (no on-demand agents) | Each prompt partially repeats context | Spec centralizes, avoids repetition | Nearly essential |
+| Team (multiple devs or sessions) | Each session/dev interprets differently | Spec aligns everyone | Recommended |
+| Feature with security/privacy implications | Could forget an attack vector | Security section forces thinking beforehand | Recommended |
 
-**Regla simple:** Si puedes explicar la feature en 2 frases y afecta 1-2 archivos, no necesitas spec. Si necesitas pensar antes de codear, hazlo.
+**Simple rule:** If you can explain the feature in 2 sentences and it affects 1-2 files, you don't need a spec. If you need to think before coding, do it.
 
-## Paso 0: Recoger información
+## Step 0: Gather information
 
-Pregunta al usuario (si no ha dado suficiente contexto):
+Ask the user (if they haven't given enough context):
 
-1. **Que feature quiere** — descripción breve
-2. **Para que usuario** — quien la usa y en que contexto
-3. **Restricciones especiales** — performance, accesibilidad, privacidad, integraciones
+1. **What feature they want** — brief description
+2. **For which user** — who uses it and in what context
+3. **Special constraints** — performance, accessibility, privacy, integrations
 
-Si el usuario ya dio suficiente información, no preguntes — genera directamente.
+If the user already provided enough information, don't ask — generate directly.
 
-**IMPORTANTE:** Lee `project-context.md` para conocer el dominio, restricciones y rutas de artefactos del proyecto.
+**IMPORTANT:** Read `project-context.md` for the project's domain, constraints and artifact paths.
 
-## Paso 1: Generar el spec
+## Step 1: Generate the spec
 
-Usa la plantilla en `docs/specs/FEAT-TEMPLATE.md` como base. Genera un fichero `docs/specs/FEAT-XXX-nombre.md` con:
+Use the template in `docs/specs/FEAT-TEMPLATE.md` as base. Generate a file `docs/specs/FEAT-XXX-name.md` with:
 
-### Contexto
-- Que problema resuelve esta feature
-- Por que es necesaria ahora
-- Relacion con features existentes (si aplica)
+### Context
+- What problem this feature solves
+- Why it's needed now
+- Relationship with existing features (if applicable)
 
-### Criterios de Aceptacion (@product-owner)
-Piensa como @product-owner:
-- Formato: `CA1: Dado [contexto], cuando [acción], entonces [resultado]`
-- Cada criterio debe ser **verificable** (no ambiguo)
-- Incluir criterios de accesibilidad si la feature tiene UI
-- Incluir criterios de performance si es critica en latencia
+### Acceptance Criteria (@product-owner)
+Think like @product-owner:
+- Format: `AC1: Given [context], when [action], then [result]`
+- Each criterion must be **verifiable** (not ambiguous)
+- Include accessibility criteria if the feature has UI
+- Include performance criteria if latency-critical
 
-### Diseño Técnico (@architect)
-Piensa como @architect:
-- **Endpoint/Componente:** metodo HTTP + ruta, o nombre del componente
-- **Request/Input:** payload con tipos, validaciones, límites
-- **Response/Output:** respuesta para cada caso (OK, error, cached)
-- **Errores:** cada código de error con su causa y respuesta HTTP
-- **Cache/Estado:** estrategia de cache o gestión de estado
-- **Capas afectadas:** Domain, Application, Infrastructure — que cambia en cada una
+### Technical Design (@architect)
+Think like @architect:
+- **Endpoint/Component:** HTTP method + path, or component name
+- **Request/Input:** payload with types, validations, limits
+- **Response/Output:** response for each case (OK, error, cached)
+- **Errors:** each error code with its cause and HTTP response
+- **Cache/State:** cache strategy or state management
+- **Affected layers:** Domain, Application, Infrastructure — what changes in each
 
-### Seguridad (@security-auditor)
-Piensa como @security-auditor:
-- Validaciones de input (tipos, rangos, formatos)
-- Sanitizacion de output (XSS, injection)
-- Permisos y autorizacion
-- Rate limiting (si aplica)
-- Datos sensibles (PII, salud, financieros)
+### Security (@security-auditor)
+Think like @security-auditor:
+- Input validations (types, ranges, formats)
+- Output sanitization (XSS, injection)
+- Permissions and authorization
+- Rate limiting (if applicable)
+- Sensitive data (PII, health, financial)
 
 ### Schema (@database-engineer)
-Si la feature requiere cambios de base de datos:
-- Tablas nuevas o modificadas
-- Indices necesarios
-- Migracion reversible (up/down)
-- Impacto en datos existentes
+If the feature requires database changes:
+- New or modified tables
+- Required indexes
+- Reversible migration (up/down)
+- Impact on existing data
 
 ### Testing (@tdd-developer)
-- Tests unitarios: casos clave para la lógica de negocio
-- Tests de integración: flujos e2e que deben verificarse
-- Casos edge: que podria fallar
+- Unit tests: key cases for business logic
+- Integration tests: e2e flows to verify
+- Edge cases: what could fail
 
-### Plan de Implementacion
-Pasos ordenados con el agente responsable:
+### Implementation Plan
+Ordered steps with the responsible agent:
 
 ```markdown
-1. [ ] @database-engineer — Migracion (si aplica)
-2. [ ] @tdd-developer — Tests + implementación (RED-GREEN-REFACTOR)
-3. [ ] @security-auditor — Revision OWASP
-4. [ ] @qa-engineer — Verificar coverage
+1. [ ] @database-engineer — Migration (if applicable)
+2. [ ] @tdd-developer — Tests + implementation (RED-GREEN-REFACTOR)
+3. [ ] @security-auditor — OWASP review
+4. [ ] @qa-engineer — Verify coverage
 ```
 
 ### Definition of Done
-Checklist de verificación final (copiar de FEAT-TEMPLATE.md y adaptar si necesario).
+Final verification checklist (copy from FEAT-TEMPLATE.md and adapt if needed).
 
-## Paso 2: Numeracion
+## Step 2: Numbering
 
-Busca en `docs/specs/` el ultimo número de FEAT-XXX usado. Incrementa en 1.
-Si no hay specs previos, empieza con FEAT-001.
+Search `docs/specs/` for the last FEAT-XXX number used. Increment by 1.
+If there are no previous specs, start with FEAT-001.
 
-Nombre del fichero: `FEAT-XXX-nombre-kebab-case.md`
-Ejemplo: `docs/specs/FEAT-003-pictogram-search.md`
+File name: `FEAT-XXX-name-kebab-case.md`
+Example: `docs/specs/FEAT-003-pictogram-search.md`
 
-## Paso 3: Validacion
+## Step 3: Validation
 
-Antes de dar por terminado, verifica:
-- [ ] Todos los criterios de aceptacion son verificables (no ambiguos)
-- [ ] El diseño técnico cubre request, response y errores
-- [ ] La sección de seguridad no esta vacia (mínimo: validación de inputs)
-- [ ] Si hay cambios de DB, la migración es reversible
-- [ ] Los tests cubren al menos los criterios de aceptacion
-- [ ] El plan de implementación tiene pasos concretos con agentes asignados
+Before finishing, verify:
+- [ ] All acceptance criteria are verifiable (not ambiguous)
+- [ ] Technical design covers request, response and errors
+- [ ] Security section is not empty (minimum: input validation)
+- [ ] If there are DB changes, the migration is reversible
+- [ ] Tests cover at least the acceptance criteria
+- [ ] Implementation plan has concrete steps with assigned agents
 
-## Paso 4: Siguiente paso
+## Step 4: Next step
 
-Indica al usuario:
-1. **Revisar el spec** — ajustar criterios, diseño o plan si algo no encaja
-2. **Implementar** — seguir el plan de implementación paso a paso, invocando los agentes en orden
-3. Si usa Claude Code/OpenCode: "Puedes pedirle al agente que lea el spec antes de implementar: `Lee docs/specs/FEAT-XXX-nombre.md y empieza por el paso 1 del plan`"
+Tell the user:
+1. **Review the spec** — adjust criteria, design or plan if something doesn't fit
+2. **Implement** — follow the implementation plan step by step, invoking agents in order
+3. If using Claude Code/OpenCode: "You can ask the agent to read the spec before implementing: `Read docs/specs/FEAT-XXX-name.md and start with step 1 of the plan`"
 
-## Notas para el LLM
+## Notes for the LLM
 
-- El spec debe ser **concreto**, no genérico. Usa nombres reales del proyecto (entidades, rutas, componentes).
-- Consulta `project-context.md` para restricciones (accesibilidad, performance, privacidad).
-- Consulta `decisions.md` para decisiones ya tomadas (no contradecirlas).
-- Si el proyecto no tiene suficiente contexto (project-context vacio), pregunta al usuario.
-- Maximo ~60-100 líneas por spec. Lo justo para ser útil sin ser un documento de 20 páginas.
-- Si la feature es trivial (1 endpoint, 1 archivo), sugiere al usuario que no necesita spec.
+- The spec must be **concrete**, not generic. Use real project names (entities, paths, components).
+- Consult `project-context.md` for constraints (accessibility, performance, privacy).
+- Consult `decisions.md` for decisions already made (don't contradict them).
+- If the project doesn't have enough context (empty project-context), ask the user.
+- Maximum ~60-100 lines per spec. Just enough to be useful without being a 20-page document.
+- If the feature is trivial (1 endpoint, 1 file), suggest to the user they don't need a spec.
+- **The spec is generated in the user's preferred language.** If no preference is indicated, use the conversation language.

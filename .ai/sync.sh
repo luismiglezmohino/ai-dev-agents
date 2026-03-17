@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 #
 # sync.sh
-# Sincroniza agentes a todas las herramientas soportadas
+# Syncs agents to all supported tools
 #
-# Estructura esperada (desde raiz del proyecto):
-#   .ai/agents/          <- Fuente (formato OpenCode, kebab-case)
-#   .ai/skills/          <- Fuente (compatible ambos)
-#   .ai/decisions.md     <- Fuente (cross-tool)
-#   .claude/agents/      <- Destino (formato Claude Code, generado)
-#   .claude/skills       -> ../.ai/skills (enlace)
-#   .claude/rules/       <- Generado (decisions.md, project-context.md)
-#   .opencode/agents     -> ../.ai/agents (enlace)
-#   .opencode/skills     -> ../.ai/skills (enlace)
-#   .cursorrules         <- Generado (compacto)
-#   .windsurfrules       <- Generado (compacto)
-#   .github/copilot-instructions.md <- Generado (compacto)
+# Expected structure (from project root):
+#   .ai/agents/          <- Source (OpenCode format, kebab-case)
+#   .ai/skills/          <- Source (compatible with both)
+#   .ai/decisions.md     <- Source (cross-tool)
+#   .claude/agents/      <- Destination (Claude Code format, generated)
+#   .claude/skills       -> ../.ai/skills (symlink)
+#   .claude/rules/       <- Generated (decisions.md, project-context.md)
+#   .opencode/agents     -> ../.ai/agents (symlink)
+#   .opencode/skills     -> ../.ai/skills (symlink)
+#   .cursorrules         <- Generated (compact)
+#   .windsurfrules       <- Generated (compact)
+#   .github/copilot-instructions.md <- Generated (compact)
 #
-# Uso: .ai/sync.sh [--dry-run] [--check]
+# Usage: .ai/sync.sh [--dry-run] [--check]
 #
 
 set -euo pipefail
 
-# .ai/ es donde vive este script; PROJECT_ROOT es el padre
+# .ai/ is where this script lives; PROJECT_ROOT is the parent
 AI_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$AI_DIR/.." && pwd)"
 
-# Modo
+# Mode
 DRY_RUN=false
 CHECK_ONLY=false
 for arg in "$@"; do
@@ -35,12 +35,12 @@ for arg in "$@"; do
     esac
 done
 
-# Directorios fuente (dentro de .ai/)
+# Source directories (inside .ai/)
 AGENTS_SOURCE="$AI_DIR/agents"
 SKILLS_SOURCE="$AI_DIR/skills"
 DECISIONS_SOURCE="$AI_DIR/decisions.md"
 
-# Directorios destino (en raiz del proyecto)
+# Destination directories (at project root)
 CLAUDE_AGENTS="$PROJECT_ROOT/.claude/agents"
 CLAUDE_SKILLS="$PROJECT_ROOT/.claude/skills"
 CLAUDE_RULES="$PROJECT_ROOT/.claude/rules"
@@ -48,10 +48,10 @@ OPENCODE_DIR="$PROJECT_ROOT/.opencode"
 OPENCODE_AGENTS="$OPENCODE_DIR/agents"
 OPENCODE_SKILLS="$OPENCODE_DIR/skills"
 
-# Tools base para Claude Code (siempre disponibles: lectura + busqueda)
+# Base tools for Claude Code (always available: read + search)
 CLAUDE_READ_TOOLS="Read, Glob, Grep, WebFetch, WebSearch, Task"
 
-# Colores
+# Colors
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
@@ -65,7 +65,7 @@ log_skip() { echo -e "${YELLOW}[SKIP]${NC} $1"; }
 log_dry() { echo -e "${BLUE}[DRY-RUN]${NC} $1"; }
 log_section() { echo -e "\n${BLUE}=== $1 ===${NC}"; }
 
-# === VALIDACION ===
+# === VALIDATION ===
 
 validate_agent() {
     local source_file="$1"
@@ -73,46 +73,46 @@ validate_agent() {
     filename=$(basename "$source_file")
     local errors=0
 
-    # Verificar frontmatter con description
+    # Verify frontmatter has description
     if ! grep -q "^description:" "$source_file"; then
-        log_warn "$filename: falta 'description' en frontmatter"
+        log_warn "$filename: missing 'description' in frontmatter"
         ((errors++)) || true
     fi
 
-    # Verificar frontmatter con mode
+    # Verify frontmatter has mode
     if ! grep -q "^mode:" "$source_file"; then
-        log_warn "$filename: falta 'mode' en frontmatter"
+        log_warn "$filename: missing 'mode' in frontmatter"
         ((errors++)) || true
     else
-        # Validar valor de mode
+        # Validate mode value
         local mode
         mode=$(grep -m1 "^mode:" "$source_file" | awk '{print $2}')
         case "$mode" in
             subagent|primary|context|base) ;;
-            *) log_warn "$filename: mode invalido '$mode' (esperado: subagent|primary|context|base)"; ((errors++)) || true ;;
+            *) log_warn "$filename: invalid mode '$mode' (expected: subagent|primary|context|base)"; ((errors++)) || true ;;
         esac
     fi
 
-    # Validar temperature si existe
+    # Validate temperature if present
     if grep -q "^temperature:" "$source_file"; then
         local temp
         temp=$(grep -m1 "^temperature:" "$source_file" | awk '{print $2}')
         if ! awk "BEGIN{exit !($temp >= 0.0 && $temp <= 1.0)}" 2>/dev/null; then
-            log_warn "$filename: temperature fuera de rango '$temp' (esperado: 0.0-1.0)"
+            log_warn "$filename: temperature out of range '$temp' (expected: 0.0-1.0)"
             ((errors++)) || true
         fi
     fi
 
-    # Verificar secciones obligatorias (solo subagents)
+    # Verify required sections (subagents only)
     local mode
     mode=$(grep -m1 "^mode:" "$source_file" | awk '{print $2}' 2>/dev/null || echo "")
     if [[ "$mode" == "subagent" ]]; then
-        if ! grep -q "Quality Gates\|Protocolo" "$source_file"; then
-            log_warn "$filename: falta seccion 'Quality Gates'"
+        if ! grep -q "Quality Gates\|Protocol" "$source_file"; then
+            log_warn "$filename: missing 'Quality Gates' section"
             ((errors++)) || true
         fi
-        if ! grep -q "Restricciones Fatales" "$source_file"; then
-            log_warn "$filename: falta seccion 'Restricciones Fatales'"
+        if ! grep -q "Fatal Restrictions" "$source_file"; then
+            log_warn "$filename: missing 'Fatal Restrictions' section"
             ((errors++)) || true
         fi
     fi
@@ -138,11 +138,11 @@ build_claude_tools() {
     local source_file="$1"
     local tools="$CLAUDE_READ_TOOLS"
 
-    # Extraer frontmatter (entre primer y segundo ---)
+    # Extract frontmatter (between first and second ---)
     local frontmatter
     frontmatter=$(awk '/^---$/{c++;if(c==2)exit;next}c==1' "$source_file")
 
-    # Opt-in: solo incluir si el frontmatter dice explicitamente "tool: true"
+    # Opt-in: only include if frontmatter explicitly says "tool: true"
     if echo "$frontmatter" | grep -q "write: true"; then
         tools="$tools, Write"
     fi
@@ -162,37 +162,37 @@ process_agent() {
     local source_file="$1"
     local filename
     filename=$(basename "$source_file" .md)
-    local agent_name="$filename"  # Ya son kebab-case
+    local agent_name="$filename"  # Already kebab-case
 
-    # Extraer description del frontmatter
+    # Extract description from frontmatter
     local description
     description=$(grep -m1 "^description:" "$source_file" | sed 's/^description: *//' || echo "")
 
-    # Construir lista de tools segun frontmatter del fuente
+    # Build tools list from source frontmatter
     local tools
     tools=$(build_claude_tools "$source_file")
 
-    # Extraer contenido (todo despues del segundo ---), eliminando blank lines iniciales
+    # Extract content (everything after the second ---), removing initial blank lines
     local content
     content=$(awk '/^---$/{c++;next}c>=2' "$source_file" | sed '/./,$!d')
 
-    # Expandir referencia a _base.md con contenido real
+    # Expand _base.md reference with actual content
     local base_file="$AGENTS_SOURCE/_base.md"
     if [[ -f "$base_file" ]] && echo "$content" | grep -q "_base.md"; then
         local base_content
         base_content=$(awk '/^---$/{c++;next}c>=2' "$base_file" | sed '1,/^$/d' | sed '/^Sections inherited by all subagents/d' | sed '/^# Base Agent Structure/d')
-        # Si el agente ya tiene "Where You Operate", eliminar la sección genérica de _base.md para evitar duplicados
+        # If the agent already has "Where You Operate", remove the generic section from _base.md to avoid duplicates
         if echo "$content" | grep -q "## Where You Operate"; then
-            base_content=$(echo "$base_content" | awk '/^## Where You Operate \(Permisos\)/{skip=1} /^## [^W]/{skip=0} !skip')
+            base_content=$(echo "$base_content" | awk '/^## Where You Operate \(Permissions\)/{skip=1} /^## [^W]/{skip=0} !skip')
         fi
-        content=$(echo "$content" | sed '/Hereda de.*_base.md/d')
+        content=$(echo "$content" | sed '/Inherits from.*_base.md/d')
         content="$content"$'\n\n'"$base_content"
     fi
 
     local dest="$CLAUDE_AGENTS/$agent_name.md"
 
     if $DRY_RUN; then
-        log_dry "Generaria $dest"
+        log_dry "Would generate $dest"
         return
     fi
 
@@ -217,26 +217,26 @@ create_symlink() {
     local name="$3"
 
     if $DRY_RUN; then
-        log_dry "Crearia enlace $name"
+        log_dry "Would create symlink $name"
         return
     fi
 
     if [[ -L "$link" ]]; then
-        # Actualizar si apunta a otro sitio
+        # Update if pointing elsewhere
         local current_target
         current_target=$(readlink "$link")
         if [[ "$current_target" != "$target" ]]; then
             rm "$link"
             ln -s "$target" "$link"
-            log_info "$name (enlace actualizado)"
+            log_info "$name (symlink updated)"
         else
-            log_info "$name (enlace existe)"
+            log_info "$name (symlink exists)"
         fi
     elif [[ -e "$link" ]]; then
-        log_warn "$name (existe pero no es enlace)"
+        log_warn "$name (exists but is not a symlink)"
     else
         ln -s "$target" "$link"
-        log_info "$name (enlace creado)"
+        log_info "$name (symlink created)"
     fi
 }
 
@@ -268,7 +268,7 @@ generate_compact_rules() {
         local gates=""
         while IFS= read -r line; do
             local gate_text
-            gate_text=$(echo "$line" | sed 's/.*\(Previene:[^)]*\).*/\1/' 2>/dev/null || echo "")
+            gate_text=$(echo "$line" | sed 's/.*(\(Prevents:[^)]*\)).*/\1/' 2>/dev/null || echo "")
             if [[ -n "$gate_text" && "$gate_text" != "$line" ]]; then
                 [[ -n "$gates" ]] && gates+=", "
                 gates+="$gate_text"
@@ -282,23 +282,23 @@ generate_compact_rules() {
 
     # Global Guards
     output+="\n## Global Guards\n\n"
-    output+="- **Zero Trust:** Valida todos los inputs.\n"
+    output+="- **Zero Trust:** Validate all inputs.\n"
     output+="- **Clean Arch:** Domain > Application > Infrastructure.\n"
-    output+="- **Logs:** JSON estructurado con correlationId.\n"
-    output+="- **TDD:** No código de producción sin test que falle.\n"
+    output+="- **Logs:** Structured JSON with correlationId.\n"
+    output+="- **TDD:** No production code without a failing test.\n"
 
     # Workflow
     output+="\n## Workflow\n\n"
-    output+="1. @product-owner (requisitos) -> 2. @architect + @ux-designer (diseno)\n"
-    output+="3. @database-engineer (si hay cambios de schema) -> 4. @tdd-developer (implementación)\n"
+    output+="1. @product-owner (requirements) -> 2. @architect + @ux-designer (design)\n"
+    output+="3. @database-engineer (if schema changes) -> 4. @tdd-developer (implementation)\n"
     output+="5. @security-auditor (OWASP) -> 6. @qa-engineer (coverage) -> 7. @devops (deploy)\n"
-    output+="Transversales: @technical-writer, @observability-engineer, @performance-engineer\n"
+    output+="Cross-cutting: @technical-writer, @observability-engineer, @performance-engineer\n"
 
     # Decisions
     if [[ -f "$DECISIONS_SOURCE" ]]; then
         output+="\n## Decisions\n\n"
         local decisions_content
-        # Extraer desde la primera seccion (##), saltando el header
+        # Extract from the first section (##), skipping the header
         decisions_content=$(awk '/^## /{found=1} found' "$DECISIONS_SOURCE")
         if [[ -n "$decisions_content" ]]; then
             output+="$decisions_content\n"
@@ -312,8 +312,8 @@ generate_compact_rules() {
 
     # Memory (for tools without hooks)
     output+="\n## Memory\n\n"
-    output+="Consultar Feature Specs en \`docs/specs/\` como memoria de proyecto.\n"
-    output+="Decisiones cerradas en \`.ai/decisions.md\`.\n"
+    output+="Consult Feature Specs in \`docs/specs/\` as project memory.\n"
+    output+="Closed decisions in \`.ai/decisions.md\`.\n"
 
     echo -e "$output"
 }
@@ -323,28 +323,28 @@ generate_compact_rules() {
 main() {
     echo -e "${BLUE}╔════════════════════════════════════════════════════╗${NC}"
     echo -e "${BLUE}║   .ai/sync.sh - Agent Sync                        ║${NC}"
-    echo -e "${BLUE}║   Distribuye agentes a todas las herramientas      ║${NC}"
+    echo -e "${BLUE}║   Distributes agents to all tools                  ║${NC}"
     echo -e "${BLUE}╚════════════════════════════════════════════════════╝${NC}"
 
     if $DRY_RUN; then
-        echo -e "${YELLOW}Modo dry-run: no se escribiran archivos${NC}"
+        echo -e "${YELLOW}Dry-run mode: no files will be written${NC}"
     fi
     if $CHECK_ONLY; then
-        echo -e "${YELLOW}Modo check: solo validacion${NC}"
+        echo -e "${YELLOW}Check mode: validation only${NC}"
     fi
 
-    # Verificar fuentes
+    # Verify sources
     if [[ ! -d "$AGENTS_SOURCE" ]]; then
-        log_error "No existe $AGENTS_SOURCE"
+        log_error "$AGENTS_SOURCE does not exist"
         exit 1
     fi
     if [[ ! -d "$SKILLS_SOURCE" ]]; then
-        log_error "No existe $SKILLS_SOURCE"
+        log_error "$SKILLS_SOURCE does not exist"
         exit 1
     fi
 
-    # === VALIDACION ===
-    log_section "Validacion de agentes"
+    # === VALIDATION ===
+    log_section "Agent validation"
     local total_errors=0
     for f in "$AGENTS_SOURCE"/*.md; do
         [[ -f "$f" ]] || continue
@@ -353,34 +353,34 @@ main() {
         fi
     done
     if [[ $total_errors -eq 0 ]]; then
-        log_info "Todos los agentes validos"
+        log_info "All agents valid"
     else
-        log_warn "$total_errors agente(s) con warnings"
+        log_warn "$total_errors agent(s) with warnings"
     fi
 
     if $CHECK_ONLY; then
         echo ""
-        echo "Validacion completada. Errores: $total_errors"
+        echo "Validation complete. Errors: $total_errors"
         exit $total_errors
     fi
 
-    # === OPENCODE: Enlaces simbolicos ===
-    log_section "OpenCode (enlaces simbolicos)"
+    # === OPENCODE: Symlinks ===
+    log_section "OpenCode (symlinks)"
     mkdir -p "$OPENCODE_DIR"
     create_symlink "../.ai/agents" "$OPENCODE_AGENTS" ".opencode/agents -> ../.ai/agents"
     create_symlink "../.ai/skills" "$OPENCODE_SKILLS" ".opencode/skills -> ../.ai/skills"
 
     if [[ -f "$DECISIONS_SOURCE" ]]; then
         if $DRY_RUN; then
-            log_dry "Copiaria decisions.md -> .opencode/decisions.md"
+            log_dry "Would copy decisions.md -> .opencode/decisions.md"
         else
             cp "$DECISIONS_SOURCE" "$OPENCODE_DIR/decisions.md"
             log_info "decisions.md -> .opencode/decisions.md"
         fi
     fi
 
-    # === CLAUDE CODE: Conversion de agentes ===
-    log_section "Claude Code (conversion de agentes)"
+    # === CLAUDE CODE: Agent conversion ===
+    log_section "Claude Code (agent conversion)"
     if ! $DRY_RUN; then
         mkdir -p "$CLAUDE_AGENTS"
     fi
@@ -389,41 +389,41 @@ main() {
     for f in "$AGENTS_SOURCE"/*.md; do
         [[ -f "$f" ]] || continue
         if should_skip_agent "$(basename "$f")"; then
-            log_skip "$(basename "$f") (excluido)"
+            log_skip "$(basename "$f") (excluded)"
             continue
         fi
         process_agent "$f"
         ((agent_count++)) || true
     done
 
-    # === CLAUDE CODE: Skills enlace ===
+    # === CLAUDE CODE: Skills symlink ===
     log_section "Claude Code (skills + rules)"
     if ! $DRY_RUN; then
         mkdir -p "$PROJECT_ROOT/.claude"
     fi
     create_symlink "../.ai/skills" "$CLAUDE_SKILLS" ".claude/skills -> ../.ai/skills"
 
-    # === CLAUDE CODE: Rules (auto-cargado) ===
+    # === CLAUDE CODE: Rules (auto-loaded) ===
     if ! $DRY_RUN; then
         mkdir -p "$CLAUDE_RULES"
     fi
 
     if [[ -f "$DECISIONS_SOURCE" ]]; then
         if $DRY_RUN; then
-            log_dry "Copiaria decisions.md -> .claude/rules/decisions.md"
+            log_dry "Would copy decisions.md -> .claude/rules/decisions.md"
         else
             cp "$DECISIONS_SOURCE" "$CLAUDE_RULES/decisions.md"
             log_info "decisions.md -> .claude/rules/decisions.md"
         fi
     fi
 
-    # Copiar project-context.md a rules (auto-cargado)
+    # Copy project-context.md to rules (auto-loaded)
     local ctx_file="$AGENTS_SOURCE/project-context.md"
     if [[ -f "$ctx_file" ]]; then
         if $DRY_RUN; then
-            log_dry "Copiaria project-context.md -> .claude/rules/project-context.md"
+            log_dry "Would copy project-context.md -> .claude/rules/project-context.md"
         else
-            # Extraer solo contenido (sin frontmatter YAML)
+            # Extract content only (without YAML frontmatter)
             awk '/^---$/{c++;next}c>=2' "$ctx_file" > "$CLAUDE_RULES/project-context.md"
             log_info "project-context.md -> .claude/rules/project-context.md"
         fi
@@ -435,43 +435,43 @@ main() {
     compact_rules=$(generate_compact_rules)
 
     if $DRY_RUN; then
-        log_dry "Generaria .cursorrules, .windsurfrules, GEMINI.md, .github/copilot-instructions.md"
+        log_dry "Would generate .cursorrules, .windsurfrules, GEMINI.md, .github/copilot-instructions.md"
     else
         echo -e "$compact_rules" > "$PROJECT_ROOT/.cursorrules"
-        log_info ".cursorrules (generado)"
+        log_info ".cursorrules (generated)"
 
         echo -e "$compact_rules" > "$PROJECT_ROOT/.windsurfrules"
-        log_info ".windsurfrules (generado)"
+        log_info ".windsurfrules (generated)"
 
         echo -e "$compact_rules" > "$PROJECT_ROOT/GEMINI.md"
-        log_info "GEMINI.md (generado)"
+        log_info "GEMINI.md (generated)"
 
         mkdir -p "$PROJECT_ROOT/.github"
         echo -e "$compact_rules" > "$PROJECT_ROOT/.github/copilot-instructions.md"
-        log_info ".github/copilot-instructions.md (generado)"
+        log_info ".github/copilot-instructions.md (generated)"
     fi
 
-    # === RESUMEN ===
-    log_section "Resumen"
-    echo -e "Agentes convertidos: ${GREEN}$agent_count${NC}"
+    # === SUMMARY ===
+    log_section "Summary"
+    echo -e "Agents converted: ${GREEN}$agent_count${NC}"
     if [[ $total_errors -gt 0 ]]; then
-        echo -e "Agentes con warnings: ${YELLOW}$total_errors${NC}"
+        echo -e "Agents with warnings: ${YELLOW}$total_errors${NC}"
     fi
     echo ""
-    echo "Estructura generada:"
-    echo "  .ai/agents/            Fuente (kebab-case)"
-    echo "  .ai/skills/            Fuente"
-    echo "  .ai/decisions.md       Fuente (cross-tool)"
-    echo "  .opencode/agents       -> ../.ai/agents (enlace)"
-    echo "  .opencode/skills       -> ../.ai/skills (enlace)"
-    echo "  .opencode/decisions.md Copia"
-    echo "  .claude/agents/        Generado (formato Claude Code)"
-    echo "  .claude/skills         -> ../.ai/skills (enlace)"
-    echo "  .claude/rules/         Generado (decisions.md, project-context.md)"
-    echo "  .cursorrules           Generado (compacto)"
-    echo "  .windsurfrules         Generado (compacto)"
-    echo "  GEMINI.md              Generado (compacto)"
-    echo "  .github/copilot-instructions.md  Generado (compacto)"
+    echo "Generated structure:"
+    echo "  .ai/agents/            Source (kebab-case)"
+    echo "  .ai/skills/            Source"
+    echo "  .ai/decisions.md       Source (cross-tool)"
+    echo "  .opencode/agents       -> ../.ai/agents (symlink)"
+    echo "  .opencode/skills       -> ../.ai/skills (symlink)"
+    echo "  .opencode/decisions.md Copy"
+    echo "  .claude/agents/        Generated (Claude Code format)"
+    echo "  .claude/skills         -> ../.ai/skills (symlink)"
+    echo "  .claude/rules/         Generated (decisions.md, project-context.md)"
+    echo "  .cursorrules           Generated (compact)"
+    echo "  .windsurfrules         Generated (compact)"
+    echo "  GEMINI.md              Generated (compact)"
+    echo "  .github/copilot-instructions.md  Generated (compact)"
 }
 
 main "$@"

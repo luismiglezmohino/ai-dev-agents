@@ -1,24 +1,24 @@
 # OpenCode
 
-## Como funciona
+## How It Works
 
-OpenCode lee agentes directamente desde `.opencode/agents/` y skills desde `.opencode/skills/`.
+OpenCode reads agents directly from `.opencode/agents/` and skills from `.opencode/skills/`.
 
-`sync.sh` crea enlaces simbólicos que apuntan a los directorios fuente (`agents/` y `skills/`).
+`sync.sh` creates symlinks pointing to the source directories (`agents/` and `skills/`).
 
-## Ficheros generados
+## Generated Files
 
-| Fichero | Proposito |
+| File | Purpose |
 |---|---|
-| `.opencode/agents` | Enlace simbólico a `../.ai/agents` |
-| `.opencode/skills` | Enlace simbólico a `../.ai/skills` |
-| `.opencode/decisions.md` | Copia de `decisions.md` |
+| `.opencode/agents` | Symlink to `../.ai/agents` |
+| `.opencode/skills` | Symlink to `../.ai/skills` |
+| `.opencode/decisions.md` | Copy of `decisions.md` |
 
 ## Setup
 
-1. Ejecutar `./sync.sh`
-2. Los agentes se leen directamente (sin conversion)
+1. Run `./sync.sh`
+2. Agents are read directly (no conversion needed)
 
 ## AGENTS.md
 
-OpenCode tambien lee `AGENTS.md` en la raíz del proyecto. Usa `AGENTS.md.template` como punto de partida.
+OpenCode also reads `AGENTS.md` at the project root. Use `AGENTS.md.template` as a starting point.

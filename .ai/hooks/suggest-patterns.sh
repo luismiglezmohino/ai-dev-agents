@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# suggest-patterns.sh - Detecta patrones de la sesión y los sugiere para guardar
-# Se ejecuta automáticamente via Claude Code hooks (SessionEnd)
-# A diferencia de session-stop.sh, este hook analiza el transcript
-# y sugiere patrones para los skills. El usuario debe aprobarlos manualmente.
+# suggest-patterns.sh - Detects session patterns and suggests them for saving
+# Runs automatically via Claude Code hooks (SessionEnd)
+# Unlike session-stop.sh, this hook analyzes the transcript
+# and suggests patterns for skills. The user must approve them manually.
 #
-# Funciona con Engram si está disponible, sino guarda en .ai/.local/suggested-patterns.md
+# Uses Engram if available, otherwise saves to .ai/.local/suggested-patterns.md
 #
 
 set -euo pipefail
@@ -15,73 +15,73 @@ PROJECT_NAME=$(basename "$PROJECT_DIR")
 SUGGESTIONS_FILE="$PROJECT_DIR/.ai/.local/suggested-patterns.md"
 SKILLS_DIR="$PROJECT_DIR/.ai/skills"
 
-# Parsear JSON de stdin
+# Parse JSON from stdin
 hook_input=$(cat 2>/dev/null || echo "{}")
 transcript_path=$(echo "$hook_input" | jq -r '.transcript_path // empty' 2>/dev/null || echo "")
 session_id=$(echo "$hook_input" | jq -r '.session_id // "unknown"' 2>/dev/null || echo "unknown")
 
 timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-# Necesitamos el transcript para analizar
+# Need the transcript to analyze
 transcript=""
 if [[ -n "$transcript_path" && -f "$transcript_path" ]]; then
     transcript=$(tail -300 "$transcript_path" 2>/dev/null || echo "")
 fi
 
-# Sin transcript no hay nada que analizar
+# No transcript, nothing to analyze
 if [[ -z "$transcript" ]]; then
     exit 0
 fi
 
-# Detectar patrones básicos en el transcript
+# Detect basic patterns in the transcript
 patterns=""
 
-# Patrón: errores corregidos (fix, error, bug)
-error_fixes=$(echo "$transcript" | grep -ci "fix\|error\|bug\|corrig" 2>/dev/null || echo "0")
+# Pattern: corrected errors (fix, error, bug)
+error_fixes=$(echo "$transcript" | grep -ci "fix\|error\|bug\|corrected" 2>/dev/null || echo "0")
 if [[ "$error_fixes" -gt 2 ]]; then
-    patterns+="- **Errores corregidos:** $error_fixes correcciones detectadas en esta sesión. Revisar si alguna debería ser una Restricción Fatal o un Quality Gate.\n"
+    patterns+="- **Errors fixed:** $error_fixes fixes detected in this session. Review if any should become a Fatal Restriction or Quality Gate.\n"
 fi
 
-# Patrón: tests añadidos
+# Pattern: tests added
 tests_added=$(echo "$transcript" | grep -ci "test\|spec\|describe\|it(" 2>/dev/null || echo "0")
 if [[ "$tests_added" -gt 3 ]]; then
-    patterns+="- **Tests:** $tests_added referencias a tests. Revisar si los patrones de testing se reflejan en los skills.\n"
+    patterns+="- **Tests:** $tests_added test references. Review if testing patterns are reflected in skills.\n"
 fi
 
-# Patrón: refactoring
+# Pattern: refactoring
 refactors=$(echo "$transcript" | grep -ci "refactor\|extract\|rename\|move" 2>/dev/null || echo "0")
 if [[ "$refactors" -gt 2 ]]; then
-    patterns+="- **Refactoring:** $refactors operaciones de refactoring. Revisar si el patrón se repite y debería documentarse.\n"
+    patterns+="- **Refactoring:** $refactors refactoring operations. Review if the pattern recurs and should be documented.\n"
 fi
 
-# Patrón: nuevos ficheros creados
-new_files=$(echo "$transcript" | grep -ci "Write\|create.*file\|nuevo.*fichero" 2>/dev/null || echo "0")
+# Pattern: new files created
+new_files=$(echo "$transcript" | grep -ci "Write\|create.*file\|new.*file" 2>/dev/null || echo "0")
 if [[ "$new_files" -gt 3 ]]; then
-    patterns+="- **Ficheros nuevos:** $new_files ficheros creados. Revisar si la estructura sigue las convenciones del proyecto.\n"
+    patterns+="- **New files:** $new_files files created. Review if the structure follows project conventions.\n"
 fi
 
-# Sin patrones detectados, no generar sugerencias
+# No patterns detected, don't generate suggestions
 if [[ -z "$patterns" ]]; then
     exit 0
 fi
 
-# Guardar sugerencias (NO aplicarlas automáticamente)
+# Save suggestions (DO NOT apply them automatically)
 mkdir -p "$(dirname "$SUGGESTIONS_FILE")"
 cat >> "$SUGGESTIONS_FILE" << TEMPLATE
 
 ---
 
-## Sesión $session_id ($timestamp)
+## Session $session_id ($timestamp)
 
-**Patrones detectados (pendientes de aprobación):**
+**Detected patterns (pending approval):**
 
 $(echo -e "$patterns")
 
-**Acción requerida:** Revisa estos patrones. Si son válidos (se repiten en 2+ sesiones), añádelos al skill correspondiente en \`.ai/skills/\` usando \`.ai/prompts/refine-skills.md\`.
+**Action required:** Review these patterns. If valid (repeated in 2+ sessions), add them to the corresponding skill in \`.ai/skills/\` using \`.ai/prompts/refine-skills.md\`.
 
 TEMPLATE
 
-# Guardar en Engram si está disponible
+# Save to Engram if available
 if command -v engram &>/dev/null; then
     echo -e "$patterns" | engram store --project "$PROJECT_NAME" --tag "suggested-patterns" 2>/dev/null || true
 fi

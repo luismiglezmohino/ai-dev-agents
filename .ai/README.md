@@ -1,105 +1,105 @@
 # AI Dev Agents Template
 
-Template reutilizable y agnóstico para desarrollo asistido por IA con agentes especializados.
+Reusable and agnostic template for AI-assisted development with specialized agents.
 
-## Estructura
+## Structure
 
 ```
 .ai/
-├── agents/         # 11 agentes + orchestrator + project-context + _base (fuente canonica)
-├── skills/         # Skills específicos del stack (framework-specific)
-├── hooks/          # Scripts de memoria automatica (Claude Code)
-├── prompts/        # Prompts reutilizables (bootstrap, etc.)
-├── templates/      # CLAUDE.md.template y AGENTS.md.template
-├── tool-configs/   # Documentación por herramienta
-├── decisions.md    # Decisiones técnicas rápidas
-├── sync.sh         # Genera archivos para todas las herramientas
-└── test.sh         # Valida estructura del template
+├── agents/         # 11 agents + orchestrator + project-context + _base (canonical source)
+├── skills/         # Stack-specific skills (framework-specific)
+├── hooks/          # Automatic memory scripts (Claude Code)
+├── prompts/        # Reusable prompts (bootstrap, etc.)
+├── templates/      # CLAUDE.md.template and AGENTS.md.template
+├── tool-configs/   # Per-tool documentation
+├── decisions.md    # Quick technical decisions
+├── sync.sh         # Generates files for all tools
+└── test.sh         # Validates template structure
 ```
 
-## Uso rápido
+## Quick Start
 
-### Opción A: Bootstrap automático (recomendado)
+### Option A: Automatic bootstrap (recommended)
 
-1. Copiar `.ai/` a tu proyecto
-2. Abrir tu herramienta de IA (Claude Code, OpenCode, Cursor, etc.)
-3. Pegar el contenido de `.ai/prompts/bootstrap.md` como prompt
-4. El LLM analiza tu proyecto (o te pregunta si es nuevo) y genera:
-   - `.ai/agents/project-context.md` (relleno)
-   - `CLAUDE.md` (relleno)
-   - `AGENTS.md` (relleno, si usas OpenCode)
-   - `.ai/decisions.md` (con decisiones iniciales)
-   - `.ai/skills/` (skills básicos del stack, marcados `> REVISAR`)
-5. Ejecutar `.ai/sync.sh`
-6. Ejecutar `.ai/test.sh` para validar
+1. Copy `.ai/` to your project
+2. Open your AI tool (Claude Code, OpenCode, Cursor, etc.)
+3. Paste the content of `.ai/prompts/bootstrap.md` as a prompt
+4. The LLM analyzes your project (or asks if it's new) and generates:
+   - `.ai/agents/project-context.md` (filled)
+   - `CLAUDE.md` (filled)
+   - `AGENTS.md` (filled, if using OpenCode)
+   - `.ai/decisions.md` (with initial decisions)
+   - `.ai/skills/` (basic stack skills, marked `> REVIEW`)
+5. Run `.ai/sync.sh`
+6. Run `.ai/test.sh` to validate
 
-### Opción B: Manual
+### Option B: Manual
 
-1. Copiar `.ai/` a tu proyecto
-2. Rellenar `.ai/agents/project-context.md` con el contexto de tu proyecto
-3. Copiar `.ai/templates/CLAUDE.md.template` a `CLAUDE.md` en la raíz y rellenar
-4. Copiar `.ai/templates/AGENTS.md.template` a `AGENTS.md` en la raíz (si usas OpenCode)
-5. Crear skills en `.ai/skills/{nombre}/SKILL.md`
-6. Ejecutar `.ai/sync.sh`
+1. Copy `.ai/` to your project
+2. Fill `.ai/agents/project-context.md` with your project context
+3. Copy `.ai/templates/CLAUDE.md.template` to `CLAUDE.md` at the root and fill it
+4. Copy `.ai/templates/AGENTS.md.template` to `AGENTS.md` at the root (if using OpenCode)
+5. Create skills in `.ai/skills/{name}/SKILL.md`
+6. Run `.ai/sync.sh`
 
-## Agentes
+## Agents
 
-| Agente | Misión | Mode |
-|--------|--------|------|
-| orchestrator | Routing + verificación cruzada | primary |
-| project-context | Contexto compartido del proyecto | context |
-| product-owner | User Stories con ROI | subagent |
+| Agent | Mission | Mode |
+|-------|---------|------|
+| orchestrator | Routing + cross-verification | primary |
+| project-context | Shared project context | context |
+| product-owner | User Stories with ROI | subagent |
 | architect | Clean Architecture (read-only) | subagent |
 | tdd-developer | RED-GREEN-REFACTOR | subagent |
-| database-engineer | Schema, migraciones, optimización | subagent |
+| database-engineer | Schema, migrations, optimization | subagent |
 | security-auditor | OWASP Top 10 (audit-only) | subagent |
 | qa-engineer | Coverage 100/80/0 (audit-only) | subagent |
-| performance-engineer | Optimización con datos reales | subagent |
+| performance-engineer | Data-driven optimization | subagent |
 | devops | CI/CD, Docker, Git workflow | subagent |
-| observability-engineer | Metricas, logs, tracing | subagent |
-| technical-writer | Documentación viva | subagent |
-| ux-designer | Accesibilidad e inclusión | subagent |
+| observability-engineer | Metrics, logs, tracing | subagent |
+| technical-writer | Living documentation | subagent |
+| ux-designer | Accessibility and inclusion | subagent |
 
-## Memoria por herramienta
+## Memory per Tool
 
-| Herramienta | Memoria automatica | Memoria de proyecto | Nivel |
-|-------------|-------------------|-------------------|-------|
-| Claude Code | .claude/rules/ + Hooks + Engram MCP | Feature Specs + decisions.md | Idoneo |
-| OpenCode | AGENTS.md + Engram MCP | Feature Specs + decisions.md | Aceptable |
-| Cursor/Windsurf | compact rules + Engram MCP (si soporta) | Feature Specs + decisions.md | Limitado |
-| Gemini | GEMINI.md + Engram MCP (si soporta) | Feature Specs + decisions.md | Limitado |
-| Copilot | copilot-instructions.md | Feature Specs + decisions.md | Minimo |
+| Tool | Automatic Memory | Project Memory | Level |
+|------|-----------------|----------------|-------|
+| Claude Code | .claude/rules/ + Hooks + Engram MCP | Feature Specs + decisions.md | Ideal |
+| OpenCode | AGENTS.md + Engram MCP | Feature Specs + decisions.md | Acceptable |
+| Cursor/Windsurf | compact rules + Engram MCP (if supported) | Feature Specs + decisions.md | Limited |
+| Gemini | GEMINI.md + Engram MCP (if supported) | Feature Specs + decisions.md | Limited |
+| Copilot | copilot-instructions.md | Feature Specs + decisions.md | Minimal |
 
-## Convenciones por módulo
+## Per-module Conventions
 
-Para proyectos multi-módulo (backend + frontend, monorepo, etc.):
+For multi-module projects (backend + frontend, monorepo, etc.):
 
-| Herramienta | Mecanismo | Ejemplo |
+| Tool | Mechanism | Example |
 |---|---|---|
-| Claude Code | `CLAUDE.md` en subcarpeta | `backend/CLAUDE.md` (jerarquico, nativo) |
-| Cursor | `.cursor/rules/*.mdc` con globs | `globs: backend/**/*.php` |
-| Resto | Skills por módulo | `.ai/skills/symfony/SKILL.md` |
+| Claude Code | `CLAUDE.md` in subfolder | `backend/CLAUDE.md` (hierarchical, native) |
+| Cursor | `.cursor/rules/*.mdc` with globs | `globs: backend/**/*.php` |
+| Others | Per-module skills | `.ai/skills/symfony/SKILL.md` |
 
-## Prompts reutilizables
+## Reusable Prompts
 
-| Prompt | Cuando usarlo | Obligatorio | Que genera |
-|--------|---------------|-------------|------------|
-| `prompts/bootstrap.md` | Al adoptar el template (día 0) | Si | project-context.md, CLAUDE.md, AGENTS.md, decisions.md, skills |
-| `prompts/feature-spec.md` | Antes de implementar una feature | No | docs/specs/FEAT-XXX-nombre.md |
-| `prompts/refine-skills.md` | Después de 2-3 features | No | Skills refinados con patrones reales |
-| `prompts/legacy-audit.md` | Antes de modernizar código legacy | No | docs/legacy-audit.md con inventario, riesgos y plan |
+| Prompt | When to use | Required | What it generates |
+|--------|-------------|----------|-------------------|
+| `prompts/bootstrap.md` | When adopting the template (day 0) | Yes | project-context.md, CLAUDE.md, AGENTS.md, decisions.md, skills |
+| `prompts/feature-spec.md` | Before implementing a feature | No | docs/specs/FEAT-XXX-name.md |
+| `prompts/refine-skills.md` | After 2-3 features | No | Refined skills with real patterns |
+| `prompts/legacy-audit.md` | Before modernizing legacy code | No | docs/legacy-audit.md with inventory, risks and plan |
 
-**Feature Specs (opcional):** Con Claude Code/OpenCode + agentes, el sistema funciona sin specs.
-Pero para features complejas, equipos, o herramientas sin agentes (Cursor, Windsurf), un spec centraliza
-el contexto y evita repetición. Ver `prompts/feature-spec.md` para cuando y por que usarlos.
+**Feature Specs (optional):** With Claude Code/OpenCode + agents, the system works without specs.
+But for complex features, teams, or tools without agents (Cursor, Windsurf), a spec centralizes
+context and avoids repetition. See `prompts/feature-spec.md` for when and why to use them.
 
-**Ciclo de vida de los skills:**
-1. **Bootstrap** genera skills con best practices genéricas (marcados `> REVISAR`)
-2. Se implementan features usando los agentes y skills genéricos
-3. **Refine-skills** analiza el código real y reescribe los skills con patrones del proyecto
-4. Los skills refinados ya no llevan el aviso `> REVISAR`
+**Skill lifecycle:**
+1. **Bootstrap** generates skills with generic best practices (marked `> REVIEW`)
+2. Features are implemented using the agents and generic skills
+3. **Refine-skills** analyzes real code and rewrites skills with project patterns
+4. Refined skills no longer carry the `> REVIEW` notice
 
-## Principio clave
+## Key Principle
 
-**Agentes definen QUE verificar** (Quality Gates agnósticos).
-**Skills definen COMO hacerlo** (conocimiento específico del framework).
+**Agents define WHAT to verify** (agnostic Quality Gates).
+**Skills define HOW to do it** (framework-specific knowledge).

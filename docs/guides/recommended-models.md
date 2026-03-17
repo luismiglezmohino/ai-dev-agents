@@ -1,162 +1,164 @@
-# Modelos recomendados por tarea
+# Recommended Models per Task
 
-La elección del modelo impacta directamente en calidad, velocidad y coste. No uses el modelo más caro para todo — usa el adecuado para cada tarea.
+[🇪🇸 Leer en español](es/recommended-models.md)
 
-> **Aviso:** Esta guía es orientativa. El ecosistema de modelos de IA cambia constantemente — salen nuevos modelos, cambian precios y las capacidades evolucionan. Verifica la información con los proveedores antes de tomar decisiones de coste. Lo que hoy es el mejor modelo puede no serlo mañana.
+Model choice directly impacts quality, speed and cost. Don't use the most expensive model for everything — use the right one for each task.
 
-## Principio: modelo según la tarea
+> **Disclaimer:** This guide is indicative. The AI model ecosystem changes constantly — new models come out, prices change and capabilities evolve. Verify information with providers before making cost decisions. Today's best model may not be tomorrow's.
 
-| Tipo de tarea | Modelo recomendado | Razón |
+## Principle: Model per Task
+
+| Task type | Recommended model | Reason |
 |---|---|---|
-| **Análisis y diseño** (arquitectura, decisiones) | Razonamiento (Opus, o1, Gemini thinking) | Necesita pensar, no ir rápido |
-| **Implementación de código** | Código (Opus, Claude Sonnet) | Mejor en generación de código |
-| **Revisión de seguridad** | Código (Opus, Claude Sonnet) | Análisis profundo línea por línea |
-| **Documentación** | General (Sonnet, GPT-4o) | Suficiente calidad, menor coste |
-| **Scripts y configs** | Rápido (Haiku, GPT-4o-mini) | Tareas repetitivas, no necesitan pensar |
-| **Planificación (plan mode)** | Razonamiento (Opus, o1) | El plan define todo lo que viene después |
+| **Analysis and design** (architecture, decisions) | Reasoning (Opus, o1, Gemini thinking) | Needs to think, not go fast |
+| **Code implementation** | Code (Opus, Claude Sonnet) | Best at code generation |
+| **Security review** | Code (Opus, Claude Sonnet) | Deep line-by-line analysis |
+| **Documentation** | General (Sonnet, GPT-4o) | Sufficient quality, lower cost |
+| **Scripts and configs** | Fast (Haiku, GPT-4o-mini) | Repetitive tasks, don't need thinking |
+| **Planning (plan mode)** | Reasoning (Opus, o1) | The plan defines everything that follows |
 
-## Modelo por agente
+## Model per Agent
 
-| Agente | Modelo sugerido | Razón |
+| Agent | Suggested model | Reason |
 |---|---|---|
-| @architect | Razonamiento | Decisiones arquitectónicas requieren análisis profundo |
-| @product-owner | Razonamiento | Análisis de requisitos y valor de negocio |
-| @tdd-developer | Código | Implementación y refactor |
-| @security-auditor | Código | Análisis detallado de vulnerabilidades |
-| @database-engineer | Código | Schema design y queries |
-| @qa-engineer | Código | Diseño de tests |
-| @performance-engineer | Código | Profiling y optimización |
-| @technical-writer | General | Documentación, suficiente calidad |
-| @devops | Rápido | Configs, scripts, tareas repetitivas |
-| @observability-engineer | General | Configuración de métricas y logs |
-| @ux-designer | General | Revisión de accesibilidad y UX |
+| @architect | Reasoning | Architectural decisions require deep analysis |
+| @product-owner | Reasoning | Requirements analysis and business value |
+| @tdd-developer | Code | Implementation and refactoring |
+| @security-auditor | Code | Detailed vulnerability analysis |
+| @database-engineer | Code | Schema design and queries |
+| @qa-engineer | Code | Test design |
+| @performance-engineer | Code | Profiling and optimization |
+| @technical-writer | General | Documentation, sufficient quality |
+| @devops | Fast | Configs, scripts, repetitive tasks |
+| @observability-engineer | General | Metrics and logs configuration |
+| @ux-designer | General | Accessibility and UX review |
 
-## Modelos disponibles (marzo 2026)
+## Available Models (March 2026)
 
-### Pago
+### Paid
 
-| Modelo | Proveedor | Fuerte en | Coste relativo |
+| Model | Provider | Strong at | Relative cost |
 |---|---|---|---|
-| **Claude Opus 4.6** | Anthropic | Código + razonamiento | Alto (3x Sonnet) |
-| **Claude Sonnet 4.6** | Anthropic | Código, equilibrio calidad/coste | Medio |
-| **GPT-4o** | OpenAI | General, multimodal | Medio |
-| **o1** | OpenAI | Razonamiento profundo | Alto |
-| **Gemini 2.0 Pro** | Google | Contexto largo (1M tokens) | Medio |
+| **Claude Opus 4.6** | Anthropic | Code + reasoning | High (3x Sonnet) |
+| **Claude Sonnet 4.6** | Anthropic | Code, quality/cost balance | Medium |
+| **GPT-4o** | OpenAI | General, multimodal | Medium |
+| **o1** | OpenAI | Deep reasoning | High |
+| **Gemini 2.0 Pro** | Google | Long context (1M tokens) | Medium |
 
-### Gratuitos / bajo coste
+### Free / Low Cost
 
-| Modelo | Proveedor | Fuerte en | Cómo usarlo |
+| Model | Provider | Strong at | How to use |
 |---|---|---|---|
-| **Claude Haiku 4.5** | Anthropic | Rápido, barato | Claude Code (plan básico) |
-| **GPT-4o-mini** | OpenAI | General, muy barato | API OpenAI |
-| **Gemini Flash** | Google | Rápido, contexto largo | API Google / Gemini CLI |
-| **Llama 70B** | Meta (via Groq) | Código, open source | Groq free tier (1000 RPD) |
-| **Qwen 2.5** | Alibaba | Código, open source | Local con Ollama/LM Studio |
-| **Modelos OpenCode** | Varios | General | OpenCode free tier |
+| **Claude Haiku 4.5** | Anthropic | Fast, cheap | Claude Code (basic plan) |
+| **GPT-4o-mini** | OpenAI | General, very cheap | OpenAI API |
+| **Gemini Flash** | Google | Fast, long context | Google API / Gemini CLI |
+| **Llama 70B** | Meta (via Groq) | Code, open source | Groq free tier (1000 RPD) |
+| **Qwen 2.5** | Alibaba | Code, open source | Local with Ollama/LM Studio |
+| **OpenCode models** | Various | General | OpenCode free tier |
 
-## Estrategia de costes
+## Cost Strategy
 
-### Si no quieres gastar nada
+### If you don't want to spend anything
 
-- **OpenCode** con modelos gratuitos para implementación
-- **Groq free tier** (Llama 70B) para tareas de código
-- **Ollama/LM Studio** con Qwen 2.5 para tareas locales rápidas
-- **GitHub Copilot free tier** para autocompletado
+- **OpenCode** with free models for implementation
+- **Groq free tier** (Llama 70B) for code tasks
+- **Ollama/LM Studio** with Qwen 2.5 for quick local tasks
+- **GitHub Copilot free tier** for autocomplete
 
-### Si puedes gastar poco (~20€/mes)
+### If you can spend a little (~20EUR/month)
 
-- **Claude Code** plan básico (Sonnet para código, Haiku para scripts)
-- Reserva Opus solo para planificación y arquitectura (plan mode)
+- **Claude Code** basic plan (Sonnet for code, Haiku for scripts)
+- Reserve Opus only for planning and architecture (plan mode)
 
-### Si tienes presupuesto (~100€/mes)
+### If you have a budget (~100EUR/month)
 
-- **Claude Code** plan avanzado (Opus para todo lo complejo)
-- Sonnet/Haiku para tareas rutinarias
-- Model routing por agente
+- **Claude Code** advanced plan (Opus for everything complex)
+- Sonnet/Haiku for routine tasks
+- Model routing per agent
 
-## Estado actual del model routing
+## Current Model Routing Support
 
-| Herramienta | Soporta model routing | Cómo |
+| Tool | Supports model routing | How |
 |---|---|---|
-| **OpenCode** | Sí | Configurable por agente |
-| **Cursor** | Sí | Por regla |
-| **Claude Code** | No (1 modelo por sesión) | Cambiar manualmente entre sesiones |
+| **OpenCode** | Yes | Configurable per agent |
+| **Cursor** | Yes | Per rule |
+| **Claude Code** | No (1 model per session) | Switch manually between sessions |
 | **Windsurf** | No | — |
 | **Gemini CLI** | No | — |
-| **GitHub Copilot** | Parcial | Selección manual |
+| **GitHub Copilot** | Partial | Manual selection |
 
-## Modelos locales
+## Local Models
 
-Si quieres coste 0 y privacidad total, puedes ejecutar modelos en tu máquina. Necesitas una GPU o una CPU con suficiente RAM.
+If you want zero cost and total privacy, you can run models on your machine. You need a GPU or a CPU with enough RAM.
 
-### Herramientas para ejecutar modelos locales
+### Tools for Running Local Models
 
-| Herramienta | Interfaz | Enlace |
+| Tool | Interface | Link |
 |---|---|---|
-| **[Ollama](https://ollama.ai)** | CLI + API REST | Más popular, fácil de usar |
-| **[LM Studio](https://lmstudio.ai)** | GUI de escritorio | Más visual, ideal para probar modelos |
+| **[Ollama](https://ollama.ai)** | CLI + REST API | Most popular, easy to use |
+| **[LM Studio](https://lmstudio.ai)** | Desktop GUI | More visual, ideal for testing models |
 
-### Modelos locales recomendados
+### Recommended Local Models
 
-| Modelo | Parámetros | RAM mínima | Fuerte en | Calidad |
+| Model | Parameters | Min RAM | Strong at | Quality |
 |---|---|---|---|---|
-| **Qwen 2.5 Coder** | 7B | ~6 GB | Código, instrucciones | Buena para su tamaño |
-| **DeepSeek Coder V2** | 16B | ~12 GB | Código, razonamiento | Muy buena |
-| **Llama 3.1** | 8B | ~6 GB | General, instrucciones | Buena |
-| **Llama 3.1** | 70B | ~48 GB | General, código | Excelente (requiere GPU potente) |
-| **Mistral** | 7B | ~6 GB | General, rápido | Aceptable |
-| **CodeGemma** | 7B | ~6 GB | Código | Buena |
-| **Phi-3** | 3.8B | ~3 GB | General, muy ligero | Aceptable para tareas simples |
+| **Qwen 2.5 Coder** | 7B | ~6 GB | Code, instructions | Good for its size |
+| **DeepSeek Coder V2** | 16B | ~12 GB | Code, reasoning | Very good |
+| **Llama 3.1** | 8B | ~6 GB | General, instructions | Good |
+| **Llama 3.1** | 70B | ~48 GB | General, code | Excellent (requires powerful GPU) |
+| **Mistral** | 7B | ~6 GB | General, fast | Acceptable |
+| **CodeGemma** | 7B | ~6 GB | Code | Good |
+| **Phi-3** | 3.8B | ~3 GB | General, very lightweight | Acceptable for simple tasks |
 
-### Usar modelos locales con herramientas de desarrollo
+### Using Local Models with Dev Tools
 
-| Herramienta | Compatible con modelos locales | Cómo |
+| Tool | Compatible with local models | How |
 |---|---|---|
-| **OpenCode** | Sí | Configurar proveedor Ollama en settings |
-| **Claude Code** | Sí | Configurar modelo local como proveedor |
-| **Cursor** | Sí | Configurar Ollama como modelo custom |
-| **Continue (VS Code)** | Sí | Integración nativa con Ollama |
+| **OpenCode** | Yes | Configure Ollama provider in settings |
+| **Claude Code** | Yes | Configure local model as provider |
+| **Cursor** | Yes | Configure Ollama as custom model |
+| **Continue (VS Code)** | Yes | Native Ollama integration |
 
-Esto te permite usar el mismo flujo de agentes del template pero con modelos locales y coste 0.
+This allows you to use the same template agent workflow but with local models at zero cost.
 
-### Hardware y modelos locales
+### Hardware and Local Models
 
-El modelo que puedas ejecutar depende directamente de tu equipo. No es lo mismo un Mac M4 con 24 GB de memoria unificada que un PC con Intel y 16 GB de RAM.
+The model you can run depends directly on your hardware. A Mac M4 with 24 GB of unified memory is not the same as a PC with Intel and 16 GB of RAM.
 
-| Hardware | Modelos que puedes ejecutar | Rendimiento |
+| Hardware | Models you can run | Performance |
 |---|---|---|
-| **Mac M3/M4 (24+ GB)** | Hasta 70B (quantizado), 7B-16B cómodo | Rápido gracias a la memoria unificada GPU/CPU |
-| **Mac M1/M2 (16 GB)** | 7B cómodo, 16B justo | Aceptable |
-| **PC con GPU NVIDIA (8+ GB VRAM)** | 7B con GPU, 16B justo | Rápido si cabe en VRAM |
-| **PC sin GPU (16 GB RAM)** | 3.8B-7B en CPU | Lento pero funcional |
-| **PC sin GPU (8 GB RAM)** | 3.8B máximo | Muy lento, solo para probar |
+| **Mac M3/M4 (24+ GB)** | Up to 70B (quantized), 7B-16B comfortable | Fast thanks to unified GPU/CPU memory |
+| **Mac M1/M2 (16 GB)** | 7B comfortable, 16B tight | Acceptable |
+| **PC with NVIDIA GPU (8+ GB VRAM)** | 7B with GPU, 16B tight | Fast if it fits in VRAM |
+| **PC without GPU (16 GB RAM)** | 3.8B-7B on CPU | Slow but functional |
+| **PC without GPU (8 GB RAM)** | 3.8B maximum | Very slow, testing only |
 
-> **Regla general:** un modelo de 7B necesita ~6 GB de RAM/VRAM. Un modelo de 16B necesita ~12 GB. Si el modelo no cabe en memoria, se ejecuta parcialmente en disco y la velocidad cae drásticamente.
+> **Rule of thumb:** a 7B model needs ~6 GB of RAM/VRAM. A 16B model needs ~12 GB. If the model doesn't fit in memory, it runs partially from disk and speed drops drastically.
 
-> **Mac vs PC:** Los Mac con chip Apple Silicon (M1-M4) tienen ventaja en modelos locales porque la memoria es unificada (CPU y GPU comparten la misma RAM). En PC, si no tienes GPU NVIDIA con suficiente VRAM, el modelo se ejecuta en CPU y es mucho más lento.
+> **Mac vs PC:** Macs with Apple Silicon (M1-M4) have an advantage for local models because memory is unified (CPU and GPU share the same RAM). On PC, if you don't have an NVIDIA GPU with enough VRAM, the model runs on CPU and is much slower.
 
-### Limitaciones de modelos locales
+### Local Model Limitations
 
-- **Calidad inferior** a modelos cloud (Opus, GPT-4o) para tareas complejas
-- **Velocidad** depende de tu hardware (GPU >> CPU)
-- **Contexto limitado** — la mayoría soportan 4K-32K tokens vs 200K de modelos cloud
-- **Sin herramientas nativas** — no ejecutan comandos ni leen ficheros como Claude Code. Necesitas una herramienta que los integre (OpenCode, Continue, etc.)
+- **Lower quality** than cloud models (Opus, GPT-4o) for complex tasks
+- **Speed** depends on your hardware (GPU >> CPU)
+- **Limited context** — most support 4K-32K tokens vs 200K from cloud models
+- **No native tools** — they don't execute commands or read files like Claude Code. You need a tool that integrates them (OpenCode, Continue, etc.)
 
-### Cuándo usar local
+### When to Use Local
 
-| Situación | Local | Cloud |
+| Situation | Local | Cloud |
 |---|---|---|
-| Sin presupuesto | Sí | No |
-| Datos sensibles (no pueden salir de tu máquina) | Sí | No |
-| Tareas simples (scripts, configs, docs) | Sí | Innecesario |
-| Código complejo (arquitectura, refactor grande) | No | Sí |
-| Plan mode / razonamiento profundo | No | Sí |
+| No budget | Yes | No |
+| Sensitive data (cannot leave your machine) | Yes | No |
+| Simple tasks (scripts, configs, docs) | Yes | Unnecessary |
+| Complex code (architecture, large refactor) | No | Yes |
+| Plan mode / deep reasoning | No | Yes |
 
-> **Aviso:** Los modelos locales evolucionan muy rápido. Esta lista es orientativa. Consulta [Ollama library](https://ollama.ai/library) para ver los modelos más recientes.
+> **Disclaimer:** Local models evolve very fast. This list is indicative. Check [Ollama library](https://ollama.ai/library) for the latest models.
 
-## Cuándo cambiar de modelo
+## When to Switch Models
 
-- Si la IA alucina → sube a un modelo más potente
-- Si tarda demasiado → baja a un modelo más rápido
-- Si el coste se dispara → baja a Haiku/GPT-4o-mini para tareas simples
-- Si el contexto se llena → usa un modelo con ventana más grande (Gemini 1M)
+- If the AI hallucinates → switch to a more powerful model
+- If it's too slow → switch to a faster model
+- If costs spike → switch to Haiku/GPT-4o-mini for simple tasks
+- If context fills up → use a model with a larger window (Gemini 1M)

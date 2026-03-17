@@ -1,21 +1,21 @@
-# Decisiones del Proyecto
+# Project Decisions
 
-Decisiones técnicas rápidas que no merecen un ADR formal.
-`.ai/sync.sh` distribuye este fichero a cada herramienta.
+Quick technical decisions that don't warrant a formal ADR.
+`.ai/sync.sh` distributes this file to each tool.
 
-Formato: `YYYY-MM-DD: decisión — motivo`
-Añadir `NO REVISITAR` a decisiones definitivas.
+Format: `YYYY-MM-DD: decision — reason`
+Add `DO NOT REVISIT` to final decisions.
 
-## Convenciones
-- 2026-01-15: kebab-case para agentes, PascalCase para clases — consistencia naming
-<!-- Añadir más decisiones aquí -->
+## Conventions
+- 2026-01-15: kebab-case for agents, PascalCase for classes — naming consistency
+<!-- Add more decisions here -->
 
-## Dependencias
-<!-- Ejemplo: 2026-01-20: PostgreSQL >= 15 (no MySQL) — JSONB nativo, full-text search NO REVISITAR -->
+## Dependencies
+<!-- Example: 2026-01-20: PostgreSQL >= 15 (not MySQL) — native JSONB, full-text search DO NOT REVISIT -->
 
-## Patrones
-- 2026-01-22: Agentes definen QUE, Skills definen COMO — separar verificación de implementación NO REVISITAR
-<!-- Añadir más decisiones aquí -->
+## Patterns
+- 2026-01-22: Agents define WHAT, Skills define HOW — separate verification from implementation DO NOT REVISIT
+<!-- Add more decisions here -->
 
-## Infraestructura
-<!-- Ejemplo: 2026-02-01: Docker multi-stage builds — reducir imagen prod a <100MB -->
+## Infrastructure
+<!-- Example: 2026-02-01: Docker multi-stage builds — reduce prod image to <100MB -->

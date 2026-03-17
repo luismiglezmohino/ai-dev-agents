@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# test.sh - Validacion de estructura del template
-# Uso: .ai/test.sh
+# test.sh - Template structure validation
+# Usage: .ai/test.sh
 #
 
 set -euo pipefail
@@ -21,109 +21,109 @@ fail() { echo -e "${RED}[FAIL]${NC} $1"; ((ERRORS++)) || true; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; ((WARNINGS++)) || true; }
 pass() { echo -e "${GREEN}[PASS]${NC} $1"; }
 
-echo "=== Test 1: Directorios obligatorios ==="
+echo "=== Test 1: Required directories ==="
 
 for dir in "$AI_DIR/agents" "$AI_DIR/skills" "$AI_DIR/hooks"; do
     if [[ -d "$dir" ]]; then
-        pass "$(basename "$dir")/ existe"
+        pass "$(basename "$dir")/ exists"
     else
-        fail "$(basename "$dir")/ no existe"
+        fail "$(basename "$dir")/ does not exist"
     fi
 done
 
 echo ""
-echo "=== Test 2: Archivos obligatorios ==="
+echo "=== Test 2: Required files ==="
 
 for file in "$AI_DIR/decisions.md" "$AI_DIR/sync.sh"; do
     if [[ -f "$file" ]]; then
-        pass "Archivo $(basename "$file") existe"
+        pass "File $(basename "$file") exists"
     else
-        fail "Archivo $(basename "$file") no existe"
+        fail "File $(basename "$file") does not exist"
     fi
 done
 
 echo ""
-echo "=== Test 3: Validacion de agentes ==="
+echo "=== Test 3: Agent validation ==="
 
 for agent in "$AI_DIR"/agents/*.md; do
     [[ -f "$agent" ]] || continue
     fname=$(basename "$agent")
 
-    # Skip base y archivos con prefijo _
+    # Skip base and files with _ prefix
     [[ "$fname" == _* ]] && continue
 
-    # Frontmatter obligatorio: description
+    # Required frontmatter: description
     if ! grep -q "^description:" "$agent"; then
-        fail "$fname: falta 'description'"
+        fail "$fname: missing 'description'"
     fi
 
-    # Frontmatter obligatorio: mode
+    # Required frontmatter: mode
     if ! grep -q "^mode:" "$agent"; then
-        fail "$fname: falta 'mode'"
+        fail "$fname: missing 'mode'"
     else
         mode=$(grep -m1 "^mode:" "$agent" | awk '{print $2}')
         case "$mode" in
             subagent|primary|context|base) ;;
-            *) fail "$fname: mode invalido '$mode'" ;;
+            *) fail "$fname: invalid mode '$mode'" ;;
         esac
     fi
 
-    # Temperature en rango (si existe)
+    # Temperature in range (if present)
     if grep -q "^temperature:" "$agent"; then
         temp=$(grep -m1 "^temperature:" "$agent" | awk '{print $2}')
         if ! awk "BEGIN{exit !($temp >= 0.0 && $temp <= 1.0)}" 2>/dev/null; then
-            fail "$fname: temperature fuera de rango '$temp'"
+            fail "$fname: temperature out of range '$temp'"
         fi
     fi
 
-    # Secciones obligatorias para subagents
+    # Required sections for subagents
     mode=$(grep -m1 "^mode:" "$agent" | awk '{print $2}' 2>/dev/null || echo "")
     if [[ "$mode" == "subagent" ]]; then
-        grep -q "Quality Gates\|Protocolo" "$agent" || fail "$fname: falta Quality Gates"
-        grep -q "Restricciones Fatales" "$agent" || fail "$fname: falta Restricciones Fatales"
+        grep -q "Quality Gates\|Protocol" "$agent" || fail "$fname: missing Quality Gates"
+        grep -q "Fatal Restrictions" "$agent" || fail "$fname: missing Fatal Restrictions"
     fi
 done
-pass "Agentes validados"
+pass "Agents validated"
 
 echo ""
-echo "=== Test 4: Hooks ejecutables ==="
+echo "=== Test 4: Executable hooks ==="
 
 for hook in "$AI_DIR"/hooks/*.sh; do
     [[ -f "$hook" ]] || continue
     if [[ -x "$hook" ]]; then
-        pass "$(basename "$hook") es ejecutable"
+        pass "$(basename "$hook") is executable"
     else
-        fail "$(basename "$hook") no es ejecutable (chmod +x)"
+        fail "$(basename "$hook") is not executable (chmod +x)"
     fi
 done
 
 echo ""
-echo "=== Test 5: sync.sh ejecutable ==="
+echo "=== Test 5: sync.sh executable ==="
 
 if [[ -x "$AI_DIR/sync.sh" ]]; then
-    pass "sync.sh es ejecutable"
+    pass "sync.sh is executable"
 else
-    fail "sync.sh no es ejecutable"
+    fail "sync.sh is not executable"
 fi
 
 echo ""
-echo "=== Test 6: Archivos generados ==="
+echo "=== Test 6: Generated files ==="
 
 if [[ -d "$PROJECT_ROOT/.claude/agents" ]]; then
     agent_count=$(ls "$PROJECT_ROOT/.claude/agents/"*.md 2>/dev/null | wc -l | tr -d ' ')
-    pass ".claude/agents/ tiene $agent_count agentes"
+    pass ".claude/agents/ has $agent_count agents"
 else
-    warn ".claude/agents/ no existe (ejecutar .ai/sync.sh)"
+    warn ".claude/agents/ does not exist (run .ai/sync.sh)"
 fi
 
 if [[ -f "$PROJECT_ROOT/.claude/rules/decisions.md" ]]; then
-    pass ".claude/rules/decisions.md existe"
+    pass ".claude/rules/decisions.md exists"
 else
-    warn ".claude/rules/decisions.md no existe (ejecutar .ai/sync.sh)"
+    warn ".claude/rules/decisions.md does not exist (run .ai/sync.sh)"
 fi
 
 echo ""
-echo "=== Test 7: Tools granulares en agentes generados ==="
+echo "=== Test 7: Granular tools in generated agents ==="
 
 if [[ -d "$PROJECT_ROOT/.claude/agents" ]]; then
     for generated in "$PROJECT_ROOT/.claude/agents/"*.md; do
@@ -132,71 +132,71 @@ if [[ -d "$PROJECT_ROOT/.claude/agents" ]]; then
         source_file="$AI_DIR/agents/$gname.md"
         [[ -f "$source_file" ]] || continue
 
-        # Verificar opt-in: agentes SIN write: true NO deben tener Write en generado
+        # Verify opt-in: agents WITHOUT write: true must NOT have Write in generated
         if ! grep -q "write: true" "$source_file"; then
             if grep -q "^tools:.*Write" "$generated"; then
-                fail "$gname: tiene Write en generado pero NO tiene write: true en fuente"
+                fail "$gname: has Write in generated but NOT write: true in source"
             else
-                pass "$gname: sin write: true → sin Write (opt-in correcto)"
+                pass "$gname: no write: true → no Write (opt-in correct)"
             fi
         fi
 
-        # Verificar opt-in: agentes SIN edit: true NO deben tener Edit en generado
+        # Verify opt-in: agents WITHOUT edit: true must NOT have Edit in generated
         if ! grep -q "edit: true" "$source_file"; then
             if grep -q "^tools:.*Edit" "$generated"; then
-                fail "$gname: tiene Edit en generado pero NO tiene edit: true en fuente"
+                fail "$gname: has Edit in generated but NOT edit: true in source"
             else
-                pass "$gname: sin edit: true → sin Edit (opt-in correcto)"
+                pass "$gname: no edit: true → no Edit (opt-in correct)"
             fi
         fi
 
-        # Verificar opt-in: agentes SIN bash: true NO deben tener Bash en generado
+        # Verify opt-in: agents WITHOUT bash: true must NOT have Bash in generated
         if ! grep -q "bash: true" "$source_file"; then
             if grep -q "^tools:.*Bash" "$generated"; then
-                fail "$gname: tiene Bash en generado pero NO tiene bash: true en fuente"
+                fail "$gname: has Bash in generated but NOT bash: true in source"
             else
-                pass "$gname: sin bash: true → sin Bash (opt-in correcto)"
+                pass "$gname: no bash: true → no Bash (opt-in correct)"
             fi
         fi
-        # Verificar que no hay doble linea en blanco despues del frontmatter
+        # Verify no double blank line after frontmatter
         if awk '/^---$/{c++;next}c==2{if(/^$/){blanks++;if(blanks>1){exit 1}}else{exit 0}}' "$generated"; then
-            pass "$gname: sin doble linea en blanco tras frontmatter"
+            pass "$gname: no double blank line after frontmatter"
         else
-            fail "$gname: doble linea en blanco tras frontmatter"
+            fail "$gname: double blank line after frontmatter"
         fi
 
-        # Verificar que _base.md se expande (no queda referencia huerfana)
+        # Verify _base.md is expanded (no orphan reference remains)
         if grep -q "_base.md" "$source_file"; then
-            if grep -q "Hereda de.*_base.md" "$generated"; then
-                fail "$gname: referencia a _base.md no expandida en generado"
+            if grep -q "Inherits from.*_base.md" "$generated"; then
+                fail "$gname: _base.md reference not expanded in generated"
             fi
-            if grep -q "Verificacion Final" "$generated"; then
-                pass "$gname: _base.md expandido correctamente"
+            if grep -q "Final Verification" "$generated"; then
+                pass "$gname: _base.md expanded correctly"
             else
-                fail "$gname: _base.md no expandido (falta Verificacion Final)"
+                fail "$gname: _base.md not expanded (missing Final Verification)"
             fi
         fi
     done
 fi
 
 echo ""
-echo "=== Test 8: Archivos generados (compact rules + symlinks) ==="
+echo "=== Test 8: Generated files (compact rules + symlinks) ==="
 
-# Compact rules: verificar que existen y no estan vacios
+# Compact rules: verify they exist and are not empty
 for compact in ".cursorrules" ".windsurfrules" "GEMINI.md" ".github/copilot-instructions.md"; do
     filepath="$PROJECT_ROOT/$compact"
     if [[ -f "$filepath" ]]; then
         if [[ -s "$filepath" ]]; then
-            pass "$compact existe y no esta vacio"
+            pass "$compact exists and is not empty"
         else
-            fail "$compact existe pero esta vacio"
+            fail "$compact exists but is empty"
         fi
     else
-        warn "$compact no existe (ejecutar .ai/sync.sh)"
+        warn "$compact does not exist (run .ai/sync.sh)"
     fi
 done
 
-# Symlinks: verificar que apuntan al destino correcto
+# Symlinks: verify they point to the correct target
 for link_target in ".claude/skills:../.ai/skills" ".opencode/agents:../.ai/agents" ".opencode/skills:../.ai/skills"; do
     link="${link_target%%:*}"
     target="${link_target##*:}"
@@ -204,36 +204,36 @@ for link_target in ".claude/skills:../.ai/skills" ".opencode/agents:../.ai/agent
     if [[ -L "$filepath" ]]; then
         actual=$(readlink "$filepath")
         if [[ "$actual" == "$target" ]]; then
-            pass "$link -> $target (symlink correcto)"
+            pass "$link -> $target (correct symlink)"
         else
-            fail "$link apunta a '$actual' en vez de '$target'"
+            fail "$link points to '$actual' instead of '$target'"
         fi
     else
-        warn "$link no es symlink (ejecutar .ai/sync.sh)"
+        warn "$link is not a symlink (run .ai/sync.sh)"
     fi
 done
 
 # OpenCode decisions.md
 if [[ -f "$PROJECT_ROOT/.opencode/decisions.md" ]]; then
-    pass ".opencode/decisions.md existe"
+    pass ".opencode/decisions.md exists"
 else
-    warn ".opencode/decisions.md no existe (ejecutar .ai/sync.sh)"
+    warn ".opencode/decisions.md does not exist (run .ai/sync.sh)"
 fi
 
 # Claude rules/project-context.md
 if [[ -f "$PROJECT_ROOT/.claude/rules/project-context.md" ]]; then
-    # Verificar que NO tiene frontmatter (debe estar stripped)
+    # Verify it does NOT have frontmatter (should be stripped)
     if head -1 "$PROJECT_ROOT/.claude/rules/project-context.md" | grep -q "^---$"; then
-        fail ".claude/rules/project-context.md tiene frontmatter (deberia estar sin el)"
+        fail ".claude/rules/project-context.md has frontmatter (should be without it)"
     else
-        pass ".claude/rules/project-context.md existe (sin frontmatter)"
+        pass ".claude/rules/project-context.md exists (no frontmatter)"
     fi
 else
-    warn ".claude/rules/project-context.md no existe (ejecutar .ai/sync.sh)"
+    warn ".claude/rules/project-context.md does not exist (run .ai/sync.sh)"
 fi
 
 echo ""
-echo "=== Test 9: Opt-in positivo (agentes CON tools SI los tienen) ==="
+echo "=== Test 9: Positive opt-in (agents WITH tools DO have them) ==="
 
 if [[ -d "$PROJECT_ROOT/.claude/agents" ]]; then
     for generated in "$PROJECT_ROOT/.claude/agents/"*.md; do
@@ -242,49 +242,62 @@ if [[ -d "$PROJECT_ROOT/.claude/agents" ]]; then
         source_file="$AI_DIR/agents/$gname.md"
         [[ -f "$source_file" ]] || continue
 
-        # Verificar que agentes CON write: true SI tienen Write en generado
+        # Verify agents WITH write: true DO have Write in generated
         if grep -q "write: true" "$source_file"; then
             if grep -q "^tools:.*Write" "$generated"; then
-                pass "$gname: write: true → Write presente"
+                pass "$gname: write: true → Write present"
             else
-                fail "$gname: tiene write: true pero NO tiene Write en generado"
+                fail "$gname: has write: true but NOT Write in generated"
             fi
         fi
 
-        # Verificar que agentes CON edit: true SI tienen Edit en generado
+        # Verify agents WITH edit: true DO have Edit in generated
         if grep -q "edit: true" "$source_file"; then
             if grep -q "^tools:.*Edit" "$generated"; then
-                pass "$gname: edit: true → Edit presente"
+                pass "$gname: edit: true → Edit present"
             else
-                fail "$gname: tiene edit: true pero NO tiene Edit en generado"
+                fail "$gname: has edit: true but NOT Edit in generated"
             fi
         fi
 
-        # Verificar que agentes CON bash: true SI tienen Bash en generado
+        # Verify agents WITH bash: true DO have Bash in generated
         if grep -q "bash: true" "$source_file"; then
             if grep -q "^tools:.*Bash" "$generated"; then
-                pass "$gname: bash: true → Bash presente"
+                pass "$gname: bash: true → Bash present"
             else
-                fail "$gname: tiene bash: true pero NO tiene Bash en generado"
+                fail "$gname: has bash: true but NOT Bash in generated"
             fi
         fi
     done
 fi
 
 echo ""
-echo "=== Test 10: Estructura docs/ ==="
+echo "=== Test 10: docs/ structure ==="
 
 for dir in "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/adrs" "$PROJECT_ROOT/docs/stories" "$PROJECT_ROOT/docs/guides"; do
     if [[ -d "$dir" ]]; then
-        pass "$(echo "$dir" | sed "s|$PROJECT_ROOT/||") existe"
+        pass "$(echo "$dir" | sed "s|$PROJECT_ROOT/||") exists"
     else
-        warn "$(echo "$dir" | sed "s|$PROJECT_ROOT/||") no existe"
+        warn "$(echo "$dir" | sed "s|$PROJECT_ROOT/||") does not exist"
+    fi
+done
+
+echo ""
+echo "=== Test 11: Skills have SKILL.md ==="
+
+for skill_dir in "$AI_DIR"/skills/*/; do
+    [[ -d "$skill_dir" ]] || continue
+    skill_name=$(basename "$skill_dir")
+    if [[ -f "$skill_dir/SKILL.md" ]]; then
+        pass "skills/$skill_name/SKILL.md exists"
+    else
+        fail "skills/$skill_name/ is missing SKILL.md"
     fi
 done
 
 echo ""
 echo "==================================="
-echo -e "Errores: ${RED}$ERRORS${NC}"
+echo -e "Errors: ${RED}$ERRORS${NC}"
 echo -e "Warnings: ${YELLOW}$WARNINGS${NC}"
 echo "==================================="
 exit $ERRORS

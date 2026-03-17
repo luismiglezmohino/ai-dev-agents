@@ -1,21 +1,22 @@
-# Recommended GitHub Actions Workflows
+# GitHub Actions workflows recomendados
 
-[🇪🇸 Leer en español](es/recommended-workflows.md)
+[🇬🇧 Read in English](../recommended-workflows.md)
 
-GitHub Actions workflows are the second line of defense after Git hooks. They run on the server, not on your machine — nobody can skip them.
 
-## Minimum Recommended Workflows
+Los workflows de GitHub Actions son la segunda línea de defensa después de los Git hooks. Se ejecutan en el servidor, no en tu máquina — nadie puede saltárselos.
 
-| Workflow | When it runs | What it does |
+## Workflows mínimos recomendados
+
+| Workflow | Cuándo se ejecuta | Qué hace |
 |---|---|---|
-| **CI Backend** | On each PR and push to main | Backend tests + linter + type check |
-| **CI Frontend** | On each PR and push to main | Frontend tests + linter + build |
-| **Commitlint** | On each PR | Validates commits follow conventional commits |
-| **Security Review** | On each PR | AI-powered code security audit |
-| **CD Deploy** | On merge to main (after green CI) | Automatic deploy to production |
-| **Dependabot/Renovate** | Automatic (periodic) | Automatic dependency updates |
+| **CI Backend** | En cada PR y push a main | Tests + linter + type check del backend |
+| **CI Frontend** | En cada PR y push a main | Tests + linter + build del frontend |
+| **Commitlint** | En cada PR | Valida que los commits sigan conventional commits |
+| **Security Review** | En cada PR | Auditoría de seguridad del código con IA |
+| **CD Deploy** | Al mergear a main (tras CI verde) | Deploy automático a producción |
+| **Dependabot/Renovate** | Automático (periódico) | Actualización automática de dependencias |
 
-## Workflow Examples
+## Ejemplos de workflows
 
 ### CI Backend (PHP/Symfony)
 
@@ -96,7 +97,7 @@ jobs:
       - run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 ```
 
-### Security Review with Claude Code (Anthropic)
+### Security Review con Claude Code (Anthropic)
 
 ```yaml
 # .github/workflows/security-review.yml
@@ -116,10 +117,10 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-> Requires an Anthropic API key configured in Settings → Secrets → Actions of the repository.
-> Official repository: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
+> Requiere una API key de Anthropic configurada en Settings → Secrets → Actions del repositorio.
+> Repositorio oficial: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
 
-### CD Deploy (SSH example)
+### CD Deploy (ejemplo con SSH)
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -142,9 +143,9 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/project
+            cd /var/www/proyecto
             git pull origin main
-            # Deploy commands per stack
+            # Comandos de deploy según stack
 ```
 
 ### Dependabot
@@ -167,21 +168,21 @@ updates:
       interval: "weekly"
 ```
 
-## Branch Protection
+## Protección de ramas
 
-Configure these rules in GitHub → Settings → Rules:
+Configura estas reglas en GitHub → Settings → Rules:
 
-| Branch | Protection | Agents |
+| Branch | Protección | Agentes |
 |---|---|---|
-| `main` | Require 2 approvals + mandatory green CI | Cannot merge |
-| `staging` | Require 1 approval | Can open PRs |
-| `feature/*` | No protection | Can commit |
+| `main` | Require 2 approvals + CI verde obligatorio | No pueden mergear |
+| `staging` | Require 1 approval | Pueden abrir PRs |
+| `feature/*` | Sin protección | Pueden commitear |
 
-> "Controlled blast radius": if an agent makes a mistake, it only affects a feature branch, never production.
+> "Blast radius controlado": si un agente la lía, solo afecta a una feature branch, nunca a producción.
 
-## Criteria for Adding a Workflow
+## Criterios para añadir un workflow
 
-1. **Is it critical for quality?** CI and commitlint are mandatory
-2. **Does it block PRs?** Required checks prevent bad code from reaching main
-3. **Does it have a cost?** GitHub Actions has free limits (2000 min/month for public repos, 500 min for private)
-4. **Can it be done in a local hook?** If it's fast (lint, format), better as a hook. If it's slow (E2E, deploy), better in CI
+1. **¿Es crítico para la calidad?** CI y commitlint son obligatorios
+2. **¿Bloquea PRs?** Los checks obligatorios evitan que código malo llegue a main
+3. **¿Tiene coste?** GitHub Actions tiene límites gratuitos (2000 min/mes para repos públicos, 500 min para privados)
+4. **¿Se puede hacer en un hook local?** Si es rápido (lint, format), mejor en hook. Si es lento (E2E, deploy), mejor en CI

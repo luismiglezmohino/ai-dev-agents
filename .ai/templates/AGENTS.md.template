@@ -1,7 +1,7 @@
-# Project Configuration - [Nombre del Proyecto]
+# Project Configuration - [Project Name]
 
 **Stack:** [Backend] + [Frontend] + [Database] + [Infra]
-**Architecture:** [Arquitectura elegida]
+**Architecture:** [Chosen architecture]
 **Testing:** TDD
 **Security:** OWASP Top 10, Zero Trust
 
@@ -45,7 +45,7 @@ Specialized agents defined in `.ai/agents/`:
 6. **Quality** -> @qa-engineer (coverage 100/80/0)
 7. **Deploy** -> @devops (CI/CD, PR)
 
-### Transversal (invoked when needed)
+### Cross-cutting (invoked when needed)
 - @technical-writer - documentation at any step
 - @observability-engineer - metrics and logging during implementation
 - @performance-engineer - optimization when required
@@ -54,31 +54,31 @@ Specialized agents defined in `.ai/agents/`:
 
 Technical skills in `.ai/skills/`:
 
-### [Listar por categoria]
-- **skill-name** - Descripcion
+### [List by category]
+- **skill-name** - Description
 
 ## Memory
 
-Memoria gestionada por herramienta:
-- **Claude Code:** Hooks + Engram MCP (automatico) + `.claude/rules/` (auto-cargado)
-- **OpenCode:** Engram MCP (bajo demanda) + `AGENTS.md` (auto-cargado)
-- **Cursor/Windsurf/Copilot:** Feature Specs (`docs/specs/`) + decisions.md embebido
-Decisiones cerradas en `.ai/decisions.md`.
+Memory managed per tool:
+- **Claude Code:** Hooks + Engram MCP (automatic) + `.claude/rules/` (auto-loaded)
+- **OpenCode:** Engram MCP (on demand) + `AGENTS.md` (auto-loaded)
+- **Cursor/Windsurf/Copilot:** Feature Specs (`docs/specs/`) + decisions.md embedded
+Closed decisions in `.ai/decisions.md`.
 
 ## Agent Sync
 
 ```
-.ai/agents/          <- Fuente (formato OpenCode, kebab-case)
-.ai/skills/          <- Fuente (compatible ambos)
-.ai/decisions.md     <- Fuente (cross-tool)
-.opencode/agents     -> ../.ai/agents (enlace simbolico)
-.opencode/skills     -> ../.ai/skills (enlace simbolico)
-.claude/agents/      <- Generado (formato Claude Code)
-.claude/skills       -> ../.ai/skills (enlace simbolico)
-.claude/rules/       <- Generado (decisions.md, project-context.md)
-.cursorrules         <- Generado (compacto)
-.windsurfrules       <- Generado (compacto)
-.github/copilot-instructions.md <- Generado (compacto)
+.ai/agents/          <- Source (OpenCode format, kebab-case)
+.ai/skills/          <- Source (compatible with both)
+.ai/decisions.md     <- Source (cross-tool)
+.opencode/agents     -> ../.ai/agents (symlink)
+.opencode/skills     -> ../.ai/skills (symlink)
+.claude/agents/      <- Generated (Claude Code format)
+.claude/skills       -> ../.ai/skills (symlink)
+.claude/rules/       <- Generated (decisions.md, project-context.md)
+.cursorrules         <- Generated (compact)
+.windsurfrules       <- Generated (compact)
+.github/copilot-instructions.md <- Generated (compact)
 ```
 
-Despues de modificar un agente: `.ai/sync.sh`
+After modifying an agent: `.ai/sync.sh`
