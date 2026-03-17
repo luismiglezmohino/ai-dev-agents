@@ -31,7 +31,7 @@ This project uses a bilingual structure to optimize AI token usage:
 | Area | Examples |
 |---|---|
 | **Agents** | Improve Quality Gates, add conditional gates, fix edge cases |
-| **Skills** | Add skills for new stacks (Django, NestJS, Spring, etc.) |
+| **Skills** | Improve `git` skill, contribute refined skills as reference examples |
 | **Prompts** | Improve existing prompts or add new ones (both languages) |
 | **Guides** | Add guides for new tools or workflows (both languages) |
 | **sync.sh / test.sh** | Bug fixes, new validations, new tool support |
@@ -45,11 +45,17 @@ This project uses a bilingual structure to optimize AI token usage:
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
 - **Test before submitting** — run `.ai/test.sh` and `.ai/sync.sh` to verify nothing breaks
 
-## Adding a New Skill
+## About Skills
 
-1. Create `skills/{name}/SKILL.md` following the format in `skills/README.md`
-2. Use English for the skill content
-3. Run `.ai/test.sh` — Test 11 validates all skills have `SKILL.md`
+The template only ships `git` as a built-in skill. Stack-specific skills (Django, Vue, Symfony, etc.) are **not included** because:
+
+- They go outdated fast (versions, deprecated APIs, new patterns)
+- The `bootstrap.md` prompt already generates personalized skills for the user's stack with current best practices
+- The `refine-skills.md` prompt improves them with real project patterns after 2-3 features
+
+Skills are loaded on demand — unused skills consume **0 tokens**. But shipping outdated skills would mislead the AI into using deprecated patterns, which is worse than having no skill at all.
+
+**How to contribute to skills:** improve the `git` skill or improve the bootstrap/refine-skills prompts so they generate better skills.
 
 ## Adding a New Agent
 
@@ -92,7 +98,7 @@ Este proyecto usa una estructura bilingüe para optimizar el uso de tokens de la
 | Área | Ejemplos |
 |---|---|
 | **Agentes** | Mejorar Quality Gates, añadir conditional gates, corregir edge cases |
-| **Skills** | Añadir skills para nuevos stacks (Django, NestJS, Spring, etc.) |
+| **Skills** | Mejorar skill `git`, contribuir skills refinados como ejemplos de referencia |
 | **Prompts** | Mejorar prompts existentes o añadir nuevos (ambos idiomas) |
 | **Guías** | Añadir guías para nuevas herramientas o workflows (ambos idiomas) |
 | **sync.sh / test.sh** | Bug fixes, nuevas validaciones, soporte de nuevas herramientas |
@@ -106,11 +112,17 @@ Este proyecto usa una estructura bilingüe para optimizar el uso de tokens de la
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
 - **Testea antes de enviar** — ejecuta `.ai/test.sh` y `.ai/sync.sh` para verificar que nada se rompe
 
-## Añadir un Nuevo Skill
+## Sobre los Skills
 
-1. Crea `skills/{nombre}/SKILL.md` siguiendo el formato en `skills/README.md`
-2. Escribe el contenido del skill en inglés
-3. Ejecuta `.ai/test.sh` — el Test 11 valida que todos los skills tienen `SKILL.md`
+El template solo incluye `git` como skill integrado. Los skills específicos de stack (Django, Vue, Symfony, etc.) **no se incluyen** porque:
+
+- Se quedan obsoletos rápido (versiones, APIs deprecated, nuevos patrones)
+- El prompt `bootstrap.md` ya genera skills personalizados para el stack del usuario con best practices actuales
+- El prompt `refine-skills.md` los mejora con patrones reales del proyecto después de 2-3 features
+
+Los skills se cargan bajo demanda — los no usados consumen **0 tokens**. Pero incluir skills desactualizados induciría a la IA a usar patrones deprecated, que es peor que no tener skill.
+
+**Cómo contribuir a skills:** mejorar el skill `git` o mejorar los prompts bootstrap/refine-skills para que generen mejores skills.
 
 ## Añadir un Nuevo Agente
 
