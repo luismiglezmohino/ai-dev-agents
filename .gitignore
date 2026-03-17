@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Generado por .ai/sync.sh (regenerar con .ai/sync.sh)
+.claude/agents/
+.claude/rules/
+.claude/skills
+.opencode/agents
+.opencode/skills
+.opencode/decisions.md
+.cursorrules
+.windsurfrules
+GEMINI.md
+.github/copilot-instructions.md
+
+# Memoria de sesion (local por desarrollador)
+.ai/.local/*
+!.ai/.local/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

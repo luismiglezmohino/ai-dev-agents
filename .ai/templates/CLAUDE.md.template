@@ -1,0 +1,103 @@
+# [Nombre del Proyecto] - Project Context
+
+**Stack:** [Backend] + [Frontend] + [Database] + [Infra]
+**Architecture:** Clean Architecture (dependency rule)
+**Testing:** TDD ([framework backend] + [framework frontend])
+**Security:** OWASP Top 10, Zero Trust
+
+## Contexto del Proyecto
+
+**Dominio:** [Descripcion del dominio]
+**Usuario Final:** [Quien usa la aplicacion]
+**Objetivo:** [Que problema resuelve]
+
+## Project Context
+
+Restricciones del proyecto en `.ai/agents/project-context.md`.
+Feature specs en `docs/specs/`.
+Decisiones tecnicas en `.ai/decisions.md` (auto-cargado via `.claude/rules/`).
+
+## Roles
+
+Adopt role mindset for each task. Lee `.ai/agents/{rol}.md` para instrucciones detalladas.
+
+- **@product-owner** - User Stories con ROI
+- **@architect** - Arquitectura, Domain puro
+- **@technical-writer** - Docs, ADRs, READMEs
+- **@database-engineer** - Migrations, schema, optimization
+- **@tdd-developer** - RED-GREEN-REFACTOR
+- **@security-auditor** - OWASP Top 10
+- **@qa-engineer** - Coverage 100/80/0
+- **@performance-engineer** - Core Web Vitals, p95 < 200ms
+- **@devops** - CI/CD, conventional commits
+- **@observability-engineer** - Metrics, logs, tracing
+- **@ux-designer** - WCAG 2.2 AA
+
+## Workflow
+
+### Secuencial (para nuevas features)
+1. **Analysis** -> @product-owner (user stories, criterios)
+2. **Design** -> @architect + @ux-designer (ADRs, wireframes)
+3. **Database** -> @database-engineer (si hay cambios de schema)
+4. **Implementation** -> @tdd-developer (RED-GREEN-REFACTOR)
+5. **Security** -> @security-auditor (OWASP check)
+6. **Quality** -> @qa-engineer (coverage 100/80/0)
+7. **Deploy** -> @devops (CI/CD, PR)
+
+### Transversales (se invocan cuando se necesitan)
+- @technical-writer - documentación en cualquier paso
+- @observability-engineer - métricas y logs durante implementación
+- @performance-engineer - optimización cuando se requiera
+
+### Verificación cruzada (después de implementar)
+
+Después de que @tdd-developer termine una feature que toca múltiples capas:
+1. @architect verifica flujo de datos e2e entre capas
+2. @security-auditor revisa OWASP
+3. Si hay problemas, @tdd-developer corrige y se repite
+
+> Ver flujos completos en `.ai/agents/orchestrator.md` (8 flujos para distintos escenarios)
+
+## Skills
+
+Lee `.ai/skills/{skill-name}/SKILL.md` antes de implementar.
+
+**Backend:** [listar skills backend]
+**Frontend:** [listar skills frontend]
+**Infra:** [listar skills infra]
+
+## Structure
+
+```
+[Describir la estructura de tu proyecto]
+```
+
+## Standards
+
+**Naming:** [Convenciones de nombrado]
+**Quality:** [Herramientas de calidad]
+**Security:** [Principios de seguridad]
+**TDD:** 1) RED 2) GREEN 3) REFACTOR
+
+## Definition of Done
+
+- [ ] Tests passing (100/80/0)
+- [ ] Security audit (OWASP)
+- [ ] Code reviewed
+- [ ] Documentation updated
+- [ ] Performance acceptable
+
+## Memory
+
+Memoria gestionada automaticamente:
+- **Capa 1:** `.claude/rules/` (auto-cargado siempre: decisions.md, project-context.md)
+- **Capa 2:** Hooks (SessionStart/PreCompact/Stop inyectan/guardan contexto via Engram)
+- **Capa 3:** Engram MCP bajo demanda (mem_search, mem_save, mem_context)
+- **Herramientas sin hooks:** Consultar Feature Specs en `docs/specs/` como memoria de proyecto.
+
+## Global Guards
+
+- **Zero Trust:** Validate all inputs
+- **Clean Arch:** Domain > Application > Infrastructure
+- **Logs:** Structured with correlationId
+- **TDD:** No production code without failing test first

@@ -1,0 +1,84 @@
+# Project Configuration - [Nombre del Proyecto]
+
+**Stack:** [Backend] + [Frontend] + [Database] + [Infra]
+**Architecture:** [Arquitectura elegida]
+**Testing:** TDD
+**Security:** OWASP Top 10, Zero Trust
+
+## Project Context
+
+Project constraints: `.ai/agents/project-context.md`
+Feature specs: `docs/specs/`
+Quick decisions: `.ai/decisions.md`
+
+## Agent Structure
+
+Specialized agents defined in `.ai/agents/`:
+
+### Analysis & Design
+- **product-owner** - Business requirements, user stories
+- **architect** - Architecture design, ADRs, validation
+- **technical-writer** - Documentation, READMEs, guides
+- **ux-designer** - UX/UI design, accessibility (WCAG 2.2 AA)
+
+### Data & Persistence
+- **database-engineer** - Migrations, schema, query optimization
+
+### Implementation & Quality
+- **tdd-developer** - TDD implementation (RED-GREEN-REFACTOR)
+- **security-auditor** - OWASP compliance, vulnerability scanning
+- **qa-engineer** - Test coverage (100/80/0), testing pyramid
+- **performance-engineer** - Optimization, profiling, Core Web Vitals
+
+### Operations & Observability
+- **devops** - CI/CD, Git workflow, infrastructure
+- **observability-engineer** - Metrics, logging, tracing
+
+## Workflow
+
+### Sequential (for new features)
+1. **Analysis** -> @product-owner (user stories, criteria)
+2. **Design** -> @architect + @ux-designer (ADRs, wireframes)
+3. **Database** -> @database-engineer (if schema changes)
+4. **Implementation** -> @tdd-developer (RED-GREEN-REFACTOR)
+5. **Security** -> @security-auditor (OWASP check)
+6. **Quality** -> @qa-engineer (coverage 100/80/0)
+7. **Deploy** -> @devops (CI/CD, PR)
+
+### Transversal (invoked when needed)
+- @technical-writer - documentation at any step
+- @observability-engineer - metrics and logging during implementation
+- @performance-engineer - optimization when required
+
+## Skills
+
+Technical skills in `.ai/skills/`:
+
+### [Listar por categoria]
+- **skill-name** - Descripcion
+
+## Memory
+
+Memoria gestionada por herramienta:
+- **Claude Code:** Hooks + Engram MCP (automatico) + `.claude/rules/` (auto-cargado)
+- **OpenCode:** Engram MCP (bajo demanda) + `AGENTS.md` (auto-cargado)
+- **Cursor/Windsurf/Copilot:** Feature Specs (`docs/specs/`) + decisions.md embebido
+Decisiones cerradas en `.ai/decisions.md`.
+
+## Agent Sync
+
+```
+.ai/agents/          <- Fuente (formato OpenCode, kebab-case)
+.ai/skills/          <- Fuente (compatible ambos)
+.ai/decisions.md     <- Fuente (cross-tool)
+.opencode/agents     -> ../.ai/agents (enlace simbolico)
+.opencode/skills     -> ../.ai/skills (enlace simbolico)
+.claude/agents/      <- Generado (formato Claude Code)
+.claude/skills       -> ../.ai/skills (enlace simbolico)
+.claude/rules/       <- Generado (decisions.md, project-context.md)
+.cursorrules         <- Generado (compacto)
+.windsurfrules       <- Generado (compacto)
+.github/copilot-instructions.md <- Generado (compacto)
+```
+
+Despues de modificar un agente: `.ai/sync.sh`
