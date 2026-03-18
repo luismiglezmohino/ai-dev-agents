@@ -102,17 +102,18 @@ Cada gate existe porque su ausencia causó problemas reales y repetidos. Ver [po
 
 ## Soporte de Arquitectura
 
-El template soporta **3 modos de arquitectura** (~95% de proyectos web):
+El template soporta **4 modos de arquitectura** (~90% de todos los proyectos de software):
 
-| Flag | Cuándo usarlo | Architect verifica |
+| Flag | Cuándo usarlo | Agentes adaptados |
 |---|---|---|
-| `Clean` (por defecto) | Backend con capas separadas (Domain/Application/Infrastructure) | Dependency rule, contratos entre capas |
-| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | Controllers delgados, validación centralizada, uso del ORM |
-| `None` | Solo frontend, sin backend, o sin arquitectura formal | No se invoca |
+| `Clean` (por defecto) | Backend con capas separadas (Domain/Application/Infrastructure) | Ninguno (gates por defecto) |
+| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | architect, tdd-developer, qa-engineer, orchestrator |
+| `MVVM` | Apps mobile (Android, iOS, Flutter) | architect, ux-designer, performance-engineer, orchestrator |
+| `None` | Frontend-only SPA, herramientas CLI, o sin arquitectura formal | Architect no se invoca |
 
-El bootstrap detecta la arquitectura por la estructura de carpetas o pregunta. Si es MVC, adapta 4 agentes (architect, tdd-developer, qa-engineer, orchestrator). El resto no cambian.
+El bootstrap detecta la arquitectura por la estructura de carpetas o pregunta. Adapta los agentes relevantes — el resto no cambian.
 
-> El flag de arquitectura es sobre tu **backend**. El frontend (Vue/React) es component-based — lo cubren ux-designer + skills.
+> El frontend web (Vue/React) usa `None` — lo cubren ux-designer + skills, no los gates del architect.
 
 ## Prompts reutilizables
 
@@ -124,7 +125,7 @@ El bootstrap detecta la arquitectura por la estructura de carpetas o pregunta. S
 | `es/refine-skills.md` | Después de 2-3 features | No |
 | `es/legacy-audit.md` | Antes de modernizar código legacy | No |
 
-Todos los prompts disponibles en español (`.ai/prompts/es/`) e inglés (`.ai/prompts/`).
+Todos los prompts disponibles en español (`.ai/prompts/es/`) e inglés (`.ai/prompts/`). Los gates específicos de arquitectura (`gates-mvc.md`, `gates-mvvm.md`) se cargan bajo demanda por el bootstrap — no hace falta pegarlos por separado.
 
 ## Guías
 

@@ -102,17 +102,18 @@ Each gate exists because its absence caused real, repeated problems. See [why th
 
 ## Architecture Support
 
-The template supports **3 architecture modes** (~95% of web projects):
+The template supports **4 architecture modes** (~90% of all software projects):
 
-| Flag | When to use | Architect verifies |
+| Flag | When to use | Agents adapted |
 |---|---|---|
-| `Clean` (default) | Backend with separated layers (Domain/Application/Infrastructure) | Dependency rule, contracts between layers |
-| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | Thin controllers, centralized validation, ORM usage |
-| `None` | Frontend-only, no backend, or no formal architecture | Not invoked |
+| `Clean` (default) | Backend with separated layers (Domain/Application/Infrastructure) | None (default gates) |
+| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | architect, tdd-developer, qa-engineer, orchestrator |
+| `MVVM` | Mobile apps (Android, iOS, Flutter) | architect, ux-designer, performance-engineer, orchestrator |
+| `None` | Frontend-only SPA, CLI tools, or no formal architecture | Architect not invoked |
 
-The bootstrap detects the architecture from folder structure or asks. If MVC, it adapts 4 agents (architect, tdd-developer, qa-engineer, orchestrator). The rest stay unchanged.
+The bootstrap detects the architecture from folder structure or asks. It adapts the relevant agents — the rest stay unchanged.
 
-> The architecture flag is about your **backend**. Frontend (Vue/React) is component-based — covered by ux-designer + skills.
+> Web frontend (Vue/React) uses `None` — covered by ux-designer + skills, not by architect gates.
 
 ## Reusable Prompts
 
@@ -124,7 +125,7 @@ The bootstrap detects the architecture from folder structure or asks. If MVC, it
 | `refine-skills.md` | After 2-3 features | No |
 | `legacy-audit.md` | Before modernizing legacy code | No |
 
-All prompts available in English (`.ai/prompts/`) and Spanish (`.ai/prompts/es/`).
+All prompts available in English (`.ai/prompts/`) and Spanish (`.ai/prompts/es/`). Architecture-specific gates (`gates-mvc.md`, `gates-mvvm.md`) are loaded on demand by the bootstrap — no need to paste them separately.
 
 ## Guides
 

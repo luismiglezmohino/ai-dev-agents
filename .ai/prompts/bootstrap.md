@@ -27,6 +27,10 @@ Analyze the project to determine its state:
    - `Domain/`, `Application/`, `Infrastructure/` → Clean Architecture
    - `app/Models/`, `app/Http/Controllers/` → MVC (Laravel)
    - `models.py`, `views.py` in same app → MVC (Django)
+   - `app/src/main/java/`, `app/src/main/kotlin/` → MVVM (Android)
+   - `*.xcodeproj`, `Package.swift` with SwiftUI/UIKit → MVVM (iOS)
+   - `lib/` with `pubspec.yaml` → MVVM (Flutter)
+   - Frontend-only SPA without backend → None
    - If unclear, ask the user
 5. Detect project type by root folders:
    - `src/` without module subfolders → monolith
@@ -232,56 +236,18 @@ The template ships with **Clean Architecture** gates by default. Adapt based on 
 
 - **Clean / Hexagonal / Onion** → no changes needed, agents are ready
 - **MVC** → edit 4 agents (see below)
+- **MVVM** → edit 3 agents (see below) — for mobile apps (Android, iOS, Flutter)
 - **None** (frontend-only, no backend, or no formal architecture) → add `Architecture: None` to project-context.md Technical Decisions section. Do NOT modify any agents. The architect agent simply won't be invoked since there are no layers to verify
 
 ### If Architecture: MVC
 
-If the project uses **MVC** (detected or chosen by the user), edit the following 4 agents in `.ai/agents/`. The rest stay unchanged.
+Read `.ai/prompts/gates-mvc.md` and apply the gate replacements described there.
 
-**IMPORTANT:** Do NOT add both Clean and MVC gates. REPLACE the Clean gates with the MVC ones below. The agent must have only ONE set of gates.
+### If Architecture: MVVM (mobile)
 
-### architect.md — Replace Protocol (Quality Gates)
+Read `.ai/prompts/gates-mvvm.md` and apply the gate replacements described there.
 
-```markdown
-## Protocol (Quality Gates)
-1. [Gate 1] (Prevents: fat controllers) Business logic lives in Models or Services, not in Controllers. Controllers only handle HTTP request/response.
-2. [Gate 2] (Prevents: scattered validation) Input validation is centralized (Form Requests, Validators, Serializers), not duplicated across controllers.
-3. [Gate 3] (Prevents: broken relationships) Model relationships are correctly defined, routes map to the right controllers, and database queries use the ORM properly.
-
-## Fatal Restrictions
-- NEVER put business logic in Controllers (queries, calculations, conditionals beyond routing).
-- NEVER bypass the ORM with raw SQL unless there is a documented performance reason.
-```
-
-### tdd-developer.md — Replace Gate 4 only
-
-Replace Gate 4 with:
-```markdown
-4. [Gate 4] (Prevents: broken integration after changes) Verify integration after GREEN:
-   - Routes respond correctly (no 404/500 on defined endpoints).
-   - Database queries execute without errors.
-   - Both test suites pass (unit AND feature/integration).
-```
-
-### qa-engineer.md — Replace Gate 1 only
-
-Replace Gate 1 with:
-```markdown
-1. [Gate 1] (Prevents: uncovered critical business logic) Coverage: 100% Models/Services (business logic), 80% Controllers, integration tests on critical flows.
-```
-
-### orchestrator.md — Replace Flow 1 verification steps
-
-In Flow 1 (Code Implementation), replace:
-- `@architect (verifies e2e data flow between layers)` → `@architect (verifies thin controllers and correct model relationships)`
-- `@architect (verifies e2e data flow is still complete)` in Flow 2 → `@architect (verifies model relationships are correct after schema change)`
-
-### project-context.md — Add architecture field
-
-Add to the Technical Decisions section:
-```markdown
-- Architecture: MVC — [framework] standard patterns, no separate Domain layer
-```
+> **If your AI tool cannot read files** (e.g. ChatGPT/Gemini web): copy the content of the corresponding gates file and paste it after this prompt.
 
 ---
 
