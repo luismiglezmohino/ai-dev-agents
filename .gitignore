@@ -12,6 +12,8 @@
 .windsurfrules
 GEMINI.md
 .github/copilot-instructions.md
+.agents/rules/
+.agents/workflows/
 
 # Memoria de sesion (local por desarrollador)
 .ai/.local/*

@@ -91,6 +91,7 @@ GEMINI.md                              # Generado (compacto, gitignored)
 |---|---|---|---|
 | Claude Code | `CLAUDE.md` | `.claude/agents/` (sí) | Alto |
 | OpenCode | `AGENTS.md` | `.opencode/agents/` (sí) | Alto |
+| Antigravity (Google) | `GEMINI.md` | `.agents/rules/` (sí, @mention) | Alto |
 | Codex (OpenAI) | `AGENTS.md` | No (contexto compartido) | Medio |
 | Cursor | `.cursorrules` | No (todo inline) | Bajo |
 | Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
@@ -109,7 +110,7 @@ CLAUDE.md (siempre)     → ~100 líneas (contexto + roles como lista)
 
 ### Herramientas sin agentes bajo demanda (Cursor, Windsurf, Gemini, Copilot)
 
-Todo va en un solo fichero que se carga siempre. Hay que compilar los agentes en una versión compacta.
+Todo va en un solo fichero que se carga siempre. Hay que compilar los agentes en una versión compacta. Para estas herramientas, **se recomienda usar Spec Driven Development (SDD)** — los Feature Specs centralizan el contexto y compensan la falta de agentes bajo demanda. Ver `docs/specs/FEAT-TEMPLATE.md` y el prompt `/feature-spec`.
 
 ```
 .cursorrules (siempre)  → roles como lista compacta + gates resumidos
@@ -120,14 +121,15 @@ Todo va en un solo fichero que se carga siempre. Hay que compilar los agentes en
 
 ### Soporte real por herramienta
 
-| Capacidad | Claude Code | OpenCode | Codex | Cursor | Windsurf | Gemini | Copilot |
-|---|---|---|---|---|---|---|---|
-| Sub-agentes | Sí (Task tool) | Sí (spawn) | No | No | No | No | No |
-| Orquestador | No (routing auto) | Sí (orchestrator.md) | No | No | No | No | No |
-| Model routing | No (1 modelo/sesión) | Sí (por agente) | No | Sí (por regla) | No | No | No |
-| Agentes bajo demanda | Sí (.claude/agents/) | Sí (.opencode/agents/) | No | No | No | No | No |
-| Agent teams | Experimental | No | No | No | No | No | No |
-| MCPs | Sí | Sí | Sí | Sí | Parcial | Parcial | Parcial |
+| Capacidad | Claude Code | OpenCode | Antigravity | Codex | Cursor | Windsurf | Gemini | Copilot |
+|---|---|---|---|---|---|---|---|---|
+| Sub-agentes | Sí (Task tool) | Sí (spawn) | No | No | No | No | No | No |
+| Orquestador | No (routing auto) | Sí (orchestrator.md) | No | No | No | No | No | No |
+| Model routing | No (1 modelo/sesión) | Sí (por agente) | No | No | Sí (por regla) | No | No | No |
+| Agentes bajo demanda | Sí (.claude/agents/) | Sí (.opencode/agents/) | Sí (.agents/rules/ @mention) | No | No | No | No | No |
+| Workflows | No (prompts via fichero) | No | Sí (/workflow-name) | No | No | No | No | No |
+| Agent teams | Experimental | No | No | No | No | No | No | No |
+| MCPs | Sí | Sí | Sí | Sí | Sí | Parcial | Parcial | Parcial |
 
 **Limitacion importante:** En Cursor, Windsurf, Gemini y Copilot los agentes son reglas contextuales que se cargan siempre. No hay routing: el modelo lee todas las reglas y decide que aplicar. Por eso `sync.sh` genera versiones compactas — meter 11 agentes completos en un solo fichero agotaria la ventana de contexto.
 

@@ -48,6 +48,10 @@ OPENCODE_DIR="$PROJECT_ROOT/.opencode"
 OPENCODE_AGENTS="$OPENCODE_DIR/agents"
 OPENCODE_SKILLS="$OPENCODE_DIR/skills"
 
+# Antigravity (Google)
+ANTIGRAVITY_RULES="$PROJECT_ROOT/.agents/rules"
+ANTIGRAVITY_WORKFLOWS="$PROJECT_ROOT/.agents/workflows"
+
 # Base tools for Claude Code (always available: read + search)
 CLAUDE_READ_TOOLS="Read, Glob, Grep, WebFetch, WebSearch, Task"
 
@@ -451,6 +455,52 @@ main() {
         log_info ".github/copilot-instructions.md (generated)"
     fi
 
+    # === ANTIGRAVITY (Google): Rules + Workflows ===
+    log_section "Antigravity (rules + workflows)"
+
+    if $DRY_RUN; then
+        log_dry "Would generate .agents/rules/ and .agents/workflows/"
+    else
+        mkdir -p "$ANTIGRAVITY_RULES" "$ANTIGRAVITY_WORKFLOWS"
+
+        # Rules: agents as @mentionable rules (Manual activation)
+        for f in "$AGENTS_SOURCE"/*.md; do
+            [[ -f "$f" ]] || continue
+            local fname
+            fname=$(basename "$f")
+
+            # Skip base file
+            [[ "$fname" == _* ]] && continue
+
+            # Extract content without YAML frontmatter
+            local content
+            content=$(awk '/^---$/{c++;next}c>=2' "$f" | sed '/./,$!d')
+
+            # Project-context gets "Always On" note
+            if [[ "$fname" == "project-context.md" ]]; then
+                echo -e "<!-- Activation: Always On -->\n\n$content" > "$ANTIGRAVITY_RULES/$fname"
+            else
+                echo -e "<!-- Activation: Manual (@$(basename "$fname" .md)) -->\n\n$content" > "$ANTIGRAVITY_RULES/$fname"
+            fi
+        done
+        log_info ".agents/rules/ ($(ls "$ANTIGRAVITY_RULES"/*.md 2>/dev/null | wc -l | tr -d ' ') rules)"
+
+        # Workflows: prompts as /invocable workflows (English only)
+        for f in "$AI_DIR/prompts"/*.md; do
+            [[ -f "$f" ]] || continue
+            local fname
+            fname=$(basename "$f")
+            cp "$f" "$ANTIGRAVITY_WORKFLOWS/$fname"
+        done
+        log_info ".agents/workflows/ ($(ls "$ANTIGRAVITY_WORKFLOWS"/*.md 2>/dev/null | wc -l | tr -d ' ') workflows)"
+
+        # Decisions as Always On rule
+        if [[ -f "$DECISIONS_SOURCE" ]]; then
+            cp "$DECISIONS_SOURCE" "$ANTIGRAVITY_RULES/decisions.md"
+            log_info "decisions.md -> .agents/rules/decisions.md"
+        fi
+    fi
+
     # === SUMMARY ===
     log_section "Summary"
     echo -e "Agents converted: ${GREEN}$agent_count${NC}"
@@ -468,6 +518,8 @@ main() {
     echo "  .claude/agents/        Generated (Claude Code format)"
     echo "  .claude/skills         -> ../.ai/skills (symlink)"
     echo "  .claude/rules/         Generated (decisions.md, project-context.md)"
+    echo "  .agents/rules/         Generated (Antigravity rules)"
+    echo "  .agents/workflows/     Generated (Antigravity workflows)"
     echo "  .cursorrules           Generated (compact)"
     echo "  .windsurfrules         Generated (compact)"
     echo "  GEMINI.md              Generated (compact)"
