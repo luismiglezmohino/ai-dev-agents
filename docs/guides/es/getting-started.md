@@ -192,6 +192,12 @@ tu-proyecto/
 └── AGENTS.md            # Config OpenCode (generado)
 ```
 
+## CI/CD incluido
+
+El template incluye un workflow de GitHub Actions (`.github/workflows/ci.yml`) que ejecuta `sync.sh + test.sh` en cada PR y push a master. Si adoptaste el template via "Use this template", ya lo tienes. Valida la estructura de agentes, frontmatter y ficheros generados automáticamente.
+
+Si no lo quieres, borra `.github/workflows/ci.yml`. Si ya tienes tu propio CI, el workflow del template no entra en conflicto — se ejecuta independientemente.
+
 ## Problemas comunes
 
 | Problema | Solución |
