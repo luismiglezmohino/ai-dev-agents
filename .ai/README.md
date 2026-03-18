@@ -1,6 +1,6 @@
 # AI Dev Agents Template
 
-Reusable template for AI-assisted development with specialized agents. Language and framework agnostic, opinionated on Clean Architecture.
+Reusable template for AI-assisted development with specialized agents. Language, framework and AI tool agnostic. Supports Clean Architecture (default) and MVC.
 
 ## Structure
 

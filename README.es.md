@@ -2,15 +2,15 @@
 
 [🇬🇧 Read in English](README.md)
 
-Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al lenguaje, framework y herramienta de IA. Opinionado en Clean Architecture.
+Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al lenguaje, framework y herramienta de IA. Soporta Clean Architecture (por defecto) y MVC.
 
-## Que es esto
+## Qué es esto
 
 11 agentes especializados + 1 orchestrator que guian a los asistentes de IA durante el desarrollo de software. Incluye patrón de verificación cruzada entre agentes para prevenir errores que un solo agente no detecta.
 
 **Principio clave:** Los agentes definen QUE verificar (Quality Gates agnósticos). Los skills definen COMO hacerlo (framework-específico).
 
-> **Nuevo aquí?** Empieza por la [guia de inicio rápido (5 minutos)](docs/guides/getting-started.md).
+> **Nuevo aquí?** Empieza por la [guia de inicio rápido (5 minutos)](docs/guides/es/getting-started.md).
 
 ## Estructura (después del setup)
 
@@ -274,39 +274,69 @@ El `.gitignore` incluido ya tiene estas entradas. Si tu proyecto tiene un `.giti
 | technical-writer | Docs vivas | Ejemplos funcionales, ADRs completos, setup < 15min |
 | ux-designer | WCAG 2.2 AA | Contraste 4.5:1, targets 44x44px, teclado |
 
-## Postura arquitectonica: Clean Architecture (opinionated)
+## Soporte de Arquitectura
 
-Este template asume **Clean Architecture** (dependency rule, domain puro). Los Quality Gates del `@architect` validan:
+El template incluye gates de **Clean Architecture** por defecto y soporta **MVC** mediante el bootstrap.
 
+### Clean Architecture (por defecto)
+
+Los Quality Gates del `@architect` validan:
 - El Dominio no importa clases de Infraestructura
 - La lógica de negocio vive en Domain, no en Controllers ni Models del framework
 - Los contratos (interfaces) entre capas transportan todos los datos necesarios
 
-Estos principios son compartidos por Clean Architecture, Hexagonal (Ports & Adapters) y Onion Architecture — los tres son compatibles con el template.
+Compatible con: Clean Architecture, Hexagonal (Ports & Adapters), Onion Architecture.
 
-### Compatibilidad por patrón arquitectonico
+### MVC (mediante bootstrap)
 
-| Patron | Compatible | Motivo |
+Cuando el bootstrap detecta un proyecto MVC (o el usuario lo elige), adapta 4 agentes (architect, tdd-developer, qa-engineer, orchestrator) con gates específicos de MVC:
+- Controllers delgados (sin lógica de negocio en controllers)
+- Validación centralizada (Form Requests, Validators)
+- Relaciones de modelos y uso correcto del ORM
+
+Compatible con: Laravel, Django, Rails, Spring MVC, ASP.NET MVC.
+
+### None (solo frontend o sin arquitectura formal)
+
+Para proyectos sin backend, o sin un patrón de arquitectura formal (ej: una SPA Vue/React, un sitio estático, o código legacy sin estructura clara), el bootstrap establece `Architecture: None`. El agente architect simplemente no se invoca — no hay capas que verificar. El resto de agentes (security, tdd, qa, devops, etc.) funcionan normalmente.
+
+### Cómo funciona
+
+Los agentes en `.ai/agents/` vienen con gates de Clean Architecture. El bootstrap detecta o pregunta la arquitectura y adapta:
+
+- **Clean / Hexagonal / Onion** → sin cambios, los agentes están listos
+- **MVC** → el bootstrap edita 4 agentes (architect, tdd-developer, qa-engineer, orchestrator) reemplazando gates de Clean por MVC
+- **None** → sin cambios, el architect simplemente no se invoca
+
+El resultado: tus agentes solo tienen UN set de gates, sin condicionales, sin confusión.
+
+### Valores del flag de arquitectura
+
+| Flag | Cuándo usarlo | Qué hace el architect |
 |---|---|---|
-| Clean Architecture | Si | Los gates estan disenados para este patrón |
-| Hexagonal (Ports & Adapters) | Si | Mismo principio: dependency rule, domain al centro |
-| Onion Architecture | Si | Predecesor de Clean Architecture, mismos principios |
-| MVC puro (Laravel, Django, Rails) | **No** | El Model hereda del ORM, Domain y Infrastructure acoplados. Los gates del architect estarian en conflicto permanente |
-| MVC + Clean Architecture (Laravel Beyond CRUD) | Si | Si separas Domain del ORM, los gates aplican |
+| `Clean` | Backend con capas separadas (Domain/Application/Infrastructure) | Verifica dependency rule, contratos entre capas |
+| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | Verifica controllers delgados, validación centralizada, uso del ORM |
+| `None` | Solo frontend, sin backend, o sin arquitectura formal | No se invoca — no hay capas que verificar |
 
-### Por que no soportar MVC
+### Configuraciones comunes de proyecto
 
-En MVC puro, `User extends Model` — la entidad **es** el ORM. La lógica de negocio vive en Controllers o Models. No hay capas separadas. Esto contradice los gates fundamentales del template:
+| Tipo de proyecto | Flag de arquitectura | Architect aplica a |
+|---|---|---|
+| Solo backend (Symfony, NestJS) + Clean | `Clean` | Backend |
+| Solo backend (Laravel, Django) + MVC | `MVC` | Backend |
+| Solo frontend (Vue, React SPA) | `None` | No se invoca |
+| Backend Clean + Frontend Components | `Clean` | Solo backend (el frontend no tiene capas, los gates no aplican) |
+| Backend MVC + Frontend Components | `MVC` | Solo backend |
+| Fullstack Clean (backend + frontend con capas) | `Clean` | Ambos |
+| Legacy (código mezclado, sin patrón claro) | `None` | No se invoca. Usar `legacy-audit.md` para analizar y planificar migración |
 
-- **Architect Gate 1** (entidades sin dependencias externas) → en MVC, la entidad hereda del framework
-- **Architect Gate 2** (lógica en Domain) → en MVC, vive en Controllers
-- **TDD Gate 4** (DI compila) → MVC usa facades y auto-wiring implícito
+> Estos tres flags cubren ~95% de los proyectos web. El ~5% restante (event sourcing, CQRS, microservicios con patrones custom) son típicamente variantes de Clean Architecture que funcionan con los gates por defecto.
 
-**Conclusion:** Si tu proyecto usa MVC puro, este template no es para ti. Si usas cualquier variante con dependency rule y domain puro, funciona independientemente del framework.
+> **Clave:** El flag de arquitectura es sobre tu **backend**. Los frontends con Vue/React son component-based — no necesitan gates del architect. El agente ux-designer y los skills del framework cubren la calidad del frontend.
 
-## Por que existen estos gates
+## Por qué existen estos gates
 
-Los Quality Gates no son teoria. Nacieron de cadenas reales de PRs correctivos donde un error no detectado provoco múltiples fixes consecutivos:
+Los Quality Gates no son teoría. Nacieron de cadenas reales de PRs correctivos donde un error no detectado provocó múltiples fixes consecutivos:
 
 | Cadena de error | PRs correctivos | Causa raíz | Gate que lo previene |
 |---|---|---|---|
@@ -415,7 +445,7 @@ Listo para commit
 
 **Nota sobre Claude Code:** no usa `orchestrator.md` (hace routing automático). El patrón de verificación cruzada se implementa via los Quality Gates de cada agente (ej: Gate 4 del @tdd-developer dice "verificar que el DI compila y ambas suites pasan") y el Workflow en `CLAUDE.md`. El `sync.sh` excluye el orchestrator al generar `.claude/agents/`.
 
-**Nota sobre Agent Teams:** Claude Code tiene una feature experimental ([agent teams](https://code.claude.com/docs/en/agent-teams)) donde múltiples instancias se comunican directamente entre si. Con agent teams, la verificación cruzada seria nativa: el @architect teammate enviaria un mensaje al @tdd-developer teammate sin intermediario. Los agentes de este template son compatibles con agent teams (cada teammate carga su `agents/*.md` automáticamente).
+**Nota sobre Agent Teams:** Claude Code tiene una feature experimental ([agent teams](https://code.claude.com/docs/en/agent-teams)) donde múltiples instancias se comunican directamente entre si. Con agent teams, la verificación cruzada sería nativa: el @architect teammate enviaría un mensaje al @tdd-developer teammate sin intermediario. Los agentes de este template son compatibles con agent teams (cada teammate carga su `agents/*.md` automáticamente).
 
 ## Donde implementar la verificación cruzada
 
@@ -455,7 +485,7 @@ Los teammates se envian mensajes directamente. La verificación es nativa y para
 
 ```
 @architect → mensaje a @tdd-developer: "el DTO necesita el campo label"
-@tdd-developer → mensaje a @architect: "anadido, revisa el contrato"
+@tdd-developer → mensaje a @architect: "añadido, revisa el contrato"
 @security-auditor → mensaje a ambos: "sanitizad el label contra injection"
 ```
 
@@ -748,11 +778,11 @@ Rellenar con: dominio, usuarios, restricciones no negociables, decisiones técni
 
 | Guia | Descripción |
 |---|---|
-| **[MCPs recomendados](docs/guides/recommended-mcps.md)** | MCPs básicos y opcionales por stack, con configuración para cada herramienta (Claude Code, OpenCode, Cursor, Copilot) |
-| **[Git hooks recomendados](docs/guides/recommended-hooks.md)** | Hooks mínimos (commitlint, linter, formatter, secrets scan, tests), con ejemplos de Lefthook y Husky |
-| **[GitHub Actions workflows](docs/guides/recommended-workflows.md)** | CI/CD mínimo (CI backend/frontend, commitlint, security review con Claude Code action, deploy, Dependabot), con branch strategy para agentes |
-| **[Modelos recomendados](docs/guides/recommended-models.md)** | Que modelo usar para cada agente/tarea, estrategia de costes, modelos gratuitos y de pago |
-| **[Inicio rápido](docs/guides/getting-started.md)** | De cero a agentes funcionando en 5 minutos |
+| **[MCPs recomendados](docs/guides/es/recommended-mcps.md)** | MCPs básicos y opcionales por stack, con configuración para cada herramienta (Claude Code, OpenCode, Cursor, Copilot) |
+| **[Git hooks recomendados](docs/guides/es/recommended-hooks.md)** | Hooks mínimos (commitlint, linter, formatter, secrets scan, tests), con ejemplos de Lefthook y Husky |
+| **[GitHub Actions workflows](docs/guides/es/recommended-workflows.md)** | CI/CD mínimo (CI backend/frontend, commitlint, security review con Claude Code action, deploy, Dependabot), con branch strategy para agentes |
+| **[Modelos recomendados](docs/guides/es/recommended-models.md)** | Que modelo usar para cada agente/tarea, estrategia de costes, modelos gratuitos y de pago |
+| **[Inicio rápido](docs/guides/es/getting-started.md)** | De cero a agentes funcionando en 5 minutos |
 
 ## Inspiración y referencias
 

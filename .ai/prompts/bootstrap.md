@@ -23,7 +23,12 @@ Analyze the project to determine its state:
    - Folder structure (1 level deep)
 2. Extract: languages, frameworks, main dependencies, test/lint/build commands.
 3. Detect architecture pattern (Clean Architecture, MVC, Hexagonal, etc.) from folder structure.
-4. Detect project type by root folders:
+4. Detect architecture pattern:
+   - `Domain/`, `Application/`, `Infrastructure/` → Clean Architecture
+   - `app/Models/`, `app/Http/Controllers/` → MVC (Laravel)
+   - `models.py`, `views.py` in same app → MVC (Django)
+   - If unclear, ask the user
+5. Detect project type by root folders:
    - `src/` without module subfolders → monolith
    - `backend/` + `frontend/` → multi-module
    - `packages/` or `apps/` → monorepo
@@ -33,7 +38,7 @@ Ask the user:
 1. Project name
 2. What problem it solves and for whom (domain + users)
 3. Chosen stack (backend, frontend, DB, infra)
-4. Architecture (Clean Architecture, Hexagonal, MVC, or no preference)
+4. Architecture (Clean Architecture, Hexagonal, MVC, or None)
 5. Non-negotiable constraints (license, privacy, accessibility, performance)
 6. Whether it's a monolith, multi-module or monorepo
 
@@ -218,6 +223,65 @@ Skill format:
 - Patterns must be concrete with short snippets, not generic theory.
 - Include the official documentation URL as reference.
 - Generate one skill per main stack technology (backend framework, frontend framework, DB, backend testing, frontend testing, CSS framework if applicable, infra if applicable).
+
+---
+
+## Step 3.5: Adapt agents by architecture
+
+The template ships with **Clean Architecture** gates by default. Adapt based on what was detected or chosen:
+
+- **Clean / Hexagonal / Onion** → no changes needed, agents are ready
+- **MVC** → edit 4 agents (see below)
+- **None** (frontend-only, no backend, or no formal architecture) → add `Architecture: None` to project-context.md Technical Decisions section. Do NOT modify any agents. The architect agent simply won't be invoked since there are no layers to verify
+
+### If Architecture: MVC
+
+If the project uses **MVC** (detected or chosen by the user), edit the following 4 agents in `.ai/agents/`. The rest stay unchanged.
+
+**IMPORTANT:** Do NOT add both Clean and MVC gates. REPLACE the Clean gates with the MVC ones below. The agent must have only ONE set of gates.
+
+### architect.md — Replace Protocol (Quality Gates)
+
+```markdown
+## Protocol (Quality Gates)
+1. [Gate 1] (Prevents: fat controllers) Business logic lives in Models or Services, not in Controllers. Controllers only handle HTTP request/response.
+2. [Gate 2] (Prevents: scattered validation) Input validation is centralized (Form Requests, Validators, Serializers), not duplicated across controllers.
+3. [Gate 3] (Prevents: broken relationships) Model relationships are correctly defined, routes map to the right controllers, and database queries use the ORM properly.
+
+## Fatal Restrictions
+- NEVER put business logic in Controllers (queries, calculations, conditionals beyond routing).
+- NEVER bypass the ORM with raw SQL unless there is a documented performance reason.
+```
+
+### tdd-developer.md — Replace Gate 4 only
+
+Replace Gate 4 with:
+```markdown
+4. [Gate 4] (Prevents: broken integration after changes) Verify integration after GREEN:
+   - Routes respond correctly (no 404/500 on defined endpoints).
+   - Database queries execute without errors.
+   - Both test suites pass (unit AND feature/integration).
+```
+
+### qa-engineer.md — Replace Gate 1 only
+
+Replace Gate 1 with:
+```markdown
+1. [Gate 1] (Prevents: uncovered critical business logic) Coverage: 100% Models/Services (business logic), 80% Controllers, integration tests on critical flows.
+```
+
+### orchestrator.md — Replace Flow 1 verification steps
+
+In Flow 1 (Code Implementation), replace:
+- `@architect (verifies e2e data flow between layers)` → `@architect (verifies thin controllers and correct model relationships)`
+- `@architect (verifies e2e data flow is still complete)` in Flow 2 → `@architect (verifies model relationships are correct after schema change)`
+
+### project-context.md — Add architecture field
+
+Add to the Technical Decisions section:
+```markdown
+- Architecture: MVC — [framework] standard patterns, no separate Domain layer
+```
 
 ---
 

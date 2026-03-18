@@ -9,7 +9,7 @@ Thanks for your interest in contributing to AI Dev Agents!
 1. **Fork** the repository
 2. **Create a branch** from `main`: `git checkout -b feature/your-change`
 3. **Make your changes** following the conventions below
-4. **Run validation**: `.ai/test.sh`
+4. **Run validation**: `.ai/sync.sh && .ai/test.sh`
 5. **Commit** using [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, etc.
 6. **Open a PR** with a clear description of what and why
 
@@ -40,10 +40,11 @@ This project uses a bilingual structure to optimize AI token usage:
 ## Conventions
 
 - **Agents are agnostic** — they define WHAT to verify, not HOW. Framework-specific knowledge goes in skills
+- **Architecture support** — the template supports Clean (default), MVC and None (~95% of web projects). If modifying architect, tdd-developer, qa-engineer or orchestrator gates, consider impact on both Clean and MVC modes (see README "Architecture Support")
 - **Keep files concise** — agents ~50-70 lines, skills ~40-80 lines, CLAUDE.md < 120 lines
 - **Quality Gates must be justified** — every gate exists because its absence caused a real problem. Use the "Lesson Learned → Rule" format from `_base.md`
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
-- **Test before submitting** — run `.ai/test.sh` and `.ai/sync.sh` to verify nothing breaks
+- **Test before submitting** — run `.ai/sync.sh && .ai/test.sh` to verify nothing breaks
 
 ## About Skills
 
@@ -76,7 +77,7 @@ Gracias por tu interés en contribuir a AI Dev Agents.
 1. **Fork** del repositorio
 2. **Crea una rama** desde `main`: `git checkout -b feature/tu-cambio`
 3. **Haz tus cambios** siguiendo las convenciones de abajo
-4. **Ejecuta la validación**: `.ai/test.sh`
+4. **Ejecuta la validación**: `.ai/sync.sh && .ai/test.sh`
 5. **Commit** usando [Conventional Commits](https://www.conventionalcommits.org/): `feat:`, `fix:`, `docs:`, etc.
 6. **Abre una PR** con una descripción clara de qué y por qué
 
@@ -107,10 +108,11 @@ Este proyecto usa una estructura bilingüe para optimizar el uso de tokens de la
 ## Convenciones
 
 - **Los agentes son agnósticos** — definen QUÉ verificar, no CÓMO. El conocimiento específico del framework va en skills
+- **Soporte de arquitectura** — el template soporta Clean (por defecto), MVC y None. Si modificas gates de architect, tdd-developer, qa-engineer u orchestrator, considera el impacto en ambos modos Clean y MVC (ver README "Soporte de Arquitectura")
 - **Ficheros concisos** — agentes ~50-70 líneas, skills ~40-80 líneas, CLAUDE.md < 120 líneas
 - **Quality Gates justificados** — cada gate existe porque su ausencia causó un problema real. Usa el formato "Lesson Learned → Rule" de `_base.md`
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
-- **Testea antes de enviar** — ejecuta `.ai/test.sh` y `.ai/sync.sh` para verificar que nada se rompe
+- **Testea antes de enviar** — ejecuta `.ai/sync.sh && .ai/test.sh` para verificar que nada se rompe
 
 ## Sobre los Skills
 

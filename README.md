@@ -2,7 +2,7 @@
 
 [🇪🇸 Leer en español](README.es.md)
 
-Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic. Opinionated on Clean Architecture.
+Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic. Supports Clean Architecture (default) and MVC.
 
 ## What Is This
 
@@ -275,35 +275,65 @@ The included `.gitignore` already has these entries. If your project has an exis
 | technical-writer | Living docs | Functional examples, complete ADRs, setup < 15min |
 | ux-designer | WCAG 2.2 AA | Contrast 4.5:1, targets 44x44px, keyboard |
 
-## Architectural Stance: Clean Architecture (opinionated)
+## Architecture Support
 
-This template assumes **Clean Architecture** (dependency rule, pure domain). The `@architect` Quality Gates validate:
+The template ships with **Clean Architecture** gates by default and supports **MVC** via the bootstrap prompt.
 
+### Clean Architecture (default)
+
+The `@architect` Quality Gates validate:
 - The Domain does not import Infrastructure classes
 - Business logic lives in Domain, not in Controllers or framework Models
 - Contracts (interfaces) between layers carry all necessary data
 
-These principles are shared by Clean Architecture, Hexagonal (Ports & Adapters) and Onion Architecture — all three are compatible with the template.
+Compatible with: Clean Architecture, Hexagonal (Ports & Adapters), Onion Architecture.
 
-### Compatibility by architectural pattern
+### MVC (via bootstrap)
 
-| Pattern | Compatible | Reason |
+When the bootstrap detects an MVC project (or the user chooses it), it adapts 4 agents (architect, tdd-developer, qa-engineer, orchestrator) with MVC-specific gates:
+- Thin controllers (no business logic in controllers)
+- Centralized validation (Form Requests, Validators)
+- Correct model relationships and ORM usage
+
+Compatible with: Laravel, Django, Rails, Spring MVC, ASP.NET MVC.
+
+### None (frontend-only or no formal architecture)
+
+For projects without a backend, or without a formal architecture pattern (e.g. a Vue/React SPA, a static site, or legacy code without clear structure), the bootstrap sets `Architecture: None`. The architect agent is simply not invoked — there are no layers to verify. The rest of the agents (security, tdd, qa, devops, etc.) work normally.
+
+### How it works
+
+The agents in `.ai/agents/` ship with Clean Architecture gates. The bootstrap detects or asks the architecture and adapts:
+
+- **Clean / Hexagonal / Onion** → no changes, agents are ready
+- **MVC** → bootstrap edits 4 agents (architect, tdd-developer, qa-engineer, orchestrator) replacing Clean gates with MVC ones
+- **None** → no changes, architect is simply not invoked
+
+The result: your agents only have ONE set of gates, no conditionals, no confusion.
+
+### Architecture flag values
+
+| Flag | When to use | What the architect does |
 |---|---|---|
-| Clean Architecture | Yes | Gates are designed for this pattern |
-| Hexagonal (Ports & Adapters) | Yes | Same principle: dependency rule, domain at the center |
-| Onion Architecture | Yes | Predecessor of Clean Architecture, same principles |
-| Pure MVC (Laravel, Django, Rails) | **No** | Model inherits from ORM, Domain and Infrastructure coupled. Architect gates would be in permanent conflict |
-| MVC + Clean Architecture (Laravel Beyond CRUD) | Yes | If you separate Domain from ORM, gates apply |
+| `Clean` | Backend with separated layers (Domain/Application/Infrastructure) | Verifies dependency rule, contracts between layers |
+| `MVC` | Framework MVC (Laravel, Django, Rails, Spring MVC...) | Verifies thin controllers, centralized validation, ORM usage |
+| `None` | Frontend-only, no backend, or no formal architecture | Not invoked — no layers to verify |
 
-### Why not support MVC
+### Common project configurations
 
-In pure MVC, `User extends Model` — the entity **is** the ORM. Business logic lives in Controllers or Models. There are no separate layers. This contradicts the template's fundamental gates:
+| Project type | Architecture flag | Architect applies to |
+|---|---|---|
+| Backend only (Symfony, NestJS) + Clean | `Clean` | Backend |
+| Backend only (Laravel, Django) + MVC | `MVC` | Backend |
+| Frontend only (Vue, React SPA) | `None` | Not invoked |
+| Backend Clean + Frontend Components | `Clean` | Backend only (frontend has no layers, gates don't match) |
+| Backend MVC + Frontend Components | `MVC` | Backend only |
+| Fullstack Clean (backend + frontend with layers) | `Clean` | Both |
+| Legacy (mixed code, no clear pattern) | `None` | Not invoked. Use `legacy-audit.md` to analyze and plan migration |
 
-- **Architect Gate 1** (entities without external dependencies) → in MVC, the entity inherits from the framework
-- **Architect Gate 2** (logic in Domain) → in MVC, it lives in Controllers
-- **TDD Gate 4** (DI compiles) → MVC uses facades and implicit auto-wiring
+> These three flags cover ~95% of web projects. The remaining ~5% (event sourcing, CQRS, microservices with custom patterns) are typically Clean Architecture variants that work with the default gates.
 
-**Conclusion:** If your project uses pure MVC, this template is not for you. If you use any variant with dependency rule and pure domain, it works regardless of the framework.
+> **Key insight:** The architecture flag is about your **backend**. Frontends with Vue/React are component-based — they don't need architect gates. The ux-designer agent and framework skills handle frontend quality.
 
 ## Why These Gates Exist
 
