@@ -260,6 +260,16 @@ Ready for commit
 | Feature completed | @qa-engineer + @devops | Coverage met + documented PR |
 | Pre-release | @performance-engineer + @observability-engineer | Metrics OK + health checks |
 
+## Conflict Resolution
+
+If two agents disagree (e.g. @architect wants interfaces but @tdd-developer says they add unnecessary complexity):
+
+1. Check `project-context.md` — if the constraint is documented, it wins
+2. Check `decisions.md` — if a decision was already made, respect it
+3. If neither covers it — ask the user to decide, then document the decision in `decisions.md`
+
+Agents don't override each other. When there's a trade-off (architecture vs performance, security vs usability), the user decides and the decision is recorded.
+
 ## Global Guards
 - **Zero Trust:** Validate all inputs. External data is not trustworthy.
 - **Clean Arch:** Respect the layers (Domain > Application > Infrastructure).
