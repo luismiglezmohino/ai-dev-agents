@@ -47,13 +47,14 @@ Think like @product-owner:
 - Include performance criteria if latency-critical
 
 ### Technical Design (@architect)
-Think like @architect:
+Think like @architect. Check `project-context.md` for the architecture flag (Clean/MVC/None):
 - **Endpoint/Component:** HTTP method + path, or component name
 - **Request/Input:** payload with types, validations, limits
 - **Response/Output:** response for each case (OK, error, cached)
 - **Errors:** each error code with its cause and HTTP response
 - **Cache/State:** cache strategy or state management
-- **Affected layers:** Domain, Application, Infrastructure — what changes in each
+- **If Clean Architecture:** affected layers (Domain, Application, Infrastructure) — what changes in each
+- **If MVC:** affected components (Model, Controller, View/Route) — what changes in each
 
 ### Security (@security-auditor)
 Think like @security-auditor:

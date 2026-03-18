@@ -88,6 +88,7 @@ For multi-module projects (backend + frontend, monorepo, etc.):
 | `prompts/feature-spec.md` | Before implementing a feature | No | docs/specs/FEAT-XXX-name.md |
 | `prompts/refine-skills.md` | After 2-3 features | No | Refined skills with real patterns |
 | `prompts/legacy-audit.md` | Before modernizing legacy code | No | docs/legacy-audit.md with inventory, risks and plan |
+| `prompts/code-review.md` | Before opening a PR | No | Multi-agent review (architecture + security + testing + quality) |
 
 **Feature Specs (optional):** With Claude Code/OpenCode + agents, the system works without specs.
 But for complex features, teams, or tools without agents (Cursor, Windsurf), a spec centralizes

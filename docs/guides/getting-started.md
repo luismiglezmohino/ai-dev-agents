@@ -144,7 +144,13 @@ All three modes are compatible. You can use A for quick fixes and C for large fe
 
 ## Available Prompts
 
-The template includes reusable prompts in `.ai/prompts/` (English) and `.ai/prompts/es/` (Spanish). Paste their content in your AI tool when you need them:
+The template includes reusable prompts in `.ai/prompts/` (English) and `.ai/prompts/es/` (Spanish).
+
+| Tool | How to use prompts |
+|---|---|
+| Claude Code / OpenCode | Tell the AI: `Read .ai/prompts/code-review.md and execute it` |
+| Cursor / Windsurf / Copilot | Copy the `.md` file content and paste it in the chat |
+| ChatGPT / Gemini (web) | Copy the `.md` file content and paste it |
 
 | Prompt | Purpose | When to use |
 |---|---|---|
@@ -152,6 +158,7 @@ The template includes reusable prompts in `.ai/prompts/` (English) and `.ai/prom
 | `feature-spec.md` | Generates technical specification before implementing (SDD) | Before complex features |
 | `refine-skills.md` | Improves skills with real patterns from your code | After 2-3 implemented features |
 | `legacy-audit.md` | Analyzes legacy code and proposes modernization plan | Before refactoring old code |
+| `code-review.md` | Multi-agent review (architecture + security + testing + quality) | Before opening a PR |
 
 ## What's Next?
 

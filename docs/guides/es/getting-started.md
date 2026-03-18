@@ -145,7 +145,13 @@ Los tres modos son compatibles. Puedes usar A para fixes rápidos y C para featu
 
 ## Prompts disponibles
 
-El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai/prompts/` (inglés). Pega su contenido en tu herramienta de IA cuando los necesites:
+El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai/prompts/` (inglés).
+
+| Herramienta | Cómo usar los prompts |
+|---|---|
+| Claude Code / OpenCode | Dile a la IA: `Lee .ai/prompts/es/code-review.md y ejecútalo` |
+| Cursor / Windsurf / Copilot | Copia el contenido del `.md` y pégalo en el chat |
+| ChatGPT / Gemini (web) | Copia el contenido del `.md` y pégalo |
 
 | Prompt | Para qué | Cuándo usarlo |
 |---|---|---|
@@ -153,6 +159,7 @@ El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai
 | `feature-spec.md` | Genera especificación técnica antes de implementar (SDD) | Antes de features complejas |
 | `refine-skills.md` | Mejora los skills con patrones reales de tu código | Después de 2-3 features implementadas |
 | `legacy-audit.md` | Analiza código legacy y propone plan de modernización | Antes de refactorizar código antiguo |
+| `code-review.md` | Revisión multi-agente (arquitectura + seguridad + testing + calidad) | Antes de abrir una PR |
 
 ## ¿Qué sigue?
 

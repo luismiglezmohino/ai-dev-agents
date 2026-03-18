@@ -44,6 +44,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 │   ├── feature-spec.md               # Genera spec técnico antes de implementar (opcional)
 │   ├── refine-skills.md              # Refina skills con patrones reales
 │   ├── legacy-audit.md              # Analiza código legacy y propone plan de modernización
+│   ├── code-review.md               # Revisión multi-agente antes de PR
 │   └── es/                            # Versiones en español
 ├── templates/                         # Skeletons para CLAUDE.md / AGENTS.md
 │   ├── CLAUDE.md.template
@@ -253,8 +254,9 @@ El `.gitignore` incluido ya tiene estas entradas. Si tu proyecto tiene un `.giti
 | `prompts/es/feature-spec.md` | Antes de implementar una feature compleja | No | docs/specs/FEAT-XXX-nombre.md |
 | `prompts/es/refine-skills.md` | Después de 2-3 features implementadas | No | Skills refinados con patrones reales del proyecto |
 | `prompts/es/legacy-audit.md` | Antes de modernizar código legacy | No | docs/legacy-audit.md con inventario, riesgos y plan |
+| `prompts/es/code-review.md` | Antes de abrir una PR | No | Revisión multi-agente (arquitectura + seguridad + testing + calidad) |
 
-**Bootstrap** es el único obligatorio. **Feature Spec** es opcional (ver sección "Memoria persistente > Feature Specs"). **Refine Skills** mejora los skills genéricos del bootstrap con patrones reales de tu código. **Legacy Audit** analiza código existente y propone un plan de modernización incremental (Flujo 5 del orchestrator).
+**Bootstrap** es el único obligatorio. **Feature Spec** es opcional (ver sección "Memoria persistente > Feature Specs"). **Refine Skills** mejora los skills genéricos del bootstrap con patrones reales de tu código. **Legacy Audit** analiza código existente y propone un plan de modernización incremental (Flujo 5 del orchestrator). **Code Review** revisa cambios desde 4 perspectivas de agentes antes de hacer PR.
 
 ## Agentes incluidos
 

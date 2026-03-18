@@ -44,6 +44,7 @@ Specialized agent system for AI-assisted development. Language, framework and AI
 │   ├── feature-spec.md               # Generates tech spec before implementing (optional)
 │   ├── refine-skills.md              # Refines skills with real patterns
 │   ├── legacy-audit.md              # Analyzes legacy code and proposes modernization plan
+│   ├── code-review.md               # Multi-agent review before PR
 │   └── es/                            # Spanish versions
 ├── templates/                         # Skeletons for CLAUDE.md / AGENTS.md
 │   ├── CLAUDE.md.template
@@ -254,6 +255,7 @@ The included `.gitignore` already has these entries. If your project has an exis
 | `prompts/feature-spec.md` | Before implementing a complex feature | No | docs/specs/FEAT-XXX-name.md |
 | `prompts/refine-skills.md` | After 2-3 implemented features | No | Refined skills with real project patterns |
 | `prompts/legacy-audit.md` | Before modernizing legacy code | No | docs/legacy-audit.md with inventory, risks and plan |
+| `prompts/code-review.md` | Before opening a PR | No | Multi-agent review (architecture + security + testing + quality) |
 
 **Bootstrap** is the only required one. **Feature Spec** is optional (see "Persistent Memory > Feature Specs" section). **Refine Skills** improves the generic bootstrap skills with real patterns from your code. **Legacy Audit** analyzes existing code and proposes an incremental modernization plan (Orchestrator Flow 5).
 
