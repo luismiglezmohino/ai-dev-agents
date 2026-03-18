@@ -98,3 +98,66 @@ Antes de añadir un MCP a tu proyecto, pregúntate:
 - Necesitan credenciales (API keys, tokens) — guárdalas en variables de entorno, nunca en el código
 - Revisa qué permisos pide cada MCP antes de configurarlo
 - Usa solo MCPs de fuentes oficiales o repositorios verificados
+
+## MCPs que NO necesitas
+
+| MCP | Razón |
+|-----|--------|
+| Filesystem | Claude Code ya tiene Read/Write/Edit/Glob/Grep nativos |
+| Docker | Los comandos de Docker vía Bash son suficientes |
+| Git | Claude Code ya tiene integración nativa con git |
+
+## Gestión de MCPs
+
+```bash
+# Instalar un MCP
+claude mcp add <nombre> -- <comando>
+
+# Listar MCPs configurados
+claude mcp list
+
+# Ver detalles de un MCP
+claude mcp get context7
+
+# Eliminar un MCP
+claude mcp remove context7
+
+# Dentro de Claude Code: ver estado y coste en tokens
+/mcp
+
+# Autenticar MCPs remotos usando OAuth
+/mcp → seleccionar servidor → Authenticate
+```
+
+## Scopes (dónde se guarda la configuración)
+
+| Scope | Flag | Dónde se guarda | Propósito |
+|-------|------|------------------|---------|
+| `local` | (por defecto) | `~/.claude.json` | Solo tú, solo este proyecto |
+| `project` | `--scope project` | `.mcp.json` (raíz del proyecto) | Compartido con el equipo (commitear a git) |
+| `user` | `--scope user` | `~/.claude.json` | Tú, en todos tus proyectos |
+
+```bash
+# MCP disponible en todos tus proyectos
+claude mcp add --scope user context7 -- npx -y @upstash/context7-mcp@latest
+
+# MCP compartido con el equipo (guardado en .mcp.json)
+claude mcp add --scope project --transport http sentry https://mcp.sentry.dev/mcp
+```
+
+## Coste en tokens de los MCPs
+
+Cada MCP añade sus definiciones de herramientas al contexto de cada mensaje. Con 2-3 MCPs el impacto es bajo. Si tienes muchos, Claude Code activa **Tool Search** automáticamente: en vez de cargar todas las herramientas, las busca bajo demanda.
+
+```bash
+# Ver cuántos tokens consume cada MCP
+/mcp
+
+# Forzar Tool Search (si tienes muchos MCPs)
+ENABLE_TOOL_SEARCH=true claude
+
+# Desactivar Tool Search
+ENABLE_TOOL_SEARCH=false claude
+```
+
+**Recomendación:** Instala solo los MCPs que uses activamente. Context7 es el único universalmente útil para desarrollo. El resto depende de tu stack y fase del proyecto.

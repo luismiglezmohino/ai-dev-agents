@@ -162,3 +162,17 @@ The model you can run depends directly on your hardware. A Mac M4 with 24 GB of 
 - If it's too slow → switch to a faster model
 - If costs spike → switch to Haiku/GPT-4o-mini for simple tasks
 - If context fills up → use a model with a larger window (Gemini 1M)
+
+## Model Routing per Agent
+
+Each agent can use the model best suited for its task:
+
+| Role | Suggested model | Reason |
+|---|---|---|
+| @architect, @product-owner | Reasoning (Gemini, o1) | Analysis, design, decisions |
+| @tdd-developer | Code (Opus, Claude) | Best at implementation |
+| @security-auditor | Code (Opus, Claude) | Deep code analysis |
+| @technical-writer | General (Sonnet, GPT-4o) | Documentation, sufficient quality |
+| @devops | Fast (Haiku, GPT-4o-mini) | Scripts, configs, repetitive tasks |
+
+**Current state:** Claude Code uses one model per session. OpenCode supports model routing. Documented as a future pattern for when tools natively support it.

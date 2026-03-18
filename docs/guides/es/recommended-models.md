@@ -163,3 +163,17 @@ El modelo que puedas ejecutar depende directamente de tu equipo. No es lo mismo 
 - Si tarda demasiado → baja a un modelo más rápido
 - Si el coste se dispara → baja a Haiku/GPT-4o-mini para tareas simples
 - Si el contexto se llena → usa un modelo con ventana más grande (Gemini 1M)
+
+## Model routing por agente
+
+Cada agente puede usar el modelo más adecuado para su tarea:
+
+| Rol | Modelo sugerido | Razón |
+|---|---|---|
+| @architect, @product-owner | Razonamiento (Gemini, o1) | Análisis, diseño, decisiones |
+| @tdd-developer | Código (Opus, Claude) | Mejor en implementación |
+| @security-auditor | Código (Opus, Claude) | Análisis profundo de código |
+| @technical-writer | General (Sonnet, GPT-4o) | Documentación, suficiente calidad |
+| @devops | Rápido (Haiku, GPT-4o-mini) | Scripts, configs, tareas repetitivas |
+
+**Estado actual:** Claude Code usa un modelo por sesión. OpenCode soporta model routing. Documentado como patrón futuro para cuando las herramientas lo soporten nativamente.
