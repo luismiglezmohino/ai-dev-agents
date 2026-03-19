@@ -14,6 +14,8 @@ GEMINI.md
 .github/copilot-instructions.md
 .agents/rules/
 .agents/workflows/
+.agents/skills
+.gemini/skills
 
 # Memoria de sesion (local por desarrollador)
 .ai/.local/*

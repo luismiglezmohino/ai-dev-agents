@@ -455,6 +455,15 @@ main() {
         log_info ".github/copilot-instructions.md (generated)"
     fi
 
+    # === SHARED: .agents/skills symlink (Codex + Gemini CLI + Antigravity) ===
+    log_section "Shared skills (.agents/skills)"
+    mkdir -p "$PROJECT_ROOT/.agents"
+    create_symlink "../../.ai/skills" "$PROJECT_ROOT/.agents/skills" ".agents/skills -> ../../.ai/skills"
+
+    # === GEMINI CLI: .gemini/skills symlink ===
+    mkdir -p "$PROJECT_ROOT/.gemini"
+    create_symlink "../../.ai/skills" "$PROJECT_ROOT/.gemini/skills" ".gemini/skills -> ../../.ai/skills"
+
     # === ANTIGRAVITY (Google): Rules + Workflows ===
     log_section "Antigravity (rules + workflows)"
 
@@ -518,8 +527,10 @@ main() {
     echo "  .claude/agents/        Generated (Claude Code format)"
     echo "  .claude/skills         -> ../.ai/skills (symlink)"
     echo "  .claude/rules/         Generated (decisions.md, project-context.md)"
+    echo "  .agents/skills         -> ../../.ai/skills (shared: Codex + Gemini CLI + Antigravity)"
     echo "  .agents/rules/         Generated (Antigravity rules)"
     echo "  .agents/workflows/     Generated (Antigravity workflows)"
+    echo "  .gemini/skills         -> ../../.ai/skills (Gemini CLI)"
     echo "  .cursorrules           Generated (compact)"
     echo "  .windsurfrules         Generated (compact)"
     echo "  GEMINI.md              Generated (compact)"

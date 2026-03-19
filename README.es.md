@@ -19,13 +19,13 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 | Claude Code | `CLAUDE.md` | `.claude/agents/` (sí) | Alto |
 | OpenCode | `AGENTS.md` | `.opencode/agents/` (sí) | Alto |
 | Antigravity (Google) | `GEMINI.md` | `.agents/rules/` (sí, @mention) | Alto |
-| Codex (OpenAI) | `AGENTS.md` | No (contexto compartido) | Medio |
+| Gemini CLI | `GEMINI.md` | `.gemini/skills/` (sí, activate_skill) | Alto |
+| Codex CLI (OpenAI) | `AGENTS.md` | `.agents/skills/` (sí, /skills) | Alto |
 | Cursor | `.cursorrules` | No (todo inline) | Bajo |
 | Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
-| Gemini | `GEMINI.md` | No (todo inline) | Bajo |
 | GitHub Copilot | `.github/copilot-instructions.md` | No (todo inline) | Bajo |
 
-Las herramientas con agentes bajo demanda (Claude Code, OpenCode, Antigravity) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md)** para centralizar contexto.
+Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md)** para centralizar contexto.
 
 > Ver [capacidades detalladas por herramienta](docs/guides/es/how-claude-code-works.md) y [patrones de verificación cruzada](docs/guides/es/cross-verification.md).
 

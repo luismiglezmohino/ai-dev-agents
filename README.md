@@ -19,13 +19,13 @@ Specialized agent system for AI-assisted development. Language, framework and AI
 | Claude Code | `CLAUDE.md` | `.claude/agents/` (yes) | High |
 | OpenCode | `AGENTS.md` | `.opencode/agents/` (yes) | High |
 | Antigravity (Google) | `GEMINI.md` | `.agents/rules/` (yes, @mention) | High |
-| Codex (OpenAI) | `AGENTS.md` | No (shared context) | Medium |
+| Gemini CLI | `GEMINI.md` | `.gemini/skills/` (yes, activate_skill) | High |
+| Codex CLI (OpenAI) | `AGENTS.md` | `.agents/skills/` (yes, /skills) | High |
 | Cursor | `.cursorrules` | No (all inline) | Low |
 | Windsurf | `.windsurfrules` | No (all inline) | Low |
-| Gemini | `GEMINI.md` | No (all inline) | Low |
 | GitHub Copilot | `.github/copilot-instructions.md` | No (all inline) | Low |
 
-Tools with on-demand agents (Claude Code, OpenCode, Antigravity) load agents ONLY when invoked — high token savings. Tools without on-demand agents load everything in a compact file. For those, **[SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md) is strongly recommended** to centralize context.
+Tools with on-demand agents/skills (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) load agents ONLY when invoked — high token savings. Tools without on-demand agents load everything in a compact file. For those, **[SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md) is strongly recommended** to centralize context.
 
 > See [detailed tool capabilities](docs/guides/how-claude-code-works.md) and [cross-verification patterns](docs/guides/cross-verification.md) for more.
 

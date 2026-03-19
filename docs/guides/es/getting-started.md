@@ -198,6 +198,15 @@ El template incluye un workflow de GitHub Actions (`.github/workflows/ci.yml`) q
 
 Si no lo quieres, borra `.github/workflows/ci.yml`. Si ya tienes tu propio CI, el workflow del template no entra en conflicto — se ejecuta independientemente.
 
+## Usuarios Windows
+
+`sync.sh` y `test.sh` son scripts bash. En Windows, necesitas uno de:
+- **WSL** (Windows Subsystem for Linux) — recomendado
+- **Git Bash** (incluido con Git for Windows)
+- **MSYS2**
+
+La mayoría de desarrolladores que usan CLIs de IA (Claude Code, Gemini CLI, Codex CLI) en Windows ya tienen WSL instalado.
+
 ## Problemas comunes
 
 | Problema | Solución |

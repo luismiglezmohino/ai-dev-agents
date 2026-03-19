@@ -40,7 +40,7 @@ This project uses a bilingual structure to optimize AI token usage:
 ## Conventions
 
 - **Agents are agnostic** — they define WHAT to verify, not HOW. Framework-specific knowledge goes in skills
-- **Architecture support** — the template supports Clean (default), MVC and None (~95% of web projects). If modifying architect, tdd-developer, qa-engineer or orchestrator gates, consider impact on both Clean and MVC modes (see README "Architecture Support")
+- **Architecture support** — the template supports Clean (default), MVC, MVVM and None (~90% of all software projects). If modifying architect, tdd-developer, qa-engineer, ux-designer, performance-engineer or orchestrator gates, consider impact on all architecture modes (see README "Architecture Support")
 - **Keep files concise** — agents ~50-70 lines, skills ~40-80 lines, CLAUDE.md < 120 lines
 - **Quality Gates must be justified** — every gate exists because its absence caused a real problem. Use the "Lesson Learned → Rule" format from `_base.md`
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
@@ -108,7 +108,7 @@ Este proyecto usa una estructura bilingüe para optimizar el uso de tokens de la
 ## Convenciones
 
 - **Los agentes son agnósticos** — definen QUÉ verificar, no CÓMO. El conocimiento específico del framework va en skills
-- **Soporte de arquitectura** — el template soporta Clean (por defecto), MVC y None. Si modificas gates de architect, tdd-developer, qa-engineer u orchestrator, considera el impacto en ambos modos Clean y MVC (ver README "Soporte de Arquitectura")
+- **Soporte de arquitectura** — el template soporta Clean (por defecto), MVC, MVVM y None (~90% de proyectos software). Si modificas gates de architect, tdd-developer, qa-engineer, ux-designer, performance-engineer u orchestrator, considera el impacto en todos los modos de arquitectura (ver README "Soporte de Arquitectura")
 - **Ficheros concisos** — agentes ~50-70 líneas, skills ~40-80 líneas, CLAUDE.md < 120 líneas
 - **Quality Gates justificados** — cada gate existe porque su ausencia causó un problema real. Usa el formato "Lesson Learned → Rule" de `_base.md`
 - **Conventional Commits** — `feat:`, `fix:`, `docs:`, `test:`, `refactor:`
