@@ -119,6 +119,29 @@ jobs:
 > Requires an Anthropic API key configured in Settings → Secrets → Actions of the repository.
 > Official repository: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
 
+### Security Review with OpsGuard-AI (alternative)
+
+```yaml
+# .github/workflows/opsguard.yml
+name: OpsGuard Security Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oscaar90/opsguard-ai@v1
+        with:
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+```
+
+> AI-powered security analysis that scores PR risk (0-10) and detects vulnerabilities like SQL injection, hardcoded secrets, and insecure patterns. Works as a last line of defense — catches what developers and agents miss.
+> Available on [GitHub Marketplace](https://github.com/marketplace/actions/opsguard-ai) | [Repository](https://github.com/oscaar90/OpsGuard-AI)
+
 ### CD Deploy (SSH example)
 
 ```yaml
