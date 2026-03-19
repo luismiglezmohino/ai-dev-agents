@@ -12,6 +12,7 @@
 .windsurfrules
 GEMINI.md
 .github/copilot-instructions.md
+.continue/rules/
 .agents/rules/
 .agents/workflows/
 .agents/skills

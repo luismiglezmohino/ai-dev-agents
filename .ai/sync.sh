@@ -455,6 +455,69 @@ main() {
         log_info ".github/copilot-instructions.md (generated)"
     fi
 
+    # === CONTINUE (VS Code): Rules ===
+    log_section "Continue (rules)"
+    local CONTINUE_RULES="$PROJECT_ROOT/.continue/rules"
+
+    if $DRY_RUN; then
+        log_dry "Would generate .continue/rules/"
+    else
+        mkdir -p "$CONTINUE_RULES"
+
+        for f in "$AGENTS_SOURCE"/*.md; do
+            [[ -f "$f" ]] || continue
+            local fname
+            fname=$(basename "$f")
+
+            # Skip base file
+            [[ "$fname" == _* ]] && continue
+
+            local agent_name
+            agent_name=$(basename "$fname" .md)
+
+            # Extract description from frontmatter
+            local desc
+            desc=$(grep -m1 "^description:" "$f" | sed 's/^description: *//' || echo "")
+
+            # Extract content without YAML frontmatter
+            local content
+            content=$(awk '/^---$/{c++;next}c>=2' "$f" | sed '/./,$!d')
+
+            # Project-context and decisions are alwaysApply: true
+            local always_apply="false"
+            if [[ "$fname" == "project-context.md" ]]; then
+                always_apply="true"
+            fi
+
+            cat > "$CONTINUE_RULES/$fname" << EOFCONTINUE
+---
+name: $agent_name
+description: $desc
+alwaysApply: $always_apply
+---
+
+$content
+EOFCONTINUE
+        done
+        log_info ".continue/rules/ ($(ls "$CONTINUE_RULES"/*.md 2>/dev/null | wc -l | tr -d ' ') rules)"
+
+        # Decisions as alwaysApply rule
+        if [[ -f "$DECISIONS_SOURCE" ]]; then
+            local dec_content
+            dec_content=$(cat "$DECISIONS_SOURCE")
+            cat > "$CONTINUE_RULES/decisions.md" << EOFCONTINUE
+---
+name: decisions
+description: Technical decisions already made for this project
+alwaysApply: true
+---
+
+$dec_content
+EOFCONTINUE
+            log_info "decisions.md -> .continue/rules/decisions.md"
+        fi
+    fi
+
     # === SHARED: .agents/skills symlink (Codex + Gemini CLI + Antigravity) ===
     log_section "Shared skills (.agents/skills)"
     mkdir -p "$PROJECT_ROOT/.agents"
@@ -527,6 +590,7 @@ main() {
     echo "  .claude/agents/        Generated (Claude Code format)"
     echo "  .claude/skills         -> ../.ai/skills (symlink)"
     echo "  .claude/rules/         Generated (decisions.md, project-context.md)"
+    echo "  .continue/rules/       Generated (Continue rules)"
     echo "  .agents/skills         -> ../../.ai/skills (shared: Codex + Gemini CLI + Antigravity)"
     echo "  .agents/rules/         Generated (Antigravity rules)"
     echo "  .agents/workflows/     Generated (Antigravity workflows)"

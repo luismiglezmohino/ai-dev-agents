@@ -21,6 +21,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 | Antigravity (Google) | `GEMINI.md` | `.agents/rules/` (sí, @mention) | Alto |
 | Gemini CLI | `GEMINI.md` | `.gemini/skills/` (sí, activate_skill) | Alto |
 | Codex CLI (OpenAI) | `AGENTS.md` | `.agents/skills/` (sí, /skills) | Alto |
+| Continue (VS Code) | `.continue/rules/` | Parcial (matching implícito) | Medio |
 | Cursor | `.cursorrules` | No (todo inline) | Bajo |
 | Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
 | GitHub Copilot | `.github/copilot-instructions.md` | No (todo inline) | Bajo |
@@ -77,10 +78,12 @@ El LLM analiza tu proyecto (o pregunta si es nuevo) y genera automáticamente:
 | `docs/` | **Sí** | Specs, ADRs, guías |
 | `.claude/agents/`, `.claude/rules/`, `.opencode/` | **No** | Generado por `sync.sh` |
 | `.cursorrules`, `.windsurfrules`, `GEMINI.md` | **No** | Generado por `sync.sh` |
-| `.agents/` | **No** | Generado por `sync.sh` (Antigravity) |
+| `.agents/` | **No** | Generado por `sync.sh` (Codex, Gemini CLI, Antigravity) |
+| `.continue/rules/` | **No** | Generado por `sync.sh` (Continue) |
+| `.gemini/skills` | **No** | Generado por `sync.sh` (Gemini CLI) |
 | `.ai/.local/` | **No** | Estado de sesión |
 
-> **Regla:** si `sync.sh` lo genera, gitignórealo. Si lo editas a mano, commitéalo.
+> **Regla:** si `sync.sh` lo genera, gitignórealo. Si lo editas a mano, commitéalo. Edita siempre en `.ai/` y re-ejecuta `sync.sh` para propagar cambios. Sync genera para las 9 herramientas a la vez — esto permite cambiar de herramienta sin reconfigurar.
 
 ## Agentes incluidos
 
