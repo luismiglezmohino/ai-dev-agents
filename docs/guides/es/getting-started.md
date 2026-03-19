@@ -55,6 +55,10 @@ Esto genera las configuraciones para tu herramienta (Claude Code, OpenCode, Curs
 
 Si todo está verde, ya tienes el sistema de agentes funcionando.
 
+> **Importante:** Edita siempre los ficheros en `.ai/` (la fuente), nunca en directorios generados (`.claude/`, `.continue/`, `.agents/`, `.gemini/`, `.cursorrules`, etc.). Los ficheros generados se sobreescriben cada vez que ejecutas `sync.sh`. Después de editar cualquier agente, skill o prompt en `.ai/`, re-ejecuta `.ai/sync.sh` para propagar los cambios a todas las herramientas.
+>
+> **¿Por qué sync.sh genera para todas las herramientas a la vez?** Puede crear directorios que no uses ahora, pero permite cambiar de herramienta sin reconfigurar (ej: Claude Code hoy, Gemini CLI mañana). Todos los directorios generados están gitignoreados y no interfieren con tu proyecto.
+
 ## Paso 5: Elegir modo de trabajo
 
 El template soporta tres modos de trabajo. Elige el que mejor se adapte a tu situación:
@@ -149,8 +153,8 @@ El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai
 
 | Herramienta | Cómo usar los prompts |
 |---|---|
-| Claude Code / OpenCode | Dile a la IA: `Lee .ai/prompts/es/code-review.md y ejecútalo` |
-| Cursor / Windsurf / Copilot | Copia el contenido del `.md` y pégalo en el chat |
+| Claude Code / OpenCode / Gemini CLI / Codex CLI | Dile a la IA: `Lee .ai/prompts/es/code-review.md y ejecútalo` |
+| Continue / Cursor / Windsurf / Copilot | Copia el contenido del `.md` y pégalo en el chat |
 | ChatGPT / Gemini (web) | Copia el contenido del `.md` y pégalo |
 
 | Prompt | Para qué | Cuándo usarlo |
