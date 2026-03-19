@@ -23,6 +23,16 @@ Model Context Protocol (MCP) servers extend your agents' context by connecting t
 | **[Jira](https://github.com/modelcontextprotocol/servers)** | If you use Jira for project management | product-owner, devops |
 | **[Docker](https://github.com/modelcontextprotocol/servers)** | If you work with containers | devops |
 | **[Playwright](https://github.com/modelcontextprotocol/servers)** | If you do E2E testing | qa-engineer |
+| **[Engram](https://github.com/Gentleman-Programming/engram)** | If you want persistent memory across sessions and tools | All agents |
+| **[Figma](https://github.com/nicholasgriffintn/figma-mcp-server)** | If you design in Figma and want agents to read designs | ux-designer |
+| **[Supabase](https://github.com/supabase-community/supabase-mcp)** | If you use Supabase (DB + Auth + Storage) | database-engineer |
+
+## Find More MCPs
+
+| Directory | Description |
+|---|---|
+| [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers) | Official reference implementations by the MCP team |
+| [mcpservers.org](https://mcpservers.org) | Community directory with search and filtering |
 
 ## How to Configure Them
 
