@@ -2,7 +2,7 @@
 
 [🇪🇸 Leer en español](README.es.md)
 
-Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic. Supports Clean Architecture (default) and MVC.
+Specialized agent system for AI-assisted development. Language, framework and AI tool agnostic. Supports Clean Architecture, MVC, MVVM and None (~90% of all software projects).
 
 ## What Is This
 

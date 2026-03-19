@@ -2,7 +2,7 @@
 
 [🇬🇧 Read in English](README.md)
 
-Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al lenguaje, framework y herramienta de IA. Soporta Clean Architecture (por defecto) y MVC.
+Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al lenguaje, framework y herramienta de IA. Soporta Clean Architecture, MVC, MVVM y None (~90% de todos los proyectos de software).
 
 ## Qué es esto
 
