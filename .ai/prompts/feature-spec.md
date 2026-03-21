@@ -28,6 +28,17 @@ Ask the user (if they haven't given enough context):
 
 If the user already provided enough information, don't ask — generate directly.
 
+## Step 0.5: Discuss (identify gray areas)
+
+Before designing, identify unknowns and assumptions:
+
+- **Ambiguities:** What is NOT clear from the requirements? List them.
+- **Decisions needed:** What trade-offs exist? (e.g. performance vs simplicity, UX vs security)
+- **Dependencies:** Does this feature depend on something that doesn't exist yet?
+- **Risks:** What could go wrong? Edge cases, external API limits, data migration.
+
+Present these to the user and wait for answers BEFORE proceeding to the technical design. Don't assume — ask. Bad assumptions become bugs.
+
 **IMPORTANT:** Read `project-context.md` for the project's domain, constraints and artifact paths.
 
 ## Step 1: Generate the spec

@@ -29,6 +29,17 @@ Pregunta al usuario (si no ha dado suficiente contexto):
 
 Si el usuario ya dio suficiente información, no preguntes — genera directamente.
 
+## Paso 0.5: Discusión (identificar zonas grises)
+
+Antes de diseñar, identifica incógnitas y asunciones:
+
+- **Ambigüedades:** ¿Qué NO está claro en los requisitos? Lístalas.
+- **Decisiones necesarias:** ¿Qué trade-offs existen? (ej: performance vs simplicidad, UX vs seguridad)
+- **Dependencias:** ¿Esta feature depende de algo que aún no existe?
+- **Riesgos:** ¿Qué puede salir mal? Casos borde, límites de APIs externas, migración de datos.
+
+Presenta esto al usuario y espera respuestas ANTES de pasar al diseño técnico. No asumas — pregunta. Las asunciones incorrectas se convierten en bugs.
+
 **IMPORTANTE:** Lee `project-context.md` para conocer el dominio, restricciones y rutas de artefactos del proyecto.
 
 ## Paso 1: Generar el spec
