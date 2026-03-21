@@ -50,3 +50,11 @@ Por directorio (solo en ese contexto):
 - Los detalles de cada rol van en `.ai/agents/{rol}.md`
 - Los detalles de frameworks van en `.ai/skills/{skill}/SKILL.md`
 - Crea sub-CLAUDE.md por módulo para contexto específico del stack
+
+### Herramientas externas para reducción de tokens
+
+| Herramienta | Qué hace | Ahorro de tokens | Link |
+|---|---|---|---|
+| **[RTK](https://github.com/rtk-ai/rtk)** | Proxy CLI que filtra ruido del output de terminal (git status, test results, ls) antes de que llegue al modelo | 60-90% en output de comandos | Solo local, zero dependencies (Rust) |
+
+RTK es complementario a la estrategia de tokens del template. El template reduce tokens en **instrucciones** (agentes, skills, contexto). RTK reduce tokens en **output de herramientas** (comandos de terminal). Ambos funcionan juntos.
