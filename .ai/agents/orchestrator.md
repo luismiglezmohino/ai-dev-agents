@@ -270,6 +270,14 @@ If two agents disagree (e.g. @architect wants interfaces but @tdd-developer says
 
 Agents don't override each other. When there's a trade-off (architecture vs performance, security vs usability), the user decides and the decision is recorded.
 
+## Context Freshness
+
+For large features (5+ files, multiple layers), split the work into separate sessions. AI quality degrades as the context window fills — instructions from the beginning get diluted. Best practices:
+
+- One session per orchestrator flow (don't mix Flow 1 + Flow 2 in one session)
+- Compact or start a new session between phases (implementation → security review → quality check)
+- If the AI starts forgetting gates or mixing concerns, start fresh
+
 ## Global Guards
 - **Zero Trust:** Validate all inputs. External data is not trustworthy.
 - **Clean Arch:** Respect the layers (Domain > Application > Infrastructure).
