@@ -142,6 +142,8 @@ jobs:
 > AI-powered security analysis that scores PR risk (0-10) and detects vulnerabilities like SQL injection, hardcoded secrets, and insecure patterns. Works as a last line of defense — catches what developers and agents miss.
 > Available on [GitHub Marketplace](https://github.com/marketplace/actions/opsguard-ai) | [Repository](https://github.com/oscaar90/OpsGuard-AI)
 
+> **Security note:** Both Claude Code Action and OpsGuard-AI send your PR diff to external LLM providers (Anthropic / OpenAI) for analysis. If your project handles sensitive data (health, financial, PII), verify that your organization allows sending code to third-party APIs.
+
 ### CD Deploy (SSH example)
 
 ```yaml

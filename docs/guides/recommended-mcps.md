@@ -108,6 +108,19 @@ Before adding an MCP to your project, ask yourself:
 - Review what permissions each MCP requests before configuring
 - Only use MCPs from official sources or verified repositories
 
+### Data exposure per recommended tool
+
+| Tool | Runs locally | Sends data externally | What it sends | Risk |
+|---|---|---|---|---|
+| **Engram** | Yes (SQLite) | No | Nothing | Low |
+| **Context7** | No (cloud) | Yes | Library names (e.g. "Vue 3 docs") | Low — only public docs, not your code |
+| **PostgreSQL/MySQL MCP** | Yes | No | Nothing (connects to your DB) | Medium — agent can read/write your data |
+| **Sentry MCP** | No (cloud) | Yes | Reads your Sentry errors | Low — data already in Sentry |
+| **Figma MCP** | No (cloud) | Yes | Reads your Figma designs | Low — data already in Figma |
+| **Supabase MCP** | No (cloud) | Yes | Reads/writes your Supabase data | Medium — agent has DB access |
+
+**Rule:** If your project handles sensitive data (health, financial, PII), verify what each MCP sends before installing. Local-only MCPs (Engram, DB direct) are always safer.
+
 ## MCPs You DON'T Need
 
 | MCP | Reason |

@@ -109,6 +109,19 @@ Antes de añadir un MCP a tu proyecto, pregúntate:
 - Revisa qué permisos pide cada MCP antes de configurarlo
 - Usa solo MCPs de fuentes oficiales o repositorios verificados
 
+### Exposición de datos por herramienta recomendada
+
+| Herramienta | Ejecuta local | Envía datos fuera | Qué envía | Riesgo |
+|---|---|---|---|---|
+| **Engram** | Sí (SQLite) | No | Nada | Bajo |
+| **Context7** | No (cloud) | Sí | Nombres de librerías (ej: "Vue 3 docs") | Bajo — solo docs públicas, no tu código |
+| **PostgreSQL/MySQL MCP** | Sí | No | Nada (conecta a tu BD) | Medio — el agente puede leer/escribir tus datos |
+| **Sentry MCP** | No (cloud) | Sí | Lee tus errores de Sentry | Bajo — datos ya están en Sentry |
+| **Figma MCP** | No (cloud) | Sí | Lee tus diseños de Figma | Bajo — datos ya están en Figma |
+| **Supabase MCP** | No (cloud) | Sí | Lee/escribe tus datos de Supabase | Medio — el agente tiene acceso a BD |
+
+**Regla:** Si tu proyecto maneja datos sensibles (salud, financieros, PII), verifica qué envía cada MCP antes de instalarlo. Los MCPs solo locales (Engram, BD directa) son siempre más seguros.
+
 ## MCPs que NO necesitas
 
 | MCP | Razón |
