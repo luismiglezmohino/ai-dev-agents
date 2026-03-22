@@ -146,7 +146,7 @@ Search `docs/specs/` for the last FEAT-XXX number used. Increment by 1.
 If there are no previous specs, start with FEAT-001.
 
 File name: `FEAT-XXX-name-kebab-case.md`
-Example: `docs/specs/FEAT-003-pictogram-search.md`
+Example: `docs/specs/FEAT-003-user-search.md`
 
 ## Step 3: Validation
 

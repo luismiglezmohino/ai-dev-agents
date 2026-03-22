@@ -49,11 +49,11 @@ Format: `<type>(<scope>): <description>`
 
 ```bash
 feat(auth): add JWT token refresh endpoint
-fix(pictograms): correct ARASAAC API timeout handling
+fix(auth): correct token refresh on expired sessions
 docs(api): update OpenAPI spec for /users endpoint
 test(auth): add integration tests for login flow
 refactor(domain): extract ValueObject base class
-perf(search): add index for pictogram full-text search
+perf(search): add index for user full-text search
 chore(deps): upgrade symfony to 7.2
 ```
 
@@ -61,12 +61,12 @@ chore(deps): upgrade symfony to 7.2
 
 | Type | When to use | Example |
 |------|-------------|---------|
-| `feat` | New feature | `feat(board): add drag-and-drop pictograms` |
+| `feat` | New feature | `feat(dashboard): add drag-and-drop widgets` |
 | `fix` | Bug fix | `fix(tts): handle empty text in speech synthesis` |
 | `docs` | Documentation only | `docs(readme): add setup instructions` |
 | `test` | Add or fix tests | `test(api): add e2e tests for auth flow` |
 | `refactor` | No behavior change | `refactor(users): extract repository interface` |
-| `perf` | Performance improvement | `perf(api): cache pictogram responses` |
+| `perf` | Performance improvement | `perf(api): cache user profile responses` |
 | `chore` | Maintenance, deps, CI | `chore(docker): update PHP base image` |
 | `ci` | CI/CD changes | `ci(github): add deploy workflow` |
 

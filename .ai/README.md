@@ -1,4 +1,4 @@
-# AI Dev Agents Template
+# AI Dev Agents
 
 Reusable template for AI-assisted development with specialized agents. Language, framework and AI tool agnostic. Supports Clean Architecture, MVC, MVVM and None (~90% of all software projects).
 

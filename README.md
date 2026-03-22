@@ -1,4 +1,4 @@
-# AI Dev Agents Template
+# AI Dev Agents
 
 [🇪🇸 Leer en español](README.es.md)
 

@@ -147,7 +147,7 @@ Busca en `docs/specs/` el último número de FEAT-XXX usado. Incrementa en 1.
 Si no hay specs previos, empieza con FEAT-001.
 
 Nombre del fichero: `FEAT-XXX-name-kebab-case.md`
-Ejemplo: `docs/specs/FEAT-003-pictogram-search.md`
+Ejemplo: `docs/specs/FEAT-003-user-search.md`
 
 ## Paso 3: Validación
 
