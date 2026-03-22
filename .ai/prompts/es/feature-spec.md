@@ -52,6 +52,19 @@ Antes de diseñar, investiga el código existente:
 
 Omite esto si es una feature greenfield sin código existente que analizar.
 
+### Propuesta rápida (checkpoint de alineación)
+
+Antes de escribir el spec completo, presenta una propuesta breve:
+
+- **Intención:** Qué logra este cambio (1-2 frases)
+- **Alcance:** Qué ENTRA y qué queda explícitamente FUERA
+- **Enfoque:** El enfoque técnico elegido (de la exploración anterior)
+- **Riesgos:** Top 1-3 riesgos con mitigaciones
+
+Espera confirmación del usuario antes de continuar al Paso 1. Esto detecta desalineaciones temprano — 30 segundos de revisión aquí ahorra reescribir todo el spec.
+
+Si el usuario ya dio un brief muy detallado, o la feature es simple, puedes combinar esto con la discusión anterior.
+
 ## Paso 1: Generar el spec
 
 Usa la plantilla en `docs/specs/FEAT-TEMPLATE.md` como base. Genera un fichero `docs/specs/FEAT-XXX-name.md` con:

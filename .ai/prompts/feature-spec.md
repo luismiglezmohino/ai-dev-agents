@@ -51,6 +51,19 @@ Before designing, investigate the existing codebase:
 
 Skip this if it's a greenfield feature with no existing code to analyze.
 
+### Quick proposal (alignment checkpoint)
+
+Before writing the full spec, present a brief proposal:
+
+- **Intent:** What this change accomplishes (1-2 sentences)
+- **Scope:** What's IN and what's explicitly OUT
+- **Approach:** The chosen technical approach (from exploration above)
+- **Risks:** Top 1-3 risks with mitigations
+
+Wait for user confirmation before proceeding to Step 1. This catches misalignment early — a 30-second review here saves rewriting the entire spec.
+
+If the user already gave a very detailed brief, or the feature is simple, you can combine this with the discussion above.
+
 ## Step 1: Generate the spec
 
 Use the template in `docs/specs/FEAT-TEMPLATE.md` as base. Generate a file `docs/specs/FEAT-XXX-name.md` with:
