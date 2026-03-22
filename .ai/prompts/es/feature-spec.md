@@ -111,15 +111,32 @@ Si la feature requiere cambios de base de datos:
 - Integration tests: e2e flows to verify
 - Edge cases: what could fail
 
-### Implementation Plan
-Pasos ordenados con el agente responsable:
+### Plan de Implementación
+Pasos ordenados agrupados por fase de dependencia. Cada tarea debe ser:
+- **Específica:** Referencia rutas concretas de ficheros (ej: `src/Domain/Entity/User.php`)
+- **Verificable:** Tiene una condición clara de "hecho"
+- **Dimensionada:** Un cambio lógico por tarea
+
+Estructura de ejemplo:
 
 ```markdown
-1. [ ] @database-engineer — Migration (if applicable)
-2. [ ] @tdd-developer — Tests + implementation (RED-GREEN-REFACTOR)
-3. [ ] @security-auditor — OWASP review
-4. [ ] @qa-engineer — Verify coverage
+Fase 1: Fundación
+1. [ ] @database-engineer — Crear migración `YYYY_create_xxx_table` (up/down)
+
+Fase 2: Lógica core
+2. [ ] @tdd-developer — RED: Test para CA1-CA3
+3. [ ] @tdd-developer — GREEN: Implementar caso de uso + entidades de dominio
+4. [ ] @tdd-developer — REFACTOR: Extraer value objects si es necesario
+
+Fase 3: Integración
+5. [ ] @tdd-developer — Conectar controlador/ruta + validación de request
+6. [ ] @security-auditor — Revisión OWASP (inputs, auth, rate limiting)
+
+Fase 4: Verificación
+7. [ ] @qa-engineer — Verificar cobertura cumple objetivos del proyecto
 ```
+
+Adapta las fases a la complejidad real de la feature. Features simples pueden tener 2 fases; complejas pueden tener 5+.
 
 ### Definition of Done
 Checklist de verificación final (copiar de FEAT-TEMPLATE.md y adaptar si necesario).

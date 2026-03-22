@@ -111,14 +111,31 @@ If the feature requires database changes:
 - Edge cases: what could fail
 
 ### Implementation Plan
-Ordered steps with the responsible agent:
+Ordered steps grouped by dependency phase. Each task must be:
+- **Specific:** Reference concrete file paths (e.g., `src/Domain/Entity/User.php`)
+- **Verifiable:** Has a clear "done" condition
+- **Right-sized:** One logical change per task
+
+Example structure:
 
 ```markdown
-1. [ ] @database-engineer — Migration (if applicable)
-2. [ ] @tdd-developer — Tests + implementation (RED-GREEN-REFACTOR)
-3. [ ] @security-auditor — OWASP review
-4. [ ] @qa-engineer — Verify coverage
+Phase 1: Foundation
+1. [ ] @database-engineer — Create migration `YYYY_create_xxx_table` (up/down)
+
+Phase 2: Core logic
+2. [ ] @tdd-developer — RED: Test for AC1-AC3
+3. [ ] @tdd-developer — GREEN: Implement use case + domain entities
+4. [ ] @tdd-developer — REFACTOR: Extract value objects if needed
+
+Phase 3: Integration
+5. [ ] @tdd-developer — Wire controller/route + request validation
+6. [ ] @security-auditor — OWASP review (inputs, auth, rate limiting)
+
+Phase 4: Verification
+7. [ ] @qa-engineer — Verify coverage meets project targets
 ```
+
+Adapt phases to the feature's actual complexity. Simple features may have 2 phases; complex ones may have 5+.
 
 ### Definition of Done
 Final verification checklist (copy from FEAT-TEMPLATE.md and adapt if needed).
