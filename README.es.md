@@ -40,13 +40,13 @@ Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigra
 
 ```bash
 # macOS / Linux
-cp -r ai-dev-agents-template/{.ai,.claudeignore,.gitignore,AGENTS.md,docs} mi-proyecto/
+cp -r ai-dev-agents/{.ai,.claudeignore,AGENTS.md,docs} mi-proyecto/
 
 # Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents-template\.ai, ai-dev-agents-template\docs, ai-dev-agents-template\AGENTS.md, ai-dev-agents-template\.claudeignore, ai-dev-agents-template\.gitignore mi-proyecto\
+Copy-Item -Recurse ai-dev-agents\.ai, ai-dev-agents\docs, ai-dev-agents\AGENTS.md, ai-dev-agents\.claudeignore mi-proyecto\
 ```
 
-> Si tu proyecto ya tiene un `.gitignore`, fusiona las entradas en vez de sobreescribir.
+> `.gitignore` se gestiona automáticamente con `sync.sh` — añade las entradas necesarias sin sobreescribir tu fichero existente.
 
 ### 2. Configurar proyecto
 

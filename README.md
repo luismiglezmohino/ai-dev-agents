@@ -40,13 +40,13 @@ Tools with on-demand agents/skills (Claude Code, OpenCode, Antigravity, Gemini C
 
 ```bash
 # macOS / Linux
-cp -r ai-dev-agents-template/{.ai,.claudeignore,.gitignore,AGENTS.md,docs} my-project/
+cp -r ai-dev-agents/{.ai,.claudeignore,AGENTS.md,docs} my-project/
 
 # Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents-template\.ai, ai-dev-agents-template\docs, ai-dev-agents-template\AGENTS.md, ai-dev-agents-template\.claudeignore, ai-dev-agents-template\.gitignore my-project\
+Copy-Item -Recurse ai-dev-agents\.ai, ai-dev-agents\docs, ai-dev-agents\AGENTS.md, ai-dev-agents\.claudeignore my-project\
 ```
 
-> If your project already has a `.gitignore`, merge the entries instead of overwriting.
+> `.gitignore` is handled automatically by `sync.sh` — it adds the required entries without overwriting your existing file.
 
 ### 2. Configure project
 

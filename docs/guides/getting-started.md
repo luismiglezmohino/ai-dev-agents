@@ -19,13 +19,13 @@ This guide takes you from zero to having the agent system working in your projec
 
 ```bash
 # macOS / Linux
-cp -r ai-dev-agents-template/{.ai,.claudeignore,.gitignore,AGENTS.md,docs} your-project/
+cp -r ai-dev-agents/{.ai,.claudeignore,AGENTS.md,docs} your-project/
 
 # Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents-template\.ai, ai-dev-agents-template\docs, ai-dev-agents-template\AGENTS.md, ai-dev-agents-template\.claudeignore, ai-dev-agents-template\.gitignore your-project\
+Copy-Item -Recurse ai-dev-agents\.ai, ai-dev-agents\docs, ai-dev-agents\AGENTS.md, ai-dev-agents\.claudeignore your-project\
 ```
 
-> If your project already has a `.gitignore`, merge the entries instead of overwriting.
+> `.gitignore` is handled automatically by `sync.sh` — it adds the required entries without overwriting your existing file.
 
 ## Step 2: Automatic bootstrap
 
