@@ -9,7 +9,8 @@ Model Context Protocol (MCP) servers extend your agents' context by connecting t
 | MCP | Purpose | Who uses it most |
 |---|---|---|
 | **[Context7](https://github.com/upstash/context7)** | Up-to-date library documentation. Prevents the AI from suggesting obsolete APIs | All agents, especially tdd-developer and architect |
-| **[GitHub](https://github.com/modelcontextprotocol/servers/tree/main/src/github)** | PRs, issues, repos. Allows creating PRs, reading issues and managing the repository from the agent | devops, qa-engineer |
+
+> **GitHub access: prefer `gh` CLI over GitHub MCP.** The [GitHub CLI (`gh`)](https://cli.github.com/) works in every AI tool that has terminal access (all 9 supported tools), requires no MCP setup, and is already the recommended approach by Claude Code. Install it with your package manager and run `gh auth login`. It covers PRs (`gh pr`), issues (`gh issue`), workflows (`gh workflow`), releases (`gh release`), and the full GitHub API (`gh api`). Only consider the GitHub MCP if your tool lacks terminal access.
 
 ## Optional (based on your stack)
 
@@ -128,6 +129,7 @@ Before adding an MCP to your project, ask yourself:
 | Filesystem | Claude Code already has native Read/Write/Edit/Glob/Grep |
 | Docker | Docker commands via Bash are sufficient |
 | Git | Claude Code already has native git integration |
+| GitHub | `gh` CLI is universal (works in all 9 tools), faster to set up, and recommended by Claude Code — see note above |
 
 ## MCP Management
 
