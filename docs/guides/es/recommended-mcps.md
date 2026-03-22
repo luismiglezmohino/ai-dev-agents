@@ -29,50 +29,6 @@ Los Model Context Protocol (MCP) extienden el contexto de tus agentes conectánd
 | **[Figma](https://github.com/nicholasgriffintn/figma-mcp-server)** | Si diseñas en Figma y quieres que los agentes lean diseños | ux-designer |
 | **[Supabase](https://github.com/supabase-community/supabase-mcp)** | Si usas Supabase (BD + Auth + Storage) | database-engineer |
 
-## Engram: Memoria Persistente Entre Sesiones
-
-[Engram](https://github.com/Gentleman-Programming/engram) es un servidor MCP que da memoria persistente a tus agentes mediante SQLite + FTS5. Los agentes deciden qué guardar (`mem_save`) y pueden buscar aprendizajes pasados (`mem_search`, `mem_context`). v1.10.4+, licencia MIT, cero dependencias en runtime.
-
-**Instalar:**
-
-```bash
-# macOS / Linux
-brew install gentleman-programming/tap/engram
-
-# Cualquier plataforma (requiere Go 1.25+)
-go install github.com/Gentleman-Programming/engram/cmd/engram@latest
-```
-
-**Configurar:**
-
-```bash
-# Claude Code (plugin marketplace)
-claude plugin marketplace add Gentleman-Programming/engram && claude plugin install engram
-
-# OpenCode
-engram setup opencode
-
-# Gemini CLI / Codex CLI
-engram setup gemini-cli
-engram setup codex
-
-# Manual (Cursor, VS Code, Windsurf) — añadir a tu config MCP:
-# { "name": "engram", "command": "engram", "args": ["mcp"] }
-```
-
-**Cuándo usar Engram vs ficheros .md:**
-
-| Escenario | Mejor opción |
-|---|---|
-| Decisiones estables (stack, arquitectura) | `.ai/decisions.md` — versionado, siempre cargado |
-| Estado de sesión (tarea actual, progreso) | `.ai/.local/` — local, gitignored |
-| Aprendizajes que evolucionan entre sesiones | **Engram** — indexado, buscable, deduplicación, topic keys |
-| Memoria compartida entre máquinas o equipo | **Engram** — sync via git incluido |
-
-**Herramientas clave:** `mem_save` (persistir), `mem_search` (buscar), `mem_context` (recuperar tras compactación), `mem_timeline` (cronología), `mem_session_start/end` (ciclo de vida).
-
-**Consejo:** Añade a tus prompts de agente: "Tras compactación de contexto, llama a `mem_context` para recuperar el estado de la sesión antes de continuar."
-
 ## Buscar más MCPs
 
 | Directorio | Descripción |

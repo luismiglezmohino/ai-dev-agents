@@ -28,50 +28,6 @@ Model Context Protocol (MCP) servers extend your agents' context by connecting t
 | **[Figma](https://github.com/nicholasgriffintn/figma-mcp-server)** | If you design in Figma and want agents to read designs | ux-designer |
 | **[Supabase](https://github.com/supabase-community/supabase-mcp)** | If you use Supabase (DB + Auth + Storage) | database-engineer |
 
-## Engram: Persistent Memory Across Sessions
-
-[Engram](https://github.com/Gentleman-Programming/engram) is an MCP server that gives your agents persistent memory via SQLite + FTS5. Agents decide what to save (`mem_save`) and can search past learnings (`mem_search`, `mem_context`). v1.10.4+, MIT license, zero runtime dependencies.
-
-**Install:**
-
-```bash
-# macOS / Linux
-brew install gentleman-programming/tap/engram
-
-# Any platform (requires Go 1.25+)
-go install github.com/Gentleman-Programming/engram/cmd/engram@latest
-```
-
-**Configure:**
-
-```bash
-# Claude Code (plugin marketplace)
-claude plugin marketplace add Gentleman-Programming/engram && claude plugin install engram
-
-# OpenCode
-engram setup opencode
-
-# Gemini CLI / Codex CLI
-engram setup gemini-cli
-engram setup codex
-
-# Manual (Cursor, VS Code, Windsurf) — add to your MCP config:
-# { "name": "engram", "command": "engram", "args": ["mcp"] }
-```
-
-**When to use Engram vs .md files:**
-
-| Scenario | Best option |
-|---|---|
-| Stable decisions (stack, architecture) | `.ai/decisions.md` — version-controlled, always loaded |
-| Session state (current task, progress) | `.ai/.local/` — local, gitignored |
-| Learnings that evolve across sessions | **Engram** — indexed, searchable, deduplication, topic keys |
-| Cross-machine or team memory sync | **Engram** — git-based sync built in |
-
-**Key tools:** `mem_save` (persist), `mem_search` (find), `mem_context` (recover after compaction), `mem_timeline` (chronology), `mem_session_start/end` (lifecycle).
-
-**Tip:** Add to your agent prompts: "After context compaction, call `mem_context` to recover session state before continuing."
-
 ## Find More MCPs
 
 | Directory | Description |
