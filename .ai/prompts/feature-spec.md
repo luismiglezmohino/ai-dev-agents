@@ -41,6 +41,16 @@ Present these to the user and wait for answers BEFORE proceeding to the technica
 
 **IMPORTANT:** Read `project-context.md` for the project's domain, constraints and artifact paths.
 
+### Codebase exploration (if applicable)
+
+Before designing, investigate the existing codebase:
+
+- **Affected files:** Read the actual code that will change. Don't guess — verify current behavior.
+- **Existing patterns:** How does the project already solve similar problems? Follow those patterns unless changing them is part of the feature.
+- **Approaches comparison:** If there are multiple ways to implement this, list them with pros/cons/effort before choosing.
+
+Skip this if it's a greenfield feature with no existing code to analyze.
+
 ## Step 1: Generate the spec
 
 Use the template in `docs/specs/FEAT-TEMPLATE.md` as base. Generate a file `docs/specs/FEAT-XXX-name.md` with:

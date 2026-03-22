@@ -42,6 +42,16 @@ Presenta esto al usuario y espera respuestas ANTES de pasar al diseño técnico.
 
 **IMPORTANTE:** Lee `project-context.md` para conocer el dominio, restricciones y rutas de artefactos del proyecto.
 
+### Exploración del código (si aplica)
+
+Antes de diseñar, investiga el código existente:
+
+- **Ficheros afectados:** Lee el código real que va a cambiar. No adivines — verifica el comportamiento actual.
+- **Patrones existentes:** ¿Cómo resuelve el proyecto problemas similares? Sigue esos patrones a menos que cambiarlos sea parte de la feature.
+- **Comparación de enfoques:** Si hay múltiples formas de implementar esto, lista pros/contras/esfuerzo antes de elegir.
+
+Omite esto si es una feature greenfield sin código existente que analizar.
+
 ## Paso 1: Generar el spec
 
 Usa la plantilla en `docs/specs/FEAT-TEMPLATE.md` como base. Genera un fichero `docs/specs/FEAT-XXX-name.md` con:
