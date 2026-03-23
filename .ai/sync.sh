@@ -314,10 +314,11 @@ generate_compact_rules() {
     output+="Read \`.ai/skills/{name}/SKILL.md\` before implementing with a specific framework.\n"
     output+="Agents say WHAT to verify. Skills say HOW.\n"
 
-    # Memory (for tools without hooks)
+    # Memory
     output+="\n## Memory\n\n"
     output+="Consult Feature Specs in \`docs/specs/\` as project memory.\n"
     output+="Closed decisions in \`.ai/decisions.md\`.\n"
+    output+="**Learn & persist:** Before finishing a task, check if you discovered any pattern, convention or decision worth persisting. If so, update \`.ai/decisions.md\`.\n"
 
     echo -e "$output"
 }
