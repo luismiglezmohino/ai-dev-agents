@@ -322,6 +322,49 @@ generate_compact_rules() {
     echo -e "$output"
 }
 
+# === ROOT FILES ===
+
+ensure_root_files() {
+    if $DRY_RUN; then
+        log_dry "Would ensure root files (AGENTS.md, .claudeignore, docs/)"
+        return
+    fi
+
+    # AGENTS.md — root-level agent summary for OpenCode and other tools
+    local agents_src="$AI_DIR/templates/AGENTS.md.template"
+    if [[ -f "$agents_src" ]] && [[ ! -f "$PROJECT_ROOT/AGENTS.md" ]]; then
+        cp "$agents_src" "$PROJECT_ROOT/AGENTS.md"
+        log_info "AGENTS.md (created from template)"
+    elif [[ -f "$PROJECT_ROOT/AGENTS.md" ]]; then
+        log_info "AGENTS.md (already exists)"
+    fi
+
+    # .claudeignore
+    local claudeignore_src="$AI_DIR/.claudeignore"
+    if [[ -f "$claudeignore_src" ]] && [[ ! -f "$PROJECT_ROOT/.claudeignore" ]]; then
+        cp "$claudeignore_src" "$PROJECT_ROOT/.claudeignore"
+        log_info ".claudeignore (created)"
+    elif [[ -f "$PROJECT_ROOT/.claudeignore" ]]; then
+        log_info ".claudeignore (already exists)"
+    fi
+
+    # docs/ structure
+    for dir in docs/specs docs/adrs docs/stories; do
+        if [[ ! -d "$PROJECT_ROOT/$dir" ]]; then
+            mkdir -p "$PROJECT_ROOT/$dir"
+            touch "$PROJECT_ROOT/$dir/.gitkeep"
+            log_info "$dir/ (created)"
+        fi
+    done
+
+    # FEAT-TEMPLATE.md in docs/specs/
+    local feat_src="$AI_DIR/templates/FEAT-TEMPLATE.md"
+    if [[ -f "$feat_src" ]] && [[ ! -f "$PROJECT_ROOT/docs/specs/FEAT-TEMPLATE.md" ]]; then
+        cp "$feat_src" "$PROJECT_ROOT/docs/specs/FEAT-TEMPLATE.md"
+        log_info "docs/specs/FEAT-TEMPLATE.md (created from template)"
+    fi
+}
+
 # === GITIGNORE ===
 
 ensure_gitignore() {
@@ -628,6 +671,10 @@ EOFCONTINUE
             log_info "decisions.md -> .agents/rules/decisions.md"
         fi
     fi
+
+    # === ROOT FILES ===
+    log_section "Root files"
+    ensure_root_files
 
     # === GITIGNORE ===
     log_section "Gitignore"

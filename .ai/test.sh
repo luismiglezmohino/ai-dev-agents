@@ -197,7 +197,7 @@ for compact in ".cursorrules" ".windsurfrules" "GEMINI.md" ".github/copilot-inst
 done
 
 # Symlinks: verify they point to the correct target
-for link_target in ".claude/skills:../.ai/skills" ".opencode/agents:../.ai/agents" ".opencode/skills:../.ai/skills"; do
+for link_target in ".claude/skills:../.ai/skills" ".opencode/agents:../.ai/agents" ".opencode/skills:../.ai/skills" ".agents/skills:../.ai/skills" ".gemini/skills:../.ai/skills"; do
     link="${link_target%%:*}"
     target="${link_target##*:}"
     filepath="$PROJECT_ROOT/$link"
@@ -274,7 +274,7 @@ fi
 echo ""
 echo "=== Test 10: docs/ structure ==="
 
-for dir in "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/adrs" "$PROJECT_ROOT/docs/stories" "$PROJECT_ROOT/docs/guides"; do
+for dir in "$PROJECT_ROOT/docs/specs" "$PROJECT_ROOT/docs/adrs" "$PROJECT_ROOT/docs/stories" "$AI_DIR/docs"; do
     if [[ -d "$dir" ]]; then
         pass "$(echo "$dir" | sed "s|$PROJECT_ROOT/||") exists"
     else

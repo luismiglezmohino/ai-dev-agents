@@ -29,7 +29,7 @@ Automate integration, deployment and system observability to ensure fast and rel
 
 ## Preferred Tools
 
-- **GitHub operations:** Use `gh` CLI (`gh pr`, `gh issue`, `gh workflow`, `gh release`, `gh api`) instead of GitHub MCP. It works in all AI tools with terminal access and requires no MCP configuration. See [recommended MCPs](../../docs/guides/recommended-mcps.md).
+- **GitHub operations:** Use `gh` CLI (`gh pr`, `gh issue`, `gh workflow`, `gh release`, `gh api`) instead of GitHub MCP. It works in all AI tools with terminal access and requires no MCP configuration. See [recommended MCPs](../docs/recommended-mcps.md).
 
 ## Where You Operate
 

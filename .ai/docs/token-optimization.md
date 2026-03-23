@@ -10,7 +10,7 @@
 
 All files consumed by the AI (agents, skills, decisions, templates, hooks) are written in **English** to minimize token usage. English is more token-efficient than most languages, which means lower cost and more room in the context window.
 
-User-facing files (README, guides) are bilingual: English primary (`README.md`, `docs/guides/`) + Spanish (`README.es.md`, `docs/guides/es/`). Project output (specs, ADRs, docs) can be in whatever language the user prefers.
+User-facing files (README, guides) are bilingual: English primary (`README.md`, `.ai/docs/`) + Spanish (`README.es.md`, `.ai/docs/es/`). Project output (specs, ADRs, docs) can be in whatever language the user prefers.
 
 ### Design decisions
 

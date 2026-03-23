@@ -10,7 +10,7 @@
 
 Todos los ficheros consumidos por la IA (agentes, skills, decisiones, templates, hooks) están escritos en **inglés** para minimizar el uso de tokens. El inglés es más eficiente en tokens que la mayoría de idiomas, lo que significa menor coste y más espacio en la ventana de contexto.
 
-Los ficheros orientados al usuario (README, guías) son bilingües: inglés principal (`README.md`, `docs/guides/`) + español (`README.es.md`, `docs/guides/es/`). La salida del proyecto (specs, ADRs, docs) puede estar en el idioma que el usuario prefiera.
+Los ficheros orientados al usuario (README, guías) son bilingües: inglés principal (`README.md`, `.ai/docs/`) + español (`README.es.md`, `.ai/docs/es/`). La salida del proyecto (specs, ADRs, docs) puede estar en el idioma que el usuario prefiera.
 
 ### Decisiones de diseño
 

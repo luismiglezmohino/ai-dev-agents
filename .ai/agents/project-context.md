@@ -34,7 +34,7 @@ Paths where each agent should create/find its artifacts.
 - **ADRs:**       `docs/adrs/ADR-XXX-title.md`
 - **Specs:**      `docs/specs/FEAT-XXX-title.md`
 - **Stories:**    `docs/stories/US-XXX-title.md`
-- **Guides:**     `docs/guides/`
+- **Guides:**     `.ai/docs/`
 
 ## Limits
 

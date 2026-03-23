@@ -10,7 +10,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 
 **Principio clave:** Los agentes definen QUÉ verificar (Quality Gates agnósticos). Los skills definen CÓMO hacerlo (framework-específico).
 
-> **¿Nuevo aquí?** Empieza por la [guía de inicio rápido (5 minutos)](docs/guides/es/getting-started.md).
+> **¿Nuevo aquí?** Empieza por la [guía de inicio rápido (5 minutos)](.ai/docs/es/getting-started.md).
 
 ## Compatibilidad por herramienta
 
@@ -28,7 +28,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 
 Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md)** para centralizar contexto.
 
-> Ver [capacidades detalladas por herramienta](docs/guides/es/how-claude-code-works.md) y [patrones de verificación cruzada](docs/guides/es/cross-verification.md).
+> Ver [capacidades detalladas por herramienta](.ai/docs/es/how-claude-code-works.md) y [patrones de verificación cruzada](.ai/docs/es/cross-verification.md).
 
 ## Inicio rápido
 
@@ -40,13 +40,13 @@ Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigra
 
 ```bash
 # macOS / Linux
-cp -r ai-dev-agents/{.ai,.claudeignore,AGENTS.md,docs} mi-proyecto/
+cp -r ai-dev-agents/.ai mi-proyecto/
 
 # Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents\.ai, ai-dev-agents\docs, ai-dev-agents\AGENTS.md, ai-dev-agents\.claudeignore mi-proyecto\
+Copy-Item -Recurse ai-dev-agents\.ai mi-proyecto\
 ```
 
-> `.gitignore` se gestiona automáticamente con `sync.sh` — añade las entradas necesarias sin sobreescribir tu fichero existente.
+> Solo necesitas `.ai/`. Ejecutar `sync.sh` genera todo lo demás (`AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore`, configs de herramientas).
 
 ### 2. Configurar proyecto
 
@@ -73,9 +73,10 @@ El LLM analiza tu proyecto (o pregunta si es nuevo) y genera automáticamente:
 | Fichero/Directorio | ¿Commitear? | Por qué |
 |---|---|---|
 | `.ai/` (directorio completo) | **Sí** | Fuente de verdad |
-| `CLAUDE.md`, `AGENTS.md` | **Sí** | Configs principales |
+| `CLAUDE.md` | **Sí** | Config principal |
+| `AGENTS.md` | **Sí** | Generado por sync.sh, pero commitéalo |
 | `.claude/settings.json` | **Sí** | Config de hooks + MCP |
-| `docs/` | **Sí** | Specs, ADRs, guías |
+| `docs/` | **Sí** | Specs, ADRs (creados por sync.sh) |
 | `.claude/agents/`, `.claude/rules/`, `.opencode/` | **No** | Generado por `sync.sh` |
 | `.cursorrules`, `.windsurfrules`, `GEMINI.md` | **No** | Generado por `sync.sh` |
 | `.agents/` | **No** | Generado por `sync.sh` (Codex, Gemini CLI, Antigravity) |
@@ -101,7 +102,7 @@ El LLM analiza tu proyecto (o pregunta si es nuevo) y genera automáticamente:
 | technical-writer | Docs vivas | Ejemplos funcionales, ADRs completos, setup < 15min |
 | ux-designer | WCAG 2.2 AA | Contraste 4.5:1, targets 44x44px, teclado |
 
-Cada gate existe porque su ausencia causó problemas reales y repetidos. Ver [por qué existen estos gates](docs/guides/es/why-these-gates.md).
+Cada gate existe porque su ausencia causó problemas reales y repetidos. Ver [por qué existen estos gates](.ai/docs/es/why-these-gates.md).
 
 ## Soporte de Arquitectura
 
@@ -134,17 +135,17 @@ Todos los prompts disponibles en español (`.ai/prompts/es/`) e inglés (`.ai/pr
 
 | Guía | Descripción |
 |---|---|
-| **[Inicio rápido](docs/guides/es/getting-started.md)** | De cero a agentes funcionando en 5 minutos |
-| **[Verificación cruzada](docs/guides/es/cross-verification.md)** | Flujos del orchestrator, cuándo aplicar, estrategias |
-| **[Optimización de tokens](docs/guides/es/token-optimization.md)** | Estrategia de idiomas, jerarquía de carga, decisiones |
-| **[Cómo funciona Claude Code](docs/guides/es/how-claude-code-works.md)** | Gestión de contexto, qué puede acceder, implicaciones |
-| **[Ciclo de vida de agentes](docs/guides/es/agent-lifecycle.md)** | Agentes efímeros, anti-patrones, gestión de contexto |
-| **[Memoria persistente](docs/guides/es/persistent-memory.md)** | Rules, hooks, Engram, Feature Specs, memoria por herramienta |
-| **[Por qué existen estos gates](docs/guides/es/why-these-gates.md)** | Cadenas de error reales que motivaron cada Quality Gate |
-| **[MCPs recomendados](docs/guides/es/recommended-mcps.md)** | MCPs básicos y opcionales por stack |
-| **[Git hooks recomendados](docs/guides/es/recommended-hooks.md)** | Hooks con Lefthook y Husky |
-| **[GitHub Actions workflows](docs/guides/es/recommended-workflows.md)** | CI/CD, estrategia de ramas |
-| **[Modelos recomendados](docs/guides/es/recommended-models.md)** | Modelo por agente/tarea, estrategia de costes, modelos locales |
+| **[Inicio rápido](.ai/docs/es/getting-started.md)** | De cero a agentes funcionando en 5 minutos |
+| **[Verificación cruzada](.ai/docs/es/cross-verification.md)** | Flujos del orchestrator, cuándo aplicar, estrategias |
+| **[Optimización de tokens](.ai/docs/es/token-optimization.md)** | Estrategia de idiomas, jerarquía de carga, decisiones |
+| **[Cómo funciona Claude Code](.ai/docs/es/how-claude-code-works.md)** | Gestión de contexto, qué puede acceder, implicaciones |
+| **[Ciclo de vida de agentes](.ai/docs/es/agent-lifecycle.md)** | Agentes efímeros, anti-patrones, gestión de contexto |
+| **[Memoria persistente](.ai/docs/es/persistent-memory.md)** | Rules, hooks, Engram, Feature Specs, memoria por herramienta |
+| **[Por qué existen estos gates](.ai/docs/es/why-these-gates.md)** | Cadenas de error reales que motivaron cada Quality Gate |
+| **[MCPs recomendados](.ai/docs/es/recommended-mcps.md)** | MCPs básicos y opcionales por stack |
+| **[Git hooks recomendados](.ai/docs/es/recommended-hooks.md)** | Hooks con Lefthook y Husky |
+| **[GitHub Actions workflows](.ai/docs/es/recommended-workflows.md)** | CI/CD, estrategia de ramas |
+| **[Modelos recomendados](.ai/docs/es/recommended-models.md)** | Modelo por agente/tarea, estrategia de costes, modelos locales |
 
 ## Inspiración y referencias
 
