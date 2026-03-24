@@ -7,7 +7,7 @@ This guide takes you from zero to having the agent system working in your projec
 ## Requirements
 
 - A project with Git initialized
-- An AI tool installed (Claude Code, OpenCode, Cursor, or any other)
+- An AI tool installed ([see supported tools & downloads](supported-tools.md))
 - [GitHub CLI (`gh`)](https://cli.github.com/) installed and authenticated (`gh auth login`) — recommended for managing PRs, issues, workflows and releases directly from your AI tool
 - 5 minutes
 

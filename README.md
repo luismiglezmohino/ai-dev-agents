@@ -28,7 +28,7 @@ Specialized agent system for AI-assisted development. Language, framework and AI
 
 Tools with on-demand agents/skills (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) load agents ONLY when invoked — high token savings. Tools without on-demand agents load everything in a compact file. For those, **[SDD (Feature Specs)](.ai/templates/FEAT-TEMPLATE.md) is strongly recommended** to centralize context.
 
-> See [detailed tool capabilities](.ai/docs/how-claude-code-works.md) and [cross-verification patterns](.ai/docs/cross-verification.md) for more.
+> See [supported tools & downloads](.ai/docs/supported-tools.md), [detailed tool capabilities](.ai/docs/how-claude-code-works.md) and [cross-verification patterns](.ai/docs/cross-verification.md) for more.
 
 ## Quick Start
 

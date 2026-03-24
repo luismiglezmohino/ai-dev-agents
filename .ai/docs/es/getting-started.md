@@ -8,7 +8,7 @@ Esta guía te lleva de cero a tener el sistema de agentes funcionando en tu proy
 ## Requisitos
 
 - Un proyecto con Git inicializado
-- Una herramienta de IA instalada (Claude Code, OpenCode, Cursor, o cualquier otra)
+- Una herramienta de IA instalada ([ver herramientas soportadas y descargas](supported-tools.md))
 - [GitHub CLI (`gh`)](https://cli.github.com/) instalado y autenticado (`gh auth login`) — recomendado para gestionar PRs, issues, workflows y releases directamente desde tu herramienta de IA
 - 5 minutos
 
