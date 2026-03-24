@@ -35,7 +35,7 @@ To generate a spec, use the prompt `.ai/prompts/feature-spec.md`. Each agent ext
 | @architect | Layers, contracts → verification |
 | @database-engineer | Schema, indexes → migrations |
 
-Template in `docs/specs/FEAT-TEMPLATE.md`.
+Template in `.ai/templates/FEAT-TEMPLATE.md`.
 
 #### Documentation in Each PR
 

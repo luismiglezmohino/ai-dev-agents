@@ -66,7 +66,7 @@ If the user already gave a very detailed brief, or the feature is simple, you ca
 
 ## Step 1: Generate the spec
 
-Use the template in `docs/specs/FEAT-TEMPLATE.md` as base. Generate a file `docs/specs/FEAT-XXX-name.md` with:
+Use the template in `.ai/templates/FEAT-TEMPLATE.md` as base. Generate a file `docs/specs/FEAT-XXX-name.md` with:
 
 ### Context
 - What problem this feature solves

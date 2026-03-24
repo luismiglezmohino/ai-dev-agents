@@ -67,7 +67,7 @@ Si el usuario ya dio un brief muy detallado, o la feature es simple, puedes comb
 
 ## Paso 1: Generar el spec
 
-Usa la plantilla en `docs/specs/FEAT-TEMPLATE.md` como base. Genera un fichero `docs/specs/FEAT-XXX-name.md` con:
+Usa la plantilla en `.ai/templates/FEAT-TEMPLATE.md` como base. Genera un fichero `docs/specs/FEAT-XXX-name.md` con:
 
 ### Context
 - What problem this feature solves

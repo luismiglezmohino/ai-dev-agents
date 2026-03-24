@@ -26,7 +26,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 | Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
 | GitHub Copilot | `.github/copilot-instructions.md` | No (todo inline) | Bajo |
 
-Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](docs/specs/FEAT-TEMPLATE.md)** para centralizar contexto.
+Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](.ai/templates/FEAT-TEMPLATE.md)** para centralizar contexto.
 
 > Ver [capacidades detalladas por herramienta](.ai/docs/es/how-claude-code-works.md) y [patrones de verificación cruzada](.ai/docs/es/cross-verification.md).
 

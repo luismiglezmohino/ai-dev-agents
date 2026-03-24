@@ -102,7 +102,7 @@ Defines una especificación técnica ANTES de implementar. Los agentes trabajan 
 ```
 
 **Mejor para:** features complejas (5+ endpoints), equipos con varios desarrolladores, proyectos donde la calidad es crítica.
-**Guía:** ver `docs/specs/FEAT-TEMPLATE.md` y el prompt `.ai/prompts/feature-spec.md`.
+**Guía:** ver `.ai/templates/FEAT-TEMPLATE.md` y el prompt `.ai/prompts/feature-spec.md`.
 
 ### ¿Cuál elegir?
 
@@ -174,7 +174,7 @@ El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai
 | Configurar Git hooks | Antes del primer PR | [Git hooks recomendados](recommended-hooks.md) |
 | Configurar CI/CD | Antes de producción | [GitHub Actions workflows](recommended-workflows.md) |
 | Elegir modelos | Si quieres optimizar coste/calidad | [Modelos recomendados](recommended-models.md) |
-| Crear Feature Spec | Antes de una feature compleja | Ver `docs/specs/FEAT-TEMPLATE.md` |
+| Crear Feature Spec | Antes de una feature compleja | Ver `.ai/templates/FEAT-TEMPLATE.md` |
 | Refinar skills | Después de 2-3 features implementadas | Usar `.ai/prompts/refine-skills.md` |
 | Auditar código legacy | Antes de modernizar | Usar `.ai/prompts/legacy-audit.md` |
 

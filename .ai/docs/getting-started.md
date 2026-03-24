@@ -101,7 +101,7 @@ You define a technical specification BEFORE implementing. Agents work against th
 ```
 
 **Best for:** complex features (5+ endpoints), teams with multiple developers, projects where quality is critical.
-**Guide:** see `docs/specs/FEAT-TEMPLATE.md` and the prompt `.ai/prompts/feature-spec.md`.
+**Guide:** see `.ai/templates/FEAT-TEMPLATE.md` and the prompt `.ai/prompts/feature-spec.md`.
 
 ### Which one to choose?
 
@@ -173,7 +173,7 @@ The template includes reusable prompts in `.ai/prompts/` (English) and `.ai/prom
 | Configure Git hooks | Before the first PR | [Recommended Git hooks](recommended-hooks.md) |
 | Configure CI/CD | Before production | [GitHub Actions workflows](recommended-workflows.md) |
 | Choose models | If you want to optimize cost/quality | [Recommended models](recommended-models.md) |
-| Create Feature Spec | Before a complex feature | See `docs/specs/FEAT-TEMPLATE.md` |
+| Create Feature Spec | Before a complex feature | See `.ai/templates/FEAT-TEMPLATE.md` |
 | Refine skills | After 2-3 implemented features | Use `.ai/prompts/refine-skills.md` |
 | Audit legacy code | Before modernizing | Use `.ai/prompts/legacy-audit.md` |
 
