@@ -24,7 +24,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 | Continue (VS Code) | `.continue/rules/` | Parcial (matching implícito) | Medio |
 | Cursor | `.cursorrules` | No (todo inline) | Bajo |
 | Windsurf | `.windsurfrules` | No (todo inline) | Bajo |
-| GitHub Copilot | `.github/copilot-instructions.md` | No (todo inline) | Bajo |
+| GitHub Copilot / Copilot CLI | `.github/copilot-instructions.md`, `AGENTS.md` | CLI: sí (AGENTS.md) / IDE: no | CLI: Alto / IDE: Bajo |
 
 Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI) cargan agentes SOLO cuando se invocan — alto ahorro de tokens. Las herramientas sin agentes bajo demanda cargan todo en un fichero compacto. Para esas, **se recomienda [SDD (Feature Specs)](.ai/templates/FEAT-TEMPLATE.md)** para centralizar contexto.
 
