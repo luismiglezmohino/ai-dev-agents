@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.1.0...v1.2.0) (2026-03-26)
+
+
+### Features
+
+* add semantic validation to test.sh ([#7](https://github.com/luismiglezmohino/ai-dev-agents/issues/7)) ([7ca3bb2](https://github.com/luismiglezmohino/ai-dev-agents/commit/7ca3bb218abd705b68883afb41957e6070776bb1))
+
 ## [1.1.0](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.0.0...v1.1.0) (2026-03-26)
 
 
