@@ -296,6 +296,68 @@ for skill_dir in "$AI_DIR"/skills/*/; do
 done
 
 echo ""
+echo "=== Test 12: Semantic validation ==="
+
+for agent in "$AI_DIR"/agents/*.md; do
+    [[ -f "$agent" ]] || continue
+    fname=$(basename "$agent")
+
+    # Skip non-subagent files
+    [[ "$fname" == _* ]] && continue
+    [[ "$fname" == "project-context.md" ]] && continue
+    [[ "$fname" == "orchestrator.md" ]] && continue
+    mode=$(grep -m1 "^mode:" "$agent" | awk '{print $2}' 2>/dev/null || echo "")
+    [[ "$mode" != "subagent" ]] && continue
+
+    # Check: at least 1 gate with content
+    gate_count=$(grep -c "\[Gate [0-9]" "$agent" 2>/dev/null || echo "0")
+    if [[ "$gate_count" -ge 1 ]]; then
+        pass "$fname: has $gate_count gate(s)"
+    else
+        fail "$fname: no Quality Gates found (expected [Gate N] format)"
+    fi
+
+    # Check: gates must be framework-agnostic (no specific framework names)
+    # PHP: laravel, symfony, codeigniter, cakephp, yii, slim, lumen, drupal, wordpress
+    # Python: django, flask, fastapi, tornado, bottle, sanic, starlette (pyramid excluded: conflicts with "testing pyramid")
+    # JavaScript/TypeScript: react, angular, vue, svelte, nextjs, nuxt, remix, astro, express, nestjs, fastify, koa, hapi, adonis, hono, meteor, ember, backbone
+    # Ruby: rails
+    # Go: gin, fiber, echo, chi, beego
+    # Rust: actix, rocket, axum, warp
+    # Elixir: phoenix
+    # Java/Kotlin: spring, quarkus, micronaut, ktor, play
+    # .NET: blazor, aspnet
+    # Mobile: flutter, swiftui, jetpack compose
+    if grep -i "\[Gate" "$agent" | grep -iqE "\b(laravel|symfony|codeigniter|cakephp|yii|slim|lumen|drupal|wordpress|django|flask|fastapi|tornado|bottle|sanic|starlette|react|angular|vue|svelte|nextjs|nuxt|remix|astro|express|nestjs|fastify|koa|hapi|adonis|hono|meteor|ember|backbone|rails|gin|fiber|echo|chi|beego|actix|rocket|axum|warp|phoenix|spring|quarkus|micronaut|ktor|play|blazor|aspnet|flutter|swiftui|jetpack)\b"; then
+        fail "$fname: gates reference a specific framework (gates must be agnostic)"
+    else
+        pass "$fname: gates are framework-agnostic"
+    fi
+
+    # Check: has Where You Operate section
+    if grep -q "## Where You Operate" "$agent"; then
+        pass "$fname: has Where You Operate"
+    else
+        warn "$fname: missing '## Where You Operate' section"
+    fi
+
+    # Check: has Mission section
+    if grep -q "## Mission" "$agent"; then
+        pass "$fname: has Mission"
+    else
+        warn "$fname: missing '## Mission' section"
+    fi
+
+    # Check: description is not empty
+    desc=$(grep -m1 "^description:" "$agent" | sed 's/^description: *//')
+    if [[ -n "$desc" && "$desc" != "\"\"" ]]; then
+        pass "$fname: description is not empty"
+    else
+        fail "$fname: description is empty"
+    fi
+done
+
+echo ""
 echo "==================================="
 echo -e "Errors: ${RED}$ERRORS${NC}"
 echo -e "Warnings: ${YELLOW}$WARNINGS${NC}"
