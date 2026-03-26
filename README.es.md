@@ -10,7 +10,24 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 
 **Principio clave:** Los agentes definen QUÉ verificar (Quality Gates agnósticos). Los skills definen CÓMO hacerlo (framework-específico).
 
-> **¿Nuevo aquí?** Empieza por la [guía de inicio rápido (5 minutos)](.ai/docs/es/getting-started.md).
+<details>
+<summary><strong>¿Nuevo aquí? Empieza aquí</strong></summary>
+
+### Paso 1: Prueba un agente
+
+Elige una tarea que ya estés haciendo (ej. escribir un test) e invoca `@tdd-developer`. Observa si los gates detectan algo que habrías pasado por alto. No necesitas más que el Quick Start.
+
+### Paso 2: Añade el contexto de tu proyecto
+
+Rellena `.ai/agents/project-context.md` con tu dominio, restricciones y decisiones de stack. Ejecuta el prompt de bootstrap (`.ai/prompts/es/bootstrap.md`) para generar skills de tu stack. Los agentes pasan de genéricos a conscientes de tu proyecto.
+
+### Paso 3: Usa el orchestrator
+
+Para features que tocan varias capas, invoca `@orchestrator` en vez de agentes individuales. Enruta al agente correcto y ejecuta verificación cruzada. Aquí es donde el sistema rinde — pero requiere el Paso 2. Solo disponible en herramientas con agentes bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI). Para el resto (Cursor, Windsurf, Copilot), usa [Feature Specs](.ai/templates/FEAT-TEMPLATE.md) para centralizar contexto — los agentes se cargan inline y extraen lo que necesitan del spec.
+
+> Guía completa: [guía de inicio rápido](.ai/docs/es/getting-started.md) (5 minutos).
+
+</details>
 
 ## Compatibilidad por herramienta
 
@@ -32,21 +49,24 @@ Las herramientas con agentes/skills bajo demanda (Claude Code, OpenCode, Antigra
 
 ## Inicio rápido
 
-### 1. Copiar al proyecto
+### 1. Añadir `.ai/` a tu proyecto
 
-**Opción A:** Clic en "Use this template" en el repo de GitHub (recomendado).
+**Opción A:** Clic en "Use this template" en el repo de GitHub (repo completo).
 
-**Opción B:** Copia manual
+**Opción B:** Descargar solo `.ai/` en un proyecto existente (requiere Node.js)
 
 ```bash
-# macOS / Linux
-cp -r ai-dev-agents/.ai mi-proyecto/
-
-# Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents\.ai mi-proyecto\
+npx degit luismiglezmohino/ai-dev-agents/.ai .ai
 ```
 
-> Solo necesitas `.ai/`. Ejecutar `sync.sh` genera todo lo demás (`AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore`, configs de herramientas).
+**Opción C:** Sin Node.js
+
+```bash
+curl -sL https://github.com/luismiglezmohino/ai-dev-agents/archive/main.tar.gz \
+  | tar xz --strip-components=2 ai-dev-agents-main/.ai -C .
+```
+
+> Solo necesitas [`.ai/`](.ai/) — todo lo demás lo genera `sync.sh` en el paso 3.
 
 ### 2. Configurar proyecto
 
@@ -64,9 +84,11 @@ El LLM analiza tu proyecto (o pregunta si es nuevo) y genera automáticamente:
 ### 3. Sincronizar y validar
 
 ```bash
-.ai/sync.sh   # Genera configs para todas las herramientas
+.ai/sync.sh   # Genera configs para las 9 herramientas
 .ai/test.sh   # Valida estructura (0 errores = listo)
 ```
+
+> Ejecuta siempre `sync.sh` después de cualquier cambio en `.ai/`. Genera `AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore` y configs por herramienta.
 
 ### Qué commitear y qué gitignorear
 
