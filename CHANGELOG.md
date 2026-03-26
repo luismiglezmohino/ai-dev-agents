@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.2.0...v1.2.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* add working modes and progressive adoption to README and guides ([#9](https://github.com/luismiglezmohino/ai-dev-agents/issues/9)) ([8d17d86](https://github.com/luismiglezmohino/ai-dev-agents/commit/8d17d86e9a2981af696b95f116b514c22da90cc5))
+
 ## [1.2.0](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.1.0...v1.2.0) (2026-03-26)
 
 
