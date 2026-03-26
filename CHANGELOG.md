@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.2.1...v1.2.2) (2026-03-26)
+
+
+### Bug Fixes
+
+* add prompt usage table and what's next section to READMEs ([#11](https://github.com/luismiglezmohino/ai-dev-agents/issues/11)) ([3684139](https://github.com/luismiglezmohino/ai-dev-agents/commit/36841392e75bc92d642c48314a22c2a8a81e84b4))
+
 ## [1.2.1](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.2.0...v1.2.1) (2026-03-26)
 
 
