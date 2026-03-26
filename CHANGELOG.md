@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.0.0...v1.1.0) (2026-03-26)
+
+
+### Features
+
+* add incident-responder agent ([#6](https://github.com/luismiglezmohino/ai-dev-agents/issues/6)) ([09cb89f](https://github.com/luismiglezmohino/ai-dev-agents/commit/09cb89f529409a693ab5b840e4b396d35d1625a9))
+
+
+### Bug Fixes
+
+* generate .claude/settings.json in sync.sh and fix curl install command ([#4](https://github.com/luismiglezmohino/ai-dev-agents/issues/4)) ([a4ada58](https://github.com/luismiglezmohino/ai-dev-agents/commit/a4ada58a0c01e11f1d07a0079861d086b998089a))
+
 ## 1.0.0 (2026-03-26)
 
 
