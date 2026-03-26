@@ -6,7 +6,7 @@ Sistema de agentes especializados para desarrollo asistido por IA. Agnóstico al
 
 ## Qué es esto
 
-11 agentes especializados + 1 orchestrator que guían a los asistentes de IA durante el desarrollo de software. Incluye patrón de verificación cruzada entre agentes para prevenir errores que un solo agente no detecta.
+12 agentes especializados + 1 orchestrator que guían a los asistentes de IA durante el desarrollo de software. Incluye patrón de verificación cruzada entre agentes para prevenir errores que un solo agente no detecta.
 
 **Principio clave:** Los agentes definen QUÉ verificar (Quality Gates agnósticos). Los skills definen CÓMO hacerlo (framework-específico).
 
@@ -121,6 +121,7 @@ El LLM analiza tu proyecto (o pregunta si es nuevo) y genera automáticamente:
 | performance-engineer | Core Web Vitals | p95 < 200ms, LCP/FID/CLS, bundle < 100KB |
 | devops | CI/CD + Git workflow | Pipeline verde, infra declarativa, PR docs |
 | observability-engineer | Metrics + logs | Métricas negocio, logs JSON, health checks |
+| incident-responder | Respuesta a incidentes | Severidad clasificada, causa raíz, postmortem, monitorización actualizada |
 | technical-writer | Docs vivas | Ejemplos funcionales, ADRs completos, setup < 15min |
 | ux-designer | WCAG 2.2 AA | Contraste 4.5:1, targets 44x44px, teclado |
 

@@ -22,8 +22,8 @@ Cada decisión de diseño del template reduce el consumo de tokens:
 | `project-context.md` | Restricciones del proyecto en 1 fichero. Sin él, cada agente las repite en su prompt |
 | `decisions.md` | Decisiones rápidas (~30 líneas). Evita redescubrir o preguntar lo que ya se decidió |
 | Feature Specs | Una spec compartida reemplaza N explicaciones parciales a N agentes |
-| Reglas compactas | `sync.sh` genera 1 fichero para Cursor/Windsurf/Gemini/Copilot vs 11 agentes completos |
-| Agentes bajo demanda | Solo se carga el agente invocado, no los 11 |
+| Reglas compactas | `sync.sh` genera 1 fichero para Cursor/Windsurf/Gemini/Copilot vs 12 agentes completos |
+| Agentes bajo demanda | Solo se carga el agente invocado, no los 12 |
 | Sub-CLAUDE.md por módulo | `backend/CLAUDE.md` no se carga cuando trabajas en frontend |
 | `_base.md` + expansión | Boilerplate compartido en fuente, expandido en ficheros generados |
 

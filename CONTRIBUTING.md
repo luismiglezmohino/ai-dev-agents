@@ -60,7 +60,7 @@ Skills are loaded on demand — unused skills consume **0 tokens**. But shipping
 
 ## Adding a New Agent
 
-This is rarely needed — the 11 existing agents cover most development workflows. If you think a new agent is needed, open an issue first to discuss.
+This is rarely needed — the 12 existing agents cover most development workflows. If you think a new agent is needed, open an issue first to discuss.
 
 ## Questions?
 
@@ -128,7 +128,7 @@ Los skills se cargan bajo demanda — los no usados consumen **0 tokens**. Pero 
 
 ## Añadir un Nuevo Agente
 
-Esto rara vez es necesario — los 11 agentes existentes cubren la mayoría de flujos de desarrollo. Si crees que hace falta uno nuevo, abre un issue primero para discutirlo.
+Esto rara vez es necesario — los 12 agentes existentes cubren la mayoría de flujos de desarrollo. Si crees que hace falta uno nuevo, abre un issue primero para discutirlo.
 
 ## ¿Preguntas?
 
