@@ -159,6 +159,13 @@ El bootstrap detecta la arquitectura por la estructura de carpetas o pregunta. A
 
 Todos los prompts disponibles en español (`.ai/prompts/es/`) e inglés (`.ai/prompts/`). Los gates específicos de arquitectura (`gates-mvc.md`, `gates-mvvm.md`) se cargan bajo demanda por el bootstrap — no hace falta pegarlos por separado.
 
+### Cómo usar los prompts
+
+| Herramienta | Cómo usarlos |
+|---|---|
+| Claude Code / OpenCode / Gemini CLI / Codex CLI | Dile a la IA: `Lee .ai/prompts/es/code-review.md y ejecútalo` |
+| Continue / Cursor / Windsurf / Copilot | Copia el contenido del `.md` y pégalo en el chat |
+
 ## Modos de trabajo
 
 Estos son flujos de trabajo recomendados, no restricciones. Los agentes son flexibles — úsalos como encaje en tu proyecto. Los tres modos son compatibles — puedes usar A para fixes rápidos y C para features grandes en el mismo proyecto.
@@ -252,6 +259,18 @@ Define una especificación técnica ANTES de implementar. Los agentes trabajan c
 | **[Git hooks recomendados](.ai/docs/es/recommended-hooks.md)** | Hooks con Lefthook y Husky |
 | **[GitHub Actions workflows](.ai/docs/es/recommended-workflows.md)** | CI/CD, estrategia de ramas |
 | **[Modelos recomendados](.ai/docs/es/recommended-models.md)** | Modelo por agente/tarea, estrategia de costes, modelos locales |
+
+## Siguientes pasos
+
+| Siguiente paso | Cuándo | Guía |
+|---|---|---|
+| Configurar MCPs | Si necesitas conectar BD, Sentry, GitHub... | [MCPs recomendados](.ai/docs/es/recommended-mcps.md) |
+| Configurar Git hooks | Antes de la primera PR | [Hooks recomendados](.ai/docs/es/recommended-hooks.md) |
+| Configurar CI/CD | Antes de producción | [Workflows recomendados](.ai/docs/es/recommended-workflows.md) |
+| Elegir modelos | Si quieres optimizar coste/calidad | [Modelos recomendados](.ai/docs/es/recommended-models.md) |
+| Crear Feature Spec | Antes de una feature compleja | Ver `.ai/templates/FEAT-TEMPLATE.md` |
+| Refinar skills | Después de 2-3 features implementadas | Usar `.ai/prompts/es/refine-skills.md` |
+| Auditar código legacy | Antes de modernizar | Usar `.ai/prompts/es/legacy-audit.md` |
 
 ## Inspiración y referencias
 
