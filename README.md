@@ -159,6 +159,13 @@ The bootstrap detects the architecture from folder structure or asks. It adapts 
 
 All prompts available in English (`.ai/prompts/`) and Spanish (`.ai/prompts/es/`). Architecture-specific gates (`gates-mvc.md`, `gates-mvvm.md`) are loaded on demand by the bootstrap — no need to paste them separately.
 
+### How to use prompts
+
+| Tool | How to use prompts |
+|---|---|
+| Claude Code / OpenCode / Gemini CLI / Codex CLI | Tell the AI: `Read .ai/prompts/code-review.md and execute it` |
+| Continue / Cursor / Windsurf / Copilot | Copy the `.md` file content and paste it in the chat |
+
 ## Working Modes
 
 These are recommended workflows, not restrictions. The agents are flexible — use them however fits your project. All modes are compatible — use A for quick fixes and C for large features in the same project.
@@ -252,6 +259,18 @@ Define a technical specification BEFORE implementing. Agents work against that s
 | **[Recommended hooks](.ai/docs/recommended-hooks.md)** | Git hooks with Lefthook and Husky |
 | **[Recommended workflows](.ai/docs/recommended-workflows.md)** | GitHub Actions, branch strategy |
 | **[Recommended models](.ai/docs/recommended-models.md)** | Model per agent/task, cost strategy, local models |
+
+## What's Next
+
+| Next step | When | Guide |
+|---|---|---|
+| Configure MCPs | If you need to connect DB, Sentry, GitHub... | [Recommended MCPs](.ai/docs/recommended-mcps.md) |
+| Configure Git hooks | Before the first PR | [Recommended hooks](.ai/docs/recommended-hooks.md) |
+| Configure CI/CD | Before production | [Recommended workflows](.ai/docs/recommended-workflows.md) |
+| Choose models | If you want to optimize cost/quality | [Recommended models](.ai/docs/recommended-models.md) |
+| Create Feature Spec | Before a complex feature | See `.ai/templates/FEAT-TEMPLATE.md` |
+| Refine skills | After 2-3 implemented features | Use `.ai/prompts/refine-skills.md` |
+| Audit legacy code | Before modernizing | Use `.ai/prompts/legacy-audit.md` |
 
 ## Inspiration and References
 
