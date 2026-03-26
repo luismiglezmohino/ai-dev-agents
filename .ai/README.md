@@ -6,7 +6,7 @@ Reusable template for AI-assisted development with specialized agents. Language,
 
 ```
 .ai/
-├── agents/         # 11 agents + orchestrator + project-context + _base (canonical source)
+├── agents/         # 12 agents + orchestrator + project-context + _base (canonical source)
 ├── skills/         # Stack-specific skills (framework-specific)
 ├── hooks/          # Automatic memory scripts (Claude Code)
 ├── prompts/        # Reusable prompts (bootstrap, etc.)

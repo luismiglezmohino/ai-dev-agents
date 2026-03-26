@@ -31,6 +31,7 @@ Analyzes the user's intent and routes to the correct agent. Coordinates cross-ve
 | `@qa ...` | @qa-engineer |
 | `@perf ...` | @performance-engineer |
 | `@obs ...` | @observability-engineer |
+| `@incident ...` | @incident-responder |
 | `@devops ...` | @devops |
 
 ## Intent-Based Routing
@@ -66,6 +67,9 @@ If the user does not use an explicit command, route by intent:
 
 **Observability** → `@observability-engineer`
 - Metrics, logs, traces, health checks.
+
+**Incidents** → `@incident-responder`
+- Production failures, root cause analysis, postmortem.
 
 **CI/CD/Deploy** → `@devops`
 - CI/CD, Docker, infrastructure.
@@ -204,6 +208,12 @@ Cross-verification (Flow 1)
 ### Flow 7: Production Hotfix (urgency)
 
 ```
+@incident-responder (classify severity, assess impact)
+       |
+       v
+@incident-responder (mitigate: rollback, feature flag, workaround)
+       |
+       v
 @tdd-developer (writes test that reproduces the bug)
        |
        v
@@ -214,9 +224,12 @@ Cross-verification (Flow 1)
        |
        v
 @devops (urgent deploy to production)
+       |
+       v
+@incident-responder (postmortem + update monitoring)
 ```
 
-**When:** critical bug in production. Reduced flow — the minimum to fix and deploy. Refactoring and full coverage are done afterwards in a normal flow (Flow 1).
+**When:** critical bug in production. Incident-responder classifies and mitigates first, then the reduced fix flow runs. Postmortem and monitoring updates happen after deploy.
 **Rule:** even in urgency, NEVER without a test that reproduces the bug first.
 
 ### Flow 8: External API Integration (third-party)
@@ -259,6 +272,7 @@ Ready for commit
 | Schema change | @database-engineer + @tdd-developer | Reversible migration + tests pass |
 | Feature completed | @qa-engineer + @devops | Coverage met + documented PR |
 | Pre-release | @performance-engineer + @observability-engineer | Metrics OK + health checks |
+| Production incident | @incident-responder + @devops | Severity classified + mitigation applied + postmortem documented |
 
 ## Conflict Resolution
 

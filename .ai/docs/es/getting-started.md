@@ -186,7 +186,7 @@ El template incluye prompts reutilizables en `.ai/prompts/es/` (español) y `.ai
 ```
 tu-proyecto/
 ├── .ai/
-│   ├── agents/          # 11 agentes + orchestrator + context
+│   ├── agents/          # 12 agentes + orchestrator + context
 │   ├── skills/          # Skills de tu stack (generados por bootstrap)
 │   ├── hooks/           # Memoria automática (Claude Code)
 │   ├── prompts/         # Prompts reutilizables

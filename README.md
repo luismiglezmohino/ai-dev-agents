@@ -6,7 +6,7 @@ Specialized agent system for AI-assisted development. Language, framework and AI
 
 ## What Is This
 
-11 specialized agents + 1 orchestrator that guide AI assistants during software development. Includes a cross-verification pattern between agents to prevent errors that a single agent cannot detect.
+12 specialized agents + 1 orchestrator that guide AI assistants during software development. Includes a cross-verification pattern between agents to prevent errors that a single agent cannot detect.
 
 **Key principle:** Agents define WHAT to verify (agnostic Quality Gates). Skills define HOW to do it (framework-specific).
 
@@ -121,6 +121,7 @@ The LLM analyzes your project (or asks if new) and automatically generates:
 | performance-engineer | Core Web Vitals | p95 < 200ms, LCP/FID/CLS, bundle < 100KB |
 | devops | CI/CD + Git workflow | Green pipeline, declarative infra, PR docs |
 | observability-engineer | Metrics + logs | Business metrics, JSON logs, health checks |
+| incident-responder | Incident response | Severity classified, root cause, postmortem, monitoring updated |
 | technical-writer | Living docs | Functional examples, complete ADRs, setup < 15min |
 | ux-designer | WCAG 2.2 AA | Contrast 4.5:1, targets 44x44px, keyboard |
 
