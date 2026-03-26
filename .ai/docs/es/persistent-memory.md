@@ -52,7 +52,15 @@ El `devops.md` Gate 5 incluye: "PR includes updated documentation (README, ADR i
 
 ### 3. Hooks + Engram MCP (memoria automática, Claude Code)
 
-Para Claude Code, los hooks automatizan la gestión de memoria sin esfuerzo de la IA:
+Para Claude Code, los hooks automatizan la gestión de memoria sin esfuerzo de la IA. El template incluye hooks preconfigurados en `.claude/settings.json` y scripts en `.ai/hooks/`:
+
+| Hook | Script | Qué hace |
+|---|---|---|
+| `SessionStart` | `session-start.sh` | Inyecta contexto de la sesión anterior (Engram si disponible, fichero local como fallback) |
+| `PreCompact` | `pre-compact.sh` | Guarda estado antes de que el contexto se compacte |
+| `SessionEnd` | `session-stop.sh` | Guarda resumen de sesión para el siguiente inicio |
+
+Funcionan directamente después de ejecutar `sync.sh`. Si Engram está instalado, los hooks lo usan automáticamente. Si no, usan ficheros locales en `.ai/.local/`.
 
 ```
 ┌─────────────────────────────────────────────────────┐

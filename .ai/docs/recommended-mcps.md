@@ -23,7 +23,7 @@ Model Context Protocol (MCP) servers extend your agents' context by connecting t
 | **[Linear](https://github.com/modelcontextprotocol/servers)** | If you use Linear for task management | product-owner, devops |
 | **[Jira](https://github.com/modelcontextprotocol/servers)** | If you use Jira for project management | product-owner, devops |
 | **[Docker](https://github.com/modelcontextprotocol/servers)** | If you work with containers | devops |
-| **[Playwright](https://github.com/modelcontextprotocol/servers)** | If you do E2E testing | qa-engineer |
+| **[Playwright](https://github.com/microsoft/playwright-mcp)** | If you do E2E testing or browser automation | qa-engineer |
 | **[Engram](https://github.com/Gentleman-Programming/engram)** | If you want persistent memory across sessions and tools | All agents |
 | **[Figma](https://github.com/nicholasgriffintn/figma-mcp-server)** | If you design in Figma and want agents to read designs | ux-designer |
 | **[Supabase](https://github.com/supabase-community/supabase-mcp)** | If you use Supabase (DB + Auth + Storage) | database-engineer |
@@ -92,6 +92,10 @@ mcp-servers:
     args: ["-y", "@upstash/context7-mcp"]
 ---
 ```
+
+### Playwright MCP
+
+Package: [`@playwright/mcp`](https://www.npmjs.com/package/@playwright/mcp) (official, maintained by Microsoft). Use the configuration examples above replacing `@upstash/context7-mcp` with `@playwright/mcp@latest`.
 
 ## Criteria for Adding an MCP
 
