@@ -62,9 +62,30 @@ If everything is green, you have the agent system working.
 >
 > **Why does sync.sh generate for all tools at once?** It may create directories you don't use right now, but it allows you to switch between tools without reconfiguring (e.g. Claude Code today, Gemini CLI tomorrow). All generated directories are gitignored and don't interfere with your project.
 
+## Progressive adoption
+
+You don't need to learn everything at once. Follow these steps at your own pace:
+
+### Level 1: Try one agent
+
+Pick a task you're already doing (e.g., writing a test) and invoke `@tdd-developer`. See if the gates catch something you'd miss. No setup beyond the steps above needed.
+
+### Level 2: Add your project context
+
+Run the bootstrap prompt (`.ai/prompts/bootstrap.md`) in your AI tool. It generates `project-context.md`, `CLAUDE.md`, `decisions.md` and stack skills automatically. Agents go from generic to project-aware.
+
+### Level 3: Combine agents
+
+- **Tools with on-demand agents** (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI): invoke agents individually or use `@orchestrator` to route and coordinate cross-verification automatically.
+- **Tools without on-demand agents** (Cursor, Windsurf, Copilot): agents are loaded inline — invoke them by name in your prompt.
+
+### Level 4: Feature Specs (SDD)
+
+Generate a spec with `.ai/prompts/feature-spec.md` before implementing. Each agent extracts what it needs from the spec. Recommended for all tools — nearly essential for Cursor/Windsurf/Copilot where it centralizes context that inline agents cannot load on demand. See [when to use specs](persistent-memory.md).
+
 ## Step 5: Choose your working mode
 
-The template supports three working modes. Choose the one that best fits your situation:
+These are recommended workflows, not restrictions. The agents are flexible — use them however fits your project. All modes are compatible.
 
 ### Mode A: Direct agents (the simplest)
 
@@ -90,7 +111,7 @@ The orchestrator automatically routes to the correct agent and coordinates cross
 ```
 
 **Best for:** complete features that touch multiple layers, projects where you want automatic cross-verification.
-**Available in:** OpenCode (primary agent). In Claude Code, routing is automatic but without an explicit orchestrator.
+**Available in:** tools with on-demand agents (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI).
 
 ### Mode C: Spec Driven Development (SDD) — the most complete
 
@@ -114,10 +135,10 @@ You define a technical specification BEFORE implementing. Agents work against th
 | Standard new feature | B (orchestrator) |
 | Complex or critical feature | C (SDD) |
 | New project (day 0) | C (SDD) for the first feature, then B |
-| Production hotfix | A (direct agents, reduced flow) |
+| Production hotfix | A (direct) + @incident-responder |
 | Legacy code / modernization | C (SDD) — specify before touching |
 
-All three modes are compatible. You can use A for quick fixes and C for large features in the same project.
+All three modes are compatible. You can use A for quick fixes and C for large features in the same project. Mode C (SDD) is recommended for all tools — nearly essential for Cursor/Windsurf/Copilot.
 
 ### How to work with each mode
 

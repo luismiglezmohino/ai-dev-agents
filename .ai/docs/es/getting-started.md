@@ -63,9 +63,30 @@ Si todo está verde, ya tienes el sistema de agentes funcionando.
 >
 > **¿Por qué sync.sh genera para todas las herramientas a la vez?** Puede crear directorios que no uses ahora, pero permite cambiar de herramienta sin reconfigurar (ej: Claude Code hoy, Gemini CLI mañana). Todos los directorios generados están gitignoreados y no interfieren con tu proyecto.
 
+## Adopción progresiva
+
+No necesitas aprenderlo todo de golpe. Sigue estos pasos a tu ritmo:
+
+### Nivel 1: Prueba un agente
+
+Elige una tarea que ya estés haciendo (ej. escribir un test) e invoca `@tdd-developer`. Observa si los gates detectan algo que habrías pasado por alto. No necesitas más que los pasos anteriores.
+
+### Nivel 2: Añade el contexto de tu proyecto
+
+Ejecuta el prompt de bootstrap (`.ai/prompts/es/bootstrap.md`) en tu herramienta de IA. Genera `project-context.md`, `CLAUDE.md`, `decisions.md` y skills de tu stack automáticamente. Los agentes pasan de genéricos a conscientes de tu proyecto.
+
+### Nivel 3: Combina agentes
+
+- **Herramientas con agentes bajo demanda** (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI): invoca agentes individualmente o usa `@orchestrator` para enrutar y coordinar verificación cruzada automáticamente.
+- **Herramientas sin agentes bajo demanda** (Cursor, Windsurf, Copilot): los agentes se cargan inline — invócalos por nombre en tu prompt.
+
+### Nivel 4: Feature Specs (SDD)
+
+Genera un spec con `.ai/prompts/es/feature-spec.md` antes de implementar. Cada agente extrae lo que necesita del spec. Recomendado para todas las herramientas — casi esencial para Cursor/Windsurf/Copilot donde centraliza el contexto que los agentes inline no pueden cargar bajo demanda. Ver [cuándo usar specs](persistent-memory.md).
+
 ## Paso 5: Elegir modo de trabajo
 
-El template soporta tres modos de trabajo. Elige el que mejor se adapte a tu situación:
+Estos son flujos de trabajo recomendados, no restricciones. Los agentes son flexibles — úsalos como encaje en tu proyecto. Los tres modos son compatibles.
 
 ### Modo A: Agentes directos (el más simple)
 
@@ -91,7 +112,7 @@ El orchestrator enruta automáticamente al agente correcto y coordina la verific
 ```
 
 **Mejor para:** features completas que tocan múltiples capas, proyectos donde quieres que la verificación cruzada sea automática.
-**Disponible en:** OpenCode (agente primary). En Claude Code, el routing es automático pero sin orchestrator explícito.
+**Disponible en:** herramientas con agentes bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI).
 
 ### Modo C: Spec Driven Development (SDD) — el más completo
 
@@ -115,10 +136,10 @@ Defines una especificación técnica ANTES de implementar. Los agentes trabajan 
 | Feature nueva estándar | B (orchestrator) |
 | Feature compleja o crítica | C (SDD) |
 | Proyecto nuevo (día 0) | C (SDD) para la primera feature, luego B |
-| Hotfix en producción | A (agentes directos, flujo reducido) |
+| Hotfix en producción | A (directo) + @incident-responder |
 | Código legacy / modernización | C (SDD) — especificar antes de tocar |
 
-Los tres modos son compatibles. Puedes usar A para fixes rápidos y C para features grandes en el mismo proyecto.
+Los tres modos son compatibles. Puedes usar A para fixes rápidos y C para features grandes en el mismo proyecto. El modo C (SDD) es recomendado para todas las herramientas — casi esencial para Cursor/Windsurf/Copilot.
 
 ### Cómo trabajar con cada modo
 

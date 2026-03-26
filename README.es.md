@@ -19,11 +19,16 @@ Elige una tarea que ya estés haciendo (ej. escribir un test) e invoca `@tdd-dev
 
 ### Paso 2: Añade el contexto de tu proyecto
 
-Rellena `.ai/agents/project-context.md` con tu dominio, restricciones y decisiones de stack. Ejecuta el prompt de bootstrap (`.ai/prompts/es/bootstrap.md`) para generar skills de tu stack. Los agentes pasan de genéricos a conscientes de tu proyecto.
+Ejecuta el prompt de bootstrap (`.ai/prompts/es/bootstrap.md`) en tu herramienta de IA. Genera `project-context.md`, `CLAUDE.md`, `decisions.md` y skills de tu stack automáticamente. Los agentes pasan de genéricos a conscientes de tu proyecto.
 
-### Paso 3: Usa el orchestrator
+### Paso 3: Combina agentes
 
-Para features que tocan varias capas, invoca `@orchestrator` en vez de agentes individuales. Enruta al agente correcto y ejecuta verificación cruzada. Aquí es donde el sistema rinde — pero requiere el Paso 2. Solo disponible en herramientas con agentes bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI). Para el resto (Cursor, Windsurf, Copilot), usa [Feature Specs](.ai/templates/FEAT-TEMPLATE.md) para centralizar contexto — los agentes se cargan inline y extraen lo que necesitan del spec.
+- **Herramientas con agentes bajo demanda** (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI): invoca agentes individualmente o usa `@orchestrator` para enrutar y coordinar verificación cruzada automáticamente.
+- **Herramientas sin agentes bajo demanda** (Cursor, Windsurf, Copilot): los agentes se cargan inline — invócalos por nombre en tu prompt.
+
+### Paso 4: Feature Specs (SDD)
+
+Genera un spec con `.ai/prompts/es/feature-spec.md` antes de implementar. Cada agente extrae lo que necesita del spec. Recomendado para todas las herramientas — casi esencial para Cursor/Windsurf/Copilot donde centraliza el contexto que los agentes inline no pueden cargar bajo demanda. Ver [cuándo usar specs](.ai/docs/es/persistent-memory.md).
 
 > Guía completa: [guía de inicio rápido](.ai/docs/es/getting-started.md) (5 minutos).
 
@@ -153,6 +158,84 @@ El bootstrap detecta la arquitectura por la estructura de carpetas o pregunta. A
 | `es/legacy-audit.md` | Antes de modernizar código legacy | No |
 
 Todos los prompts disponibles en español (`.ai/prompts/es/`) e inglés (`.ai/prompts/`). Los gates específicos de arquitectura (`gates-mvc.md`, `gates-mvvm.md`) se cargan bajo demanda por el bootstrap — no hace falta pegarlos por separado.
+
+## Modos de trabajo
+
+Estos son flujos de trabajo recomendados, no restricciones. Los agentes son flexibles — úsalos como encaje en tu proyecto. Los tres modos son compatibles — puedes usar A para fixes rápidos y C para features grandes en el mismo proyecto.
+
+### Modo A: Agentes directos (el más simple)
+
+Invoca cada agente manualmente cuando lo necesites:
+
+```
+@tdd implement the GET /api/users endpoint
+@architect review the layer structure
+@security audit-all
+```
+
+**Ideal para:** tareas puntuales, fixes rápidos, trabajo en una sola capa.
+
+### Modo B: Orchestrator (coordinación automática)
+
+El orchestrator enruta al agente correcto y coordina verificación cruzada:
+
+```
+"Necesito un nuevo endpoint para gestionar usuarios"
+→ Enruta a @tdd-developer
+→ Luego lanza @architect y @security-auditor automáticamente
+```
+
+**Ideal para:** features completas que tocan varias capas. Disponible en herramientas con agentes bajo demanda (Claude Code, OpenCode, Antigravity, Gemini CLI, Codex CLI).
+
+### Modo C: Spec Driven Development (SDD) — el más completo
+
+Define una especificación técnica ANTES de implementar. Los agentes trabajan contra esa especificación:
+
+1. Genera un Feature Spec con `.ai/prompts/es/feature-spec.md`
+2. Cada agente extrae lo que necesita del spec
+3. Implementación guiada por la especificación
+4. Verificación contra los criterios del spec
+
+**Ideal para:** features complejas (5+ endpoints), equipos, proyectos críticos. Recomendado para todas las herramientas — casi esencial para Cursor/Windsurf/Copilot.
+
+### Cuándo usar cada modo
+
+| Situación | Modo recomendado |
+|---|---|
+| Fix rápido, tarea puntual | A (agentes directos) |
+| Feature nueva estándar | B (orchestrator) |
+| Feature compleja o crítica | C (SDD) |
+| Proyecto nuevo (día 0) | C (SDD) para la primera feature, luego B |
+| Hotfix en producción | A (directo) + @incident-responder |
+| Código legacy / modernización | C (SDD) — especificar antes de tocar |
+
+### Cómo trabajar con cada modo
+
+**Modo A — Agentes directos:**
+
+1. Abre tu herramienta de IA (Claude Code, OpenCode, Cursor...)
+2. Escribe el comando del agente que necesitas: `@tdd implement <feature>`
+3. El agente trabaja, tú revisas lo que genera
+4. Si necesitas verificación, invoca manualmente: `@security audit-all`
+5. Cuando estés satisfecho, commit y PR
+
+**Modo B — Orchestrator:**
+
+1. Describe lo que necesitas en lenguaje natural: "Necesito un endpoint para crear usuarios"
+2. El orchestrator decide qué agente usar y lo lanza
+3. Al terminar, el orchestrator lanza verificación cruzada automáticamente
+4. Revisas el resultado final. Si hay problemas, el orchestrator itera
+5. Cuando estés satisfecho, commit y PR
+
+**Modo C — SDD (Spec Driven Development):**
+
+1. Antes de escribir código, genera la especificación: pega `.ai/prompts/es/feature-spec.md` en tu herramienta de IA
+2. La IA genera un fichero en `docs/specs/FEAT-XXX-name.md` con requisitos, contratos, errores esperados
+3. Revisa y ajusta el spec — este es el momento de pensar, no cuando estás programando
+4. Implementa: `@tdd implement according to spec docs/specs/FEAT-XXX-name.md`
+5. Cada agente extrae lo que necesita del spec (tests, seguridad, arquitectura)
+6. Verificación cruzada contra los criterios del spec
+7. Commit y PR
 
 ## Guías
 
