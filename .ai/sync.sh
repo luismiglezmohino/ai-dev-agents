@@ -337,7 +337,13 @@ ensure_root_files() {
         cp "$agents_src" "$PROJECT_ROOT/AGENTS.md"
         log_info "AGENTS.md (created from template)"
     elif [[ -f "$PROJECT_ROOT/AGENTS.md" ]]; then
-        log_info "AGENTS.md (already exists)"
+        if ! grep -q ".ai/agents/" "$PROJECT_ROOT/AGENTS.md" 2>/dev/null; then
+            mv "$PROJECT_ROOT/AGENTS.md" "$PROJECT_ROOT/AGENTS.original.md"
+            cp "$agents_src" "$PROJECT_ROOT/AGENTS.md"
+            log_warn "AGENTS.md renamed to AGENTS.original.md (existing content preserved). New AGENTS.md created from template"
+        else
+            log_info "AGENTS.md (already exists with agent references)"
+        fi
     fi
 
     # .claudeignore
@@ -363,6 +369,61 @@ ensure_root_files() {
     if [[ -f "$feat_src" ]] && [[ ! -f "$PROJECT_ROOT/docs/specs/FEAT-TEMPLATE.md" ]]; then
         cp "$feat_src" "$PROJECT_ROOT/docs/specs/FEAT-TEMPLATE.md"
         log_info "docs/specs/FEAT-TEMPLATE.md (created from template)"
+    fi
+
+    # .claude/settings.json — hooks for persistent memory
+    local settings_dir="$PROJECT_ROOT/.claude"
+    local settings_file="$settings_dir/settings.json"
+    if [[ ! -f "$settings_file" ]]; then
+        mkdir -p "$settings_dir"
+        cat > "$settings_file" << 'SETTINGS_EOF'
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".ai/hooks/session-start.sh",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".ai/hooks/pre-compact.sh",
+            "timeout": 10000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".ai/hooks/session-stop.sh",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}
+SETTINGS_EOF
+        log_info ".claude/settings.json (created with hooks)"
+    else
+        # Check if hooks are configured
+        if ! grep -q "session-start.sh" "$settings_file" 2>/dev/null; then
+            log_warn ".claude/settings.json exists but missing AI Dev Agents hooks. See .ai/docs/persistent-memory.md"
+        else
+            log_info ".claude/settings.json (already exists with hooks)"
+        fi
     fi
 }
 

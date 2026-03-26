@@ -26,7 +26,7 @@ npx degit luismiglezmohino/ai-dev-agents/.ai .ai
 
 ```bash
 curl -sL https://github.com/luismiglezmohino/ai-dev-agents/archive/main.tar.gz \
-  | tar xz --strip-components=2 ai-dev-agents-main/.ai -C .
+  | tar xz && mv ai-dev-agents-main/.ai . && rm -rf ai-dev-agents-main
 ```
 
 > Solo necesitas `.ai/` — ejecutar `sync.sh` genera todo lo demás (`AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore`, configs de herramientas). No sobreescribe ningún fichero de tu proyecto.

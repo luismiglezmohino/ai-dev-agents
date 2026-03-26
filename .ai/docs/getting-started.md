@@ -25,7 +25,7 @@ npx degit luismiglezmohino/ai-dev-agents/.ai .ai
 
 ```bash
 curl -sL https://github.com/luismiglezmohino/ai-dev-agents/archive/main.tar.gz \
-  | tar xz --strip-components=2 ai-dev-agents-main/.ai -C .
+  | tar xz && mv ai-dev-agents-main/.ai . && rm -rf ai-dev-agents-main
 ```
 
 > Just `.ai/` — running `sync.sh` generates everything else (`AGENTS.md`, `.claudeignore`, `docs/` structure, `.gitignore` entries, tool configs). No files in your project are overwritten.
