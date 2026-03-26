@@ -11,21 +11,24 @@ This guide takes you from zero to having the agent system working in your projec
 - [GitHub CLI (`gh`)](https://cli.github.com/) installed and authenticated (`gh auth login`) — recommended for managing PRs, issues, workflows and releases directly from your AI tool
 - 5 minutes
 
-## Step 1: Copy the template
+## Step 1: Add `.ai/` to your project
 
-**Option A:** Click "Use this template" on the GitHub repo (recommended).
+**Option A:** Click "Use this template" on the GitHub repo (full repo clone).
 
-**Option B:** Manual copy
+**Option B:** Download only `.ai/` into an existing project (requires Node.js)
 
 ```bash
-# macOS / Linux
-cp -r ai-dev-agents/.ai your-project/
-
-# Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents\.ai your-project\
+npx degit luismiglezmohino/ai-dev-agents/.ai .ai
 ```
 
-> That's it — just `.ai/`. Running `sync.sh` generates everything else (`AGENTS.md`, `.claudeignore`, `docs/` structure, `.gitignore` entries, tool configs). No files in your project are overwritten.
+**Option C:** Without Node.js
+
+```bash
+curl -sL https://github.com/luismiglezmohino/ai-dev-agents/archive/main.tar.gz \
+  | tar xz --strip-components=2 ai-dev-agents-main/.ai -C .
+```
+
+> Just `.ai/` — running `sync.sh` generates everything else (`AGENTS.md`, `.claudeignore`, `docs/` structure, `.gitignore` entries, tool configs). No files in your project are overwritten.
 
 ## Step 2: Automatic bootstrap
 

@@ -12,21 +12,24 @@ Esta guía te lleva de cero a tener el sistema de agentes funcionando en tu proy
 - [GitHub CLI (`gh`)](https://cli.github.com/) instalado y autenticado (`gh auth login`) — recomendado para gestionar PRs, issues, workflows y releases directamente desde tu herramienta de IA
 - 5 minutos
 
-## Paso 1: Copiar el template
+## Paso 1: Añadir `.ai/` a tu proyecto
 
-**Opción A:** Clic en "Use this template" en el repo de GitHub (recomendado).
+**Opción A:** Clic en "Use this template" en el repo de GitHub (repo completo).
 
-**Opción B:** Copia manual
+**Opción B:** Descargar solo `.ai/` en un proyecto existente (requiere Node.js)
 
 ```bash
-# macOS / Linux
-cp -r ai-dev-agents/.ai tu-proyecto/
-
-# Windows (PowerShell)
-Copy-Item -Recurse ai-dev-agents\.ai tu-proyecto\
+npx degit luismiglezmohino/ai-dev-agents/.ai .ai
 ```
 
-> Solo necesitas `.ai/`. Ejecutar `sync.sh` genera todo lo demás (`AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore`, configs de herramientas). No sobreescribe ningún fichero de tu proyecto.
+**Opción C:** Sin Node.js
+
+```bash
+curl -sL https://github.com/luismiglezmohino/ai-dev-agents/archive/main.tar.gz \
+  | tar xz --strip-components=2 ai-dev-agents-main/.ai -C .
+```
+
+> Solo necesitas `.ai/` — ejecutar `sync.sh` genera todo lo demás (`AGENTS.md`, `.claudeignore`, estructura `docs/`, entradas `.gitignore`, configs de herramientas). No sobreescribe ningún fichero de tu proyecto.
 
 ## Paso 2: Bootstrap automático
 

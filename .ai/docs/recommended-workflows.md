@@ -117,6 +117,7 @@ jobs:
 ```
 
 > Requires an Anthropic API key configured in Settings → Secrets → Actions of the repository.
+> The workflow needs **write permissions** on the PR to post review comments. In Settings → Actions → General → Workflow permissions, select "Read and write permissions". Alternatively, add `permissions: pull-requests: write` to the workflow YAML.
 > Official repository: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action)
 
 ### Security Review with OpsGuard-AI (alternative)
