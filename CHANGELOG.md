@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.2.2...v1.3.0) (2026-03-27)
+
+
+### Features
+
+* add Learn & Persist to project-context ([#13](https://github.com/luismiglezmohino/ai-dev-agents/issues/13)) ([8817cb8](https://github.com/luismiglezmohino/ai-dev-agents/commit/8817cb829283ac5d9245fccc23578766bc18d4c3))
+
 ## [1.2.2](https://github.com/luismiglezmohino/ai-dev-agents/compare/v1.2.1...v1.2.2) (2026-03-26)
 
 
