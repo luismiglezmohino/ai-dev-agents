@@ -47,3 +47,9 @@ API rate limits, budget, server capacity.
 # Lint:
 # Build:
 ```
+
+## Learn & Persist
+
+If you detect a recurring pattern (3+ occurrences), evaluate it:
+- **Good pattern** → propose adding it to this file under Technical Decisions
+- **Anti-pattern** → propose a constraint or restriction that prevents it
